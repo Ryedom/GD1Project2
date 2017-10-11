@@ -6,14 +6,12 @@ let playerControlTestState = function()
     this.playerIdleFrame = 4;
 
     this.bulletSpeed = 1500;
-    this.fireRate = 50;
+    this.fireRate = 0;
 
-    /*
     this.numBandMembers = 0;
     this.maxBandMembers = 4;
-    this.bandMemberOffsetX = [-20, 20, -40, 40];
-    this.bandMemberOffsetY = [-20, 20, -40, 40];
-    */
+    this.bandMemberOffsetX = [-40, 40, -80, 80];
+    this.bandMemberOffsetY = [40, 40, 80, 80];
 };
 
 playerControlTestState.prototype.preload = function()
@@ -42,7 +40,7 @@ playerControlTestState.prototype.create = function()
 
     //WEAPON--------------------------------------------------------------
     //add weapon
-    this.playerWeapon = game.add.weapon(100, 'bullet');
+    this.playerWeapon = game.add.weapon(500, 'bullet');
 
     //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
     //  The 3rd argument tells the Weapon Plugin to advance to the next frame each time
@@ -68,18 +66,15 @@ playerControlTestState.prototype.create = function()
 
     //BAND MEMBERS------------------------------------------------------------------------
 
-    //this.bandMembers = game.add.group();
+    this.bandMembers = game.add.group();
 
     //END BAND MEMBERS--------------------------------------------------------------------
 
-    //WEAPON GROUP---------------------------------------------------------
-
-    //this.allyWeapons = game.add.group();
-
-    //END WEAPON GROUP----------------------------------------------------
-
     //  Our controls. (delete later)
-    this.cursors = game.input.keyboard.createCursorKeys();
+    this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+    this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
 };
 
 playerControlTestState.prototype.update = function()
@@ -112,40 +107,63 @@ playerControlTestState.prototype.update = function()
         this.player.frame = this.playerIdleFrame;
     }
 
-    //the playerWeapon always fires
     this.playerWeapon.fire();
 
+    //update allies' positions and make them fire
+    for(i=0; i<this.bandMembers.children.length; i++){
+        this.bandMembers.children[i].x = this.player.x + this.bandMemberOffsetX[i];
+        this.bandMembers.children[i].y = this.player.y + this.bandMemberOffsetY[i];
 
-    if(this.cursors.left.onDown){
+        this.playerWeapon.fireRate = 0;
+        this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+        this.playerWeapon.fireRate = this.fireRate;
+    }
+
+    if(this.leftKey.downDuration(1)){
         this.addBandMember();
     }
-    if(this.cursors.right.onDown){
+    if(this.rightKey.downDuration(1)){
         this.removeBandMember();
+    }
+    if(this.spaceKey.downDuration(1)){
+        this.killPlayer();
     }
 };
 
 //debug text
 playerControlTestState.prototype.render = function() {
-    game.debug.text("Mouse Button: " + game.input.mousePointer.isDown, 300, 132);
-    game.debug.text("Left Key: " + this.cursors.left.isDown, 300, 150);
+    game.debug.text("Mouse Button: " + game.input.mousePointer.isDown, 300, 130);
+    game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
 };
 
 
 playerControlTestState.prototype.addBandMember = function(){
 
-    /*
-    if(this.numBandMembers < this.maxBandMembers){
+    if(this.numBandMembers < this.maxBandMembers) {
         this.numBandMembers = this.numBandMembers + 1;
 
-        let member = this.bandMembers.create(50, 50, 'dude');
+        //CREATE NEW BAND MEMBER------------------------------
+        let member = this.bandMembers.create(0, 0, 'dude');
 
         //  Our two animations, walking left and right.
         //this.member.animations.add('left', [0, 1, 2, 3], 10, true);
         //this.member.animations.add('right', [5, 6, 7, 8], 10, true);
+        //END CREATE NEW BAND MEMBER---------------------------
+
     }
-    */
 }
 
 playerControlTestState.prototype.removeBandMember = function(){
 
+    if(this.numBandMembers > 0){
+
+        this.numBandMembers = this.numBandMembers - 1;
+
+        this.bandMembers.children.pop().kill();
+    }
+}
+
+playerControlTestState.prototype.killPlayer = function(){
+    this.playerWeapon.destroy();
+    this.player.kill();
 }
