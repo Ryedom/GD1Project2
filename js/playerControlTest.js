@@ -110,6 +110,8 @@ playerControlTestState.prototype.create = function()
 
 playerControlTestState.prototype.update = function()
 {
+    // COLLISION LOGIC
+    this.bullies.forEach(playerControlTestState.prototype.enemyHitsPlayerCheck, this, true, this.player);
 
     //then set the velocity depending on where the mouse is while button is down
     if(game.input.mousePointer.isDown)
@@ -207,6 +209,9 @@ playerControlTestState.prototype.removeBandMember = function(){
 }
 
 playerControlTestState.prototype.killPlayer = function(){
+  if (this.playerWeapon !== null){
+
+  }
     this.playerWeapon.destroy();
     this.player.kill();
 }
@@ -263,4 +268,12 @@ playerControlTestState.prototype.enableWeaponForEnemy = function(enem){
 
   enemyWeapon.trackSprite(enem, enem.width/2, 0, false);
   enem.weapon = enemyWeapon;
+};
+
+playerControlTestState.prototype.enemyHitsPlayerCheck = function(enem, plyr){
+  game.physics.arcade.overlap(plyr, enem.weapon.bullets, playerControlTestState.prototype.enemyHitsPlayer, null, this);
+};
+
+playerControlTestState.prototype.enemyHitsPlayer = function(plyr, bull) {
+   playerControlTestState.prototype.killPlayer(); // DOESN'T WORK IN THIS CONTEXT, NEED TO FIX
 };
