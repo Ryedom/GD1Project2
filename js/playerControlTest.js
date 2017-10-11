@@ -13,8 +13,6 @@ let playerControlTestState = function()
     this.bandMemberOffsetX = [-40, 40, -80, 80];
     this.bandMemberOffsetY = [40, 40, 80, 80];
 
-    var shootTimer; // timer to control enemy shooting
-    var shootBool; // whether enemy shooting enabled
 };
 
 playerControlTestState.prototype.preload = function()
@@ -80,11 +78,6 @@ playerControlTestState.prototype.create = function()
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
 
     // ENEMY CREATION LOGIC
-    // timer logic to control shooting
-    shootTimer = game.time.create(false); // empty timer
-    shootBool = true; // enemies can shoot
-    shootTimer.loop(1000, playerControlTestState.prototype.reenableShootBool, this); // fire a shot every second, this timer loops
-    shootTimer.start();
 
     // create the groups of enemies
     // skaters
@@ -94,7 +87,6 @@ playerControlTestState.prototype.create = function()
     // bullies
     this.bullies = game.add.group();
     this.bullies.enableBody = true;
-
 
     //  create 3 skaters
     for (let i = 0; i < 3; i++){
@@ -107,7 +99,8 @@ playerControlTestState.prototype.create = function()
 
     // create a bully
     for (let i = 0; i < 1; i++){
-      this.bullies.create(i * 70 + 400, 10, "dude");
+      var bully = this.bullies.create(i * 70 + 400, 10, "dude");
+      playerControlTestState.prototype.enableWeaponForEnemy(bully);
     }
 
     // bully's projectiles - spitballs
@@ -174,12 +167,6 @@ playerControlTestState.prototype.update = function()
     // bullies remain stationary but shoot towards player
     this.bullies.forEach(playerControlTestState.prototype.shootAtPlayer, this, true, this.player);
 
-    // Shoot logic
-    // if shootBool is true - we have shot - turn shootBool off
-    if (shootBool) {
-      shootBool = false;
-    }
-
     // clear offscreen objects
     this.skaters.forEach(playerControlTestState.prototype.destroyIfOffscreen, this, true);
     this.bullies.forEach(playerControlTestState.prototype.destroyIfOffscreen, this, true);
@@ -225,10 +212,6 @@ playerControlTestState.prototype.killPlayer = function(){
 }
 
 // ENEMY-RELATED FUNCTIONS
-playerControlTestState.prototype.reenableShootBool = function(){
-  shootBool = true;
-};
-
 
 playerControlTestState.prototype.getAngleToPlayer = function(enem, plyr) {
   return Math.atan2(plyr.y - enem.y, plyr.x - enem.x);
@@ -255,20 +238,29 @@ playerControlTestState.prototype.moveEnemiesTowardPlayer = function(enem, plyr){
 };
 
 playerControlTestState.prototype.shootAtPlayer = function(enem, plyr){
-  if (shootBool) { // only if shooting is enabled
-    // find vector to player
-    var angleToPlayer = playerControlTestState.prototype.getAngleToPlayer(enem, plyr);
-    // create a spitball
-    var spitball = game.add.sprite(enem.x, enem.y, "star");
-    game.physics.arcade.enable(spitball, Phaser.Physics.Arcade);
-    // shoot toward player
-    game.physics.arcade.velocityFromRotation(angleToPlayer, 400, spitball.body.velocity);
-    this.spitballs.add(spitball);
-  }
+    enem.weapon.fireAtSprite(plyr);
 }
 
 playerControlTestState.prototype.destroyIfOffscreen = function(obj){
   if (!(obj.visible)){
     obj.destroy();
   }
+};
+
+playerControlTestState.prototype.enableWeaponForEnemy = function(enem){
+  var enemyWeapon = game.add.weapon(500, 'bullet');
+  //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
+  //  The 3rd argument tells the Weapon Plugin to advance to the next frame each time
+  //  a bullet is fired, when it hits 80 it'll wrap to zero again.
+  //  You can also set this via this.weapon.bulletFrameCycle = true
+  enemyWeapon.setBulletFrames(0, 80, true);
+
+  //bullets disappear when they exit frame
+  enemyWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+
+  //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 50ms
+  enemyWeapon.fireRate = 1000;
+
+  enemyWeapon.trackSprite(enem, enem.width/2, 0, false);
+  enem.weapon = enemyWeapon;
 };
