@@ -111,7 +111,11 @@ playerControlTestState.prototype.create = function()
 playerControlTestState.prototype.update = function()
 {
     // COLLISION LOGIC
+    // enemy bullets hit player
     this.bullies.forEach(playerControlTestState.prototype.enemyHitsPlayerCheck, this, true, this.player);
+
+    // player bullets hit enemy
+    this.bullies.forEach(playerControlTestState.prototype.playerHitsEnemyCheck, this, true, this.player);
 
     //then set the velocity depending on where the mouse is while button is down
     if(game.input.mousePointer.isDown)
@@ -140,16 +144,22 @@ playerControlTestState.prototype.update = function()
         this.player.frame = this.playerIdleFrame;
     }
 
-    this.playerWeapon.fire();
+    if (this.playerWeapon !== null) {
+      this.playerWeapon.fire();
+    }
+
 
     //update allies' positions and make them fire
     for(i=0; i<this.bandMembers.children.length; i++){
         this.bandMembers.children[i].x = this.player.x + this.bandMemberOffsetX[i];
         this.bandMembers.children[i].y = this.player.y + this.bandMemberOffsetY[i];
 
-        this.playerWeapon.fireRate = 0;
-        this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
-        this.playerWeapon.fireRate = this.fireRate;
+        if (this.playerWeapon !== null) {
+          this.playerWeapon.fireRate = 0;
+          this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+          this.playerWeapon.fireRate = this.fireRate;
+        }
+
     }
 
     if(this.leftKey.downDuration(1)){
@@ -209,10 +219,8 @@ playerControlTestState.prototype.removeBandMember = function(){
 }
 
 playerControlTestState.prototype.killPlayer = function(){
-  if (this.playerWeapon !== null){
-
-  }
     this.playerWeapon.destroy();
+    this.playerWeapon = null; // fire functions should check for this so they don't try to call the weapon
     this.player.kill();
 }
 
@@ -274,6 +282,18 @@ playerControlTestState.prototype.enemyHitsPlayerCheck = function(enem, plyr){
   game.physics.arcade.overlap(plyr, enem.weapon.bullets, playerControlTestState.prototype.enemyHitsPlayer, null, this);
 };
 
+playerControlTestState.prototype.playerHitsEnemyCheck = function(enem, plyr){
+  game.physics.arcade.overlap(enem, plyr.weapon.bullets, playerControlTestState.prototype.playerHitsEnemy, null, this);
+};
+
 playerControlTestState.prototype.enemyHitsPlayer = function(plyr, bull) {
-   playerControlTestState.prototype.killPlayer(); // DOESN'T WORK IN THIS CONTEXT, NEED TO FIX
+   this.killPlayer(); // DOESN'T WORK IN THIS CONTEXT, NEED TO FIX
+};
+
+playerControlTestState.prototype.playerHitsEnemy = function(enem, bull) {
+  // check which group the enemy is in, and remove him from that group
+  if (this.bullies.contains(enem)){ // if enemy is a bully
+
+  }
+   this.killPlayer(); // DOESN'T WORK IN THIS CONTEXT, NEED TO FIX
 };
