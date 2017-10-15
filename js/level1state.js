@@ -16,19 +16,17 @@ level1State.prototype.create = function()
 {
   //enable the Arcade Physics system
   game.physics.startSystem(Phaser.Physics.ARCADE);
-  //enable the P2 system
-  game.physics.startSystem(Phaser.Physics.P2JS);
     // background
     game.add.sprite(0, 0, "parking_lot");
+    game.add.sprite(0, 1300, "parking_lot");
 
-
+    game.world.setBounds(0, 0, 750, 2000);
 
     //add the player
     this.player = this.playerScript.create();
 
-    game.world.setBounds(0, 0, 750, 5000);
-    game.physics.p2.enable(this.player);
-    game.camera.follow(this.player);
+    //game.physics.p2.enable(this.player);
+    //game.camera.follow(this.player);
 
     this.bandMemberPowerupScript.create(this.player, this.playerScript);
     this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height/2);
