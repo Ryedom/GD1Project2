@@ -283,17 +283,13 @@ playerControlTestState.prototype.enemyHitsPlayerCheck = function(enem, plyr){
 };
 
 playerControlTestState.prototype.playerHitsEnemyCheck = function(enem, plyr){
-  game.physics.arcade.overlap(enem, plyr.weapon.bullets, playerControlTestState.prototype.playerHitsEnemy, null, this);
+  game.physics.arcade.overlap(enem, this.playerWeapon.bullets, playerControlTestState.prototype.playerHitsEnemy, null, this);
 };
 
 playerControlTestState.prototype.enemyHitsPlayer = function(plyr, bull) {
-   this.killPlayer(); // DOESN'T WORK IN THIS CONTEXT, NEED TO FIX
+   this.killPlayer();
 };
 
 playerControlTestState.prototype.playerHitsEnemy = function(enem, bull) {
   // check which group the enemy is in, and remove him from that group
-  if (this.bullies.contains(enem)){ // if enemy is a bully
-
-  }
-   this.killPlayer(); // DOESN'T WORK IN THIS CONTEXT, NEED TO FIX
 };
