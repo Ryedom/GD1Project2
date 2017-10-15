@@ -1,17 +1,21 @@
 //constructor. A function constructor, no less!
 let level1State = function()
 {
-
+  this.playerScript = new playerScript();
+  this.bandMemberPowerupScript = new bandMemberPowerupScript();
 };
 
 //when Phaser creates an instance of this state, we want it to
 level1State.prototype.preload = function()
 {
-
+  this.playerScript.preload();
+  this.bandMemberPowerupScript.preload();
 };
 
 level1State.prototype.create = function()
 {
+    // Set the world bounds (changed by the cutscene)
+    game.world.setBounds(0,0,750,1334);
     // background
     game.add.sprite(0, 0, "parking_lot");
 
@@ -19,10 +23,13 @@ level1State.prototype.create = function()
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //add the player
-    this.player = new player(game);
+    this.player = this.playerScript.create();
+
+    this.bandMemberPowerupScript.create(this.player, this.playerScript);
+    this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height/2);
 
     // ENEMY CREATION LOGIC
-
+    //
     // create the groups of enemies
     // skaters
     this.skaters = game.add.group();
@@ -57,6 +64,9 @@ level1State.prototype.addBulletsToGroup = function(enem, bullet_group){
 }
 
 level1State.prototype.update = function(){
+    //update the player
+    this.playerScript.update();
+    this.bandMemberPowerupScript.update();
     // COLLISION LOGIC
     // enemy bullets hit player - due to the way Phaser works, easier to just check each group, not group of groups
     this.bullies.forEach(level1State.prototype.enemyHitsPlayerCheck, this, true, this.player);
@@ -65,11 +75,13 @@ level1State.prototype.update = function(){
     game.physics.arcade.overlap(this.player, this.skaters, level1State.prototype.enemyHitsPlayer, null, this);
 
     // player bullets hit enemy
-    // game.physics.arcade.overlap(this.enemies, this.player.playerWeapon.bullets, level1State.prototype.playerHitsEnemy, null, this);
+    let enemWeap = this.playerScript.returnPlayerWeapon();
+    game.physics.arcade.overlap(this.enemies, enemWeap.bullets, level1State.prototype.playerHitsEnemy, null, this);
 };
 
 level1State.prototype.render = function() {
     // this.render();
+    this.playerScript.render();
 };
 
 level1State.prototype.playerHitsEnemy = function(enem, bull) {
@@ -87,6 +99,6 @@ level1State.prototype.enemyHitsPlayerCheck = function(enem, plyr){
 }
 
 level1State.prototype.enemyHitsPlayer = function(plyr, bull){
-  this.player.damagePlayer();
+  this.playerScript.damagePlayer();
   bull.kill(); // kill the bullet too, or else it will keep damaging you each frame
 }

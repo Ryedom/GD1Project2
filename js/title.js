@@ -7,6 +7,7 @@ titleState.prototype.preload = function() {
 }
 
 titleState.prototype.create = function() {
+    game.world.setBounds(0,0,750,1334);
     this.titleBackground = game.add.sprite(0,0,"title_background");
     this.titleLogo = game.add.sprite(game.world.centerX - 256,128,"title_logo");
     this.buttons = game.add.group();
