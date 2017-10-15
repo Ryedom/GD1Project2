@@ -208,4 +208,6 @@ playerScript.prototype.damagePlayer = function(){
 
 playerScript.prototype.killPlayer = function(){
     this.player.kill();
+
+    game.state.start(game.state.current);
 };
