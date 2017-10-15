@@ -32,6 +32,7 @@ playerScript.prototype.create = function()
 
     //  We need to enable physics on the this.player
     game.physics.arcade.enable(this.player);
+    game.physics.p2.enable(this.player);
 
     this.player.body.collideWorldBounds = true;
 
