@@ -86,15 +86,15 @@ playerScript.prototype.update = function()
     this.player.body.velocity.y = -1 * this.playerForwardVelocity;
 
     //then set the velocity depending on where the mouse is while button is down
-    if(game.input.mousePointer.isDown)
+    if(game.input.activePointer.isDown)
     {
-        if(game.input.x < this.player.centerX)
+        if(game.input.activePointer.x < this.player.centerX)
         {
             this.player.body.velocity.x = -1 * this.playerStrafeVelocity;
 
             this.player.animations.play('left');
         }
-        if(game.input.x > this.player.centerX)
+        if(game.input.activePointer.x > this.player.centerX)
         {
             this.player.body.velocity.x = this.playerStrafeVelocity;
 
@@ -125,13 +125,13 @@ playerScript.prototype.update = function()
         this.playerWeapon.fireRate = this.fireRate;
 
         //play animations of band members
-        if(game.input.mousePointer.isDown)
+        if(game.input.activePointer.isDown)
         {
-            if(game.input.x < this.player.centerX)
+            if(game.input.activePointer.x < this.player.centerX)
             {
                 this.bandMembers.children[i].animations.play('left');
             }
-            if(game.input.x > this.player.centerX)
+            if(game.input.activePointer.x > this.player.centerX)
             {
                 this.bandMembers.children[i].animations.play('right');
             }
@@ -158,7 +158,7 @@ playerScript.prototype.update = function()
 
 //debug text
 playerScript.prototype.render = function() {
-    game.debug.text("Mouse Button: " + game.input.mousePointer.isDown, 300, 130);
+    game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
     game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
 };
 
