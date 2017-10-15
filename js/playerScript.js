@@ -57,7 +57,8 @@ playerScript.prototype.create = function()
     this.playerWeapon.bulletSpeed = this.bulletSpeed;
 
     //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 50ms
-    this.playerWeapon.fireRate = this.fireRate;
+
+      this.playerWeapon.fireRate = this.fireRate;
 
     //  Weapon tracks player
     //  X offset equal to half the player's width (so it fires from the center)
@@ -111,8 +112,9 @@ playerScript.prototype.update = function()
         this.player.animations.stop();
         this.player.frame = this.playerIdleFrame;
     }
-
-    this.playerWeapon.fire();
+    if (this.player.alive){
+      this.playerWeapon.fire();
+    }
 
     //update allies' positions and make them fire
     for(i=0; i<this.bandMembers.children.length; i++){
@@ -188,7 +190,18 @@ playerScript.prototype.removeBandMember = function(){
     }
 };
 
+playerScript.prototype.returnPlayerWeapon = function(){
+  return this.playerWeapon;
+};
+
+playerScript.prototype.damagePlayer = function(){
+    if (this.numBandMembers === 0){
+      this.killPlayer();
+    } else {
+      this.removeBandMember();
+    }
+};
+
 playerScript.prototype.killPlayer = function(){
-    this.playerWeapon.destroy();
     this.player.kill();
 };

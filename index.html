@@ -1,13 +1,14 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+<head>
 	<meta charset="UTF-8" />
     <title>Game Dev 1 Project 2</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="js/preload.js"></script>
-    <script type="text/javascript" src="js/playerScript.js"></script>
+    <script type="text/javascript" src="js/level1State.js"></script>
+		<script type="text/javascript" src="js/enemy.js"></script>
+		<script type="text/javascript" src="js/playerScript.js"></script>
     <script type="text/javascript" src="js/bandMemberPowerupScript.js"></script>
-    <script type="text/javascript" src="js/playerObjectTestState.js"></script>
     <style type="text/css">
         body {
             margin: 0;
@@ -20,9 +21,9 @@
 
     let game = new Phaser.Game(750, 1334, Phaser.AUTO);
     game.state.add("Preload", preloadState);
-    game.state.add("PlayerObjectTestState", playerObjectTestState);
+    game.state.add("level1State", level1State);
     game.state.start("Preload");
-	
+
 </script>
 
 </body>
