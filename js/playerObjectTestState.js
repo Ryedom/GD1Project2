@@ -1,13 +1,15 @@
 //constructor. A function constructor, no less!
 let playerObjectTestState = function()
 {
-
+    this.playerScript = new playerScript();
+    this.bandMemberPowerupScript = new bandMemberPowerupScript();
 };
 
 //when Phaser creates an instance of this state, we want it to
 playerObjectTestState.prototype.preload = function()
 {
-
+    this.playerScript.preload();
+    this.bandMemberPowerupScript.preload();
 };
 
 playerObjectTestState.prototype.create = function()
@@ -16,16 +18,19 @@ playerObjectTestState.prototype.create = function()
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //add the player
-    this.player = new player();
-    this.player.create();
+    this.player = this.playerScript.create();
+
+    this.bandMemberPowerupScript.create(this.player, this.playerScript);
+    this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height/2);
 };
 
 playerObjectTestState.prototype.update = function()
 {
     //update the player
-    this.player.update();
+    this.playerScript.update();
+    this.bandMemberPowerupScript.update();
 };
 
 playerObjectTestState.prototype.render = function() {
-    this.player.render();
+    this.playerScript.render();
 };

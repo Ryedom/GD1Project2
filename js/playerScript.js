@@ -1,10 +1,13 @@
 /** @constructor */
-let player = function()
+let playerScript = function()
 {
     this.playerYOffest = 200;
-    this.playerVelocity = 200;
+    this.playerStrafeVelocity = 200;
+    this.playerForwardVelocity = 100;
     this.playerIdleFrame = 4;
 
+    this.maxBulletsOnScreen = 500;
+    this.bulletFrames = 80;
     this.bulletSpeed = 1500;
     this.fireRate = 0;
 
@@ -14,12 +17,13 @@ let player = function()
     this.bandMemberOffsetY = [40, 40, 80, 80];
 };
 
-player.prototype.preload = function()
+playerScript.prototype.preload = function()
 {
-
+    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+    game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
 };
 
-player.prototype.create = function()
+playerScript.prototype.create = function()
 {
 
     //PLAYER---------------------------------------------------------------
@@ -38,13 +42,13 @@ player.prototype.create = function()
 
     //WEAPON--------------------------------------------------------------
     //add weapon
-    this.playerWeapon = game.add.weapon(500, 'bullet');
+    this.playerWeapon = game.add.weapon(this.maxBulletsOnScreen, 'bullet');
 
     //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
     //  The 3rd argument tells the Weapon Plugin to advance to the next frame each time
     //  a bullet is fired, when it hits 80 it'll wrap to zero again.
     //  You can also set this via this.weapon.bulletFrameCycle = true
-    this.playerWeapon.setBulletFrames(0, 80, true);
+    this.playerWeapon.setBulletFrames(0, this.bulletFrames, true);
 
     //bullets disappear when they exit frame
     this.playerWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -73,23 +77,26 @@ player.prototype.create = function()
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
+
+    return this.player;
 };
 
-player.prototype.update = function()
+playerScript.prototype.update = function()
 {
+    this.player.body.velocity.y = -1 * this.playerForwardVelocity;
 
     //then set the velocity depending on where the mouse is while button is down
     if(game.input.mousePointer.isDown)
     {
         if(game.input.x < this.player.centerX)
         {
-            this.player.body.velocity.x = -1 * this.playerVelocity;
+            this.player.body.velocity.x = -1 * this.playerStrafeVelocity;
 
             this.player.animations.play('left');
         }
         if(game.input.x > this.player.centerX)
         {
-            this.player.body.velocity.x = this.playerVelocity;
+            this.player.body.velocity.x = this.playerStrafeVelocity;
 
             this.player.animations.play('right');
         }
@@ -115,6 +122,26 @@ player.prototype.update = function()
         this.playerWeapon.fireRate = 0;
         this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
         this.playerWeapon.fireRate = this.fireRate;
+
+        //play animations of band members
+        if(game.input.mousePointer.isDown)
+        {
+            if(game.input.x < this.player.centerX)
+            {
+                this.bandMembers.children[i].animations.play('left');
+            }
+            if(game.input.x > this.player.centerX)
+            {
+                this.bandMembers.children[i].animations.play('right');
+            }
+
+        }
+        else
+        {
+            //  Stand still
+            this.bandMembers.children[i].animations.stop();
+            this.bandMembers.children[i].frame = this.playerIdleFrame;
+        }
     }
 
     if(this.leftKey.downDuration(1)){
@@ -129,13 +156,13 @@ player.prototype.update = function()
 };
 
 //debug text
-player.prototype.render = function() {
+playerScript.prototype.render = function() {
     game.debug.text("Mouse Button: " + game.input.mousePointer.isDown, 300, 130);
     game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
 };
 
 
-player.prototype.addBandMember = function(){
+playerScript.prototype.addBandMember = function(){
 
     if(this.numBandMembers < this.maxBandMembers) {
         this.numBandMembers = this.numBandMembers + 1;
@@ -144,14 +171,14 @@ player.prototype.addBandMember = function(){
         let member = this.bandMembers.create(0, 0, 'dude');
 
         //  Our two animations, walking left and right.
-        //this.member.animations.add('left', [0, 1, 2, 3], 10, true);
-        //this.member.animations.add('right', [5, 6, 7, 8], 10, true);
+        member.animations.add('left', [0, 1, 2, 3], 10, true);
+        member.animations.add('right', [5, 6, 7, 8], 10, true);
         //END CREATE NEW BAND MEMBER---------------------------
 
     }
-}
+};
 
-player.prototype.removeBandMember = function(){
+playerScript.prototype.removeBandMember = function(){
 
     if(this.numBandMembers > 0){
 
@@ -159,9 +186,9 @@ player.prototype.removeBandMember = function(){
 
         this.bandMembers.children.pop().kill();
     }
-}
+};
 
-player.prototype.killPlayer = function(){
+playerScript.prototype.killPlayer = function(){
     this.playerWeapon.destroy();
     this.player.kill();
-}
+};
