@@ -61,10 +61,10 @@ enemy.prototype.update = function(){
     if (this.alive){
       if (this.enemyType === "skater"){
         // skaters move towards player
-        enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.getX(), this.playerRef.getY());
+        enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.x, this.playerRef.y);
       } else if (this.enemyType === "bully"){
       //   // bullies remain stationary but shoot towards player
-        enemy.prototype.shootAtPlayer(this, this.playerRef.getX(), this.playerRef.getY());
+        enemy.prototype.shootAtPlayer(this, this.playerRef.x, this.playerRef.y);
       }
       // destroy offscreen enemies to speed things up
       enemy.prototype.killIfOffscreen(this);
