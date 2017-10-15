@@ -2,11 +2,19 @@
 <html lang="en"> 
 <head> 
 	<meta charset="UTF-8" />
-    <title>Game Dev 1 Project 2</title>
-	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <title>High School Confidential</title>
+    <script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="js/phaser-state-transition.min.js"></script>
+    <script type="text/javascript" src="js/transitions.js"></script>
+    <script type="text/javascript" src="js/preload.js"></script>
+    <script type="text/javascript" src="js/title.js"></script>
+    <script type="text/javascript" src="js/cutscene-one.js"></script>
+    <script type="text/javascript" src="js/help.js"></script>
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />    
     <style type="text/css">
         body {
-            margin: 0;
+            margin: auto;
+            background-color:black;
         }
     </style>
 </head>
@@ -14,7 +22,13 @@
 
 <script type="text/javascript">
 
-	let game = new Phaser.Game(1334, 750, Phaser.AUTO);
+    let game = new Phaser.Game(750, 1334, Phaser.AUTO);
+    
+    game.state.add("preload",preloadState);
+    game.state.add("titlemenu",titleState);
+    game.state.add("help",helpState);
+    game.state.add("cutscene_one",cutOneState);
+	game.state.start("preload");
 	
 </script>
 
