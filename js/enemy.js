@@ -1,4 +1,5 @@
 /** @constructor */
+// enemy types - skater, bully, football_player_left, football_player_right
 enemy = function(x, y, gamevar, type, playerRef){
 
     // call super constructor on sprite
@@ -12,15 +13,20 @@ enemy = function(x, y, gamevar, type, playerRef){
     this.enemyWeapon = null; // null unless created for that enemy type in create
     this.bulletSpeed = 500; //500
     this.fireRate = 1000; // 1000
+    this.throwing = false;
     game.add.existing(this);
 
     //  We need to enable physics on the this.enemy
     game.physics.arcade.enable(this);
 
-    // Weapon - Optional for shooting enemies
-    if (this.enemyType === "bully"){
+    if (this.enemyType === "football_player_left"){ // left football player always starts throwing, right doesn't
+      this.throwing = true;
+    }
 
-      // //add weapon if bully
+    // Weapon - Optional for shooting enemies
+    if ((this.enemyType === "bully") || (this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
+
+      // //add weapon if a shooting character
       this.enemyWeapon = game.add.weapon(500, 'bullet');
 
       //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
@@ -65,6 +71,8 @@ enemy.prototype.update = function(){
       } else if (this.enemyType === "bully"){
       //   // bullies remain stationary but shoot towards player
         enemy.prototype.shootAtPlayer(this, this.playerRef.x, this.playerRef.y);
+      } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
+        enemy.prototype.throwBalltoEachOther(this);
       }
       // destroy offscreen enemies to speed things up
       enemy.prototype.killIfOffscreen(this);
@@ -115,6 +123,17 @@ enemy.prototype.moveEnemyTowardPlayer = function(enem, pl_x, pl_y){
 // shootAtPlayer - gets the X, Y position of player and fires a bullet at it
 enemy.prototype.shootAtPlayer = function(enem, plyr_x, plyr_y){
     enem.enemyWeapon.fireAtXY(plyr_x, plyr_y);
+}
+
+enemy.prototype.throwBalltoEachOther = function(enem){
+  if (enem.throwing === true) { // player is supposed to immediately throw
+    if (enem.enemyType === "football_player_left") { // should throw right
+      enem.enemyWeapon.fireAtXY(750, enem.y);
+    } else { // should throw left
+      enem.enemyWeapon.fireAtXY(0, enem.y);
+    }
+    enem.throwing = false; // while ball is in the air, don't throw anything else!
+  }
 }
 
 // killIfOffscreen - kills offscreen enemies

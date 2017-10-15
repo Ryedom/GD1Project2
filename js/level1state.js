@@ -40,15 +40,25 @@ level1State.prototype.create = function()
     this.bullies.enableBody = true;
 
     //  create 3 skaters
-    for (let i = 0; i < 3; i++){
-      let temp_skater = new enemy(i * 70 + 10, 10, game, "skater", this.player);
-      this.skaters.add(temp_skater);
-    }
+    // for (let i = 0; i < 3; i++){
+    //   let temp_skater = new enemy(i * 70 + 10, 10, game, "skater", this.player);
+    //   this.skaters.add(temp_skater);
+    // }
 
     // create a bully
+    //for (let i = 0; i < 1; i++){
+    //let bully = new enemy(i * 70 + 400, 100, game, "bully", this.player);
+    //  this.bullies.add(bully);
+    //}
+
+    this.footballPlayers = game.add.group();
+    this.footballPlayers.enableBody = true;
+
     for (let i = 0; i < 1; i++){
-    let bully = new enemy(i * 70 + 400, 100, game, "bully", this.player);
-      this.bullies.add(bully);
+      let temp_football_player_left = new enemy(100, 500, game, "football_player_left", this.player);
+      let temp_football_player_right = new enemy(600, 500, game, "football_player_right", this.player);
+      this.footballPlayers.add(temp_football_player_left);
+      this.footballPlayers.add(temp_football_player_right);
     }
 
     // create a master enemy group
@@ -56,6 +66,7 @@ level1State.prototype.create = function()
     this.enemies.enableBody = true;
     this.enemies.add(this.skaters);
     this.enemies.add(this.bullies);
+    this.enemies.add(this.footballPlayers);
 
 };
 
@@ -70,6 +81,10 @@ level1State.prototype.update = function(){
     // COLLISION LOGIC
     // enemy bullets hit player - due to the way Phaser works, easier to just check each group, not group of groups
     this.bullies.forEach(level1State.prototype.enemyHitsPlayerCheck, this, true, this.player);
+    this.footballPlayers.forEach(level1State.prototype.enemyHitsPlayerCheck, this, true, this.player);
+
+    // football player passing logic
+    this.footballPlayers.forEach(level1State.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
 
     // enemies collide with player
     game.physics.arcade.overlap(this.player, this.skaters, level1State.prototype.enemyHitsPlayer, null, this);
@@ -101,4 +116,20 @@ level1State.prototype.enemyHitsPlayerCheck = function(enem, plyr){
 level1State.prototype.enemyHitsPlayer = function(plyr, bull){
   this.playerScript.damagePlayer();
   bull.kill(); // kill the bullet too, or else it will keep damaging you each frame
+}
+
+level1State.prototype.checkReceptionOfFootballPlayer = function(foot_plyr, foot_plyrs){
+  foot_plyrs.forEach(level1State.prototype.throwerHitsCatcherCheck, this, true, foot_plyr);
+}
+
+level1State.prototype.throwerHitsCatcherCheck = function(foot_plyr1, foot_plyr2){
+  if (foot_plyr1 != foot_plyr2){
+    game.physics.arcade.overlap(foot_plyr1, foot_plyr2.getEnemyWeapon().bullets, level1State.prototype.catchBall, null, this);
+  }
+
+}
+
+level1State.prototype.catchBall = function(ft_ply, bull){
+  bull.kill();
+  ft_ply.throwing = true;
 }
