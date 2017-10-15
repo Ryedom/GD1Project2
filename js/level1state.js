@@ -77,8 +77,9 @@ level1State.prototype.update = function(){
     // enemy bullets hit player - due to the way Phaser works, easier to just check each group, not group of groups
     this.bullies.forEach(level1State.prototype.enemyHitsPlayerCheck, this, true, this.playerSprite);
 
-    // enemies collide with player
+    // enemies collide with player or ally band members
     game.physics.arcade.overlap(this.playerSprite, this.skaters, level1State.prototype.enemyHitsPlayer, null, this);
+    game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.skaters, level1State.prototype.enemyHitsPlayer, null, this);
 
     // player bullets hit enemy
     let enemWeap = this.playerScript.returnPlayerWeapon();
@@ -107,6 +108,7 @@ level1State.prototype.enemyHitsPlayerCheck = function(enem, plyr){
   //console.log(enem.getType());
   //console.log(enem.getEnemyWeapon().bullets.length);
   game.physics.arcade.overlap(this.playerSprite, enem.getEnemyWeapon().bullets, level1State.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), enem.getEnemyWeapon().bullets, level1State.prototype.enemyHitsPlayer, null, this);
 }
 
 level1State.prototype.enemyHitsPlayer = function(plyr, bull){
