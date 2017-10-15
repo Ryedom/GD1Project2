@@ -1,5 +1,5 @@
 /** @constructor */
-let playerControlTestState = function()
+let player = function()
 {
     this.playerYOffest = 200;
     this.playerVelocity = 200;
@@ -15,15 +15,13 @@ let playerControlTestState = function()
 
 };
 
-playerControlTestState.prototype.preload = function()
+player.prototype.preload = function()
 {
 
 };
 
-playerControlTestState.prototype.create = function()
+player.prototype.create = function()
 {
-    //enable the Arcade Physics system
-    game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //PLAYER---------------------------------------------------------------
     //add this.player
@@ -108,7 +106,7 @@ playerControlTestState.prototype.create = function()
     this.spitballs.enableBody = true;
 };
 
-playerControlTestState.prototype.update = function()
+player.prototype.update = function()
 {
     // COLLISION LOGIC
     // enemy bullets hit player
@@ -186,13 +184,13 @@ playerControlTestState.prototype.update = function()
 };
 
 //debug text
-playerControlTestState.prototype.render = function() {
+player.prototype.render = function() {
     game.debug.text("Mouse Button: " + game.input.mousePointer.isDown, 300, 130);
     game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
 };
 
 
-playerControlTestState.prototype.addBandMember = function(){
+player.prototype.addBandMember = function(){
 
     if(this.numBandMembers < this.maxBandMembers) {
         this.numBandMembers = this.numBandMembers + 1;
@@ -208,7 +206,7 @@ playerControlTestState.prototype.addBandMember = function(){
     }
 }
 
-playerControlTestState.prototype.removeBandMember = function(){
+player.prototype.removeBandMember = function(){
 
     if(this.numBandMembers > 0){
 
@@ -218,7 +216,7 @@ playerControlTestState.prototype.removeBandMember = function(){
     }
 }
 
-playerControlTestState.prototype.killPlayer = function(){
+player.prototype.killPlayer = function(){
     this.playerWeapon.destroy();
     this.playerWeapon = null; // fire functions should check for this so they don't try to call the weapon
     this.player.kill();
