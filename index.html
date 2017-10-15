@@ -1,6 +1,6 @@
-<!doctype html> 
-<html lang="en"> 
-<head> 
+<!doctype html>
+<html lang="en">
+<head>
 	<meta charset="UTF-8" />
     <title>High School Confidential</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
@@ -10,6 +10,10 @@
     <script type="text/javascript" src="js/title.js"></script>
     <script type="text/javascript" src="js/cutscene-one.js"></script>
     <script type="text/javascript" src="js/help.js"></script>
+    <script type="text/javascript" src="js/player.js"></script>
+    <script type="text/javascript" src="js/enemy.js"></script>
+    <script type="text/javascript" src="js/playerObjectTestState.js"></script>
+    <script type="text/javascript" src="js/level1State.js"></script>
     <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />    
     <style type="text/css">
         body {
@@ -28,6 +32,7 @@
     game.state.add("titlemenu",titleState);
     game.state.add("help",helpState);
     game.state.add("cutscene_one",cutOneState);
+    game.state.add("level1State", level1State);
 	game.state.start("preload");
 	
 </script>
