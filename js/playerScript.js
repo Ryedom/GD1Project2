@@ -192,3 +192,20 @@ playerScript.prototype.killPlayer = function(){
     this.playerWeapon.destroy();
     this.player.kill();
 };
+
+playerScript.prototype.getX = function(){
+  return this.body.x;
+};
+
+playerScript.prototype.getY = function(){
+  return this.body.y;
+};
+
+playerScript.prototype.damagePlayer = function(){
+  if (this.numBandMembers === 0){
+    this.killPlayer();
+  } else {
+    this.removeBandMember();
+  }
+
+};

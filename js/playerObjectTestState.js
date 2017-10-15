@@ -18,9 +18,9 @@ playerObjectTestState.prototype.create = function()
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //add the player
-    this.player = this.playerScript.create();
+    this.playerSprite = this.playerScript.create();
 
-    this.bandMemberPowerupScript.create(this.player, this.playerScript);
+    this.bandMemberPowerupScript.create(this.playerSprite, this.playerScript);
     this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height/2);
 };
 
