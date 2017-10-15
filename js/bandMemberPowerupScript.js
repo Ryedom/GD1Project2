@@ -12,20 +12,20 @@ bandMemberPowerupScript.prototype.preload = function()
 
 //arg1: the player's sprite
 //arg2: the player's playerScript
-bandMemberPowerupScript.prototype.create = function(player, playerScript) {
+bandMemberPowerupScript.prototype.create = function(playerSprite, playerScript) {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     this.bandMembersPowerups = game.add.group();
     this.bandMembersPowerups.enableBody = true;
 
-    this.player = player;
+    this.playerSprite = playerSprite;
     this.playerScript = playerScript;
 };
 
 
 bandMemberPowerupScript.prototype.update = function()
 {
-    game.physics.arcade.overlap(this.player, this.bandMembersPowerups, this.pickup, null, this);
+    game.physics.arcade.overlap(this.playerSprite, this.bandMembersPowerups, this.pickup, null, this);
 };
 
 bandMemberPowerupScript.prototype.addPowerup = function(x, y)
@@ -33,7 +33,7 @@ bandMemberPowerupScript.prototype.addPowerup = function(x, y)
     this.bandMembersPowerups.create(x, y, 'dude');
 };
 
-bandMemberPowerupScript.prototype.pickup = function(player, powerup)
+bandMemberPowerupScript.prototype.pickup = function(playerSprite, powerup)
 {
     powerup.kill();
 

@@ -61,7 +61,6 @@ enemy.prototype.update = function(){
     if (this.alive){
       if (this.enemyType === "skater"){
         // skaters move towards player
-        console.log(this.playerRef.x);
         enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.x, this.playerRef.y);
       } else if (this.enemyType === "bully"){
       //   // bullies remain stationary but shoot towards player

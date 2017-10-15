@@ -15,7 +15,7 @@ level1State.prototype.preload = function()
 level1State.prototype.create = function()
 {
     // background
-    //game.add.sprite(0, 0, "parking_lot");
+    game.add.sprite(0, 0, "parking_lot");
 
     //enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -74,7 +74,7 @@ level1State.prototype.update = function(){
 
     // player bullets hit enemy
     let enemWeap = this.playerScript.returnPlayerWeapon();
-    // game.physics.arcade.overlap(this.enemies, enemWeap.bullets, level1State.prototype.playerHitsEnemy, null, this);
+    game.physics.arcade.overlap(this.enemies, enemWeap.bullets, level1State.prototype.playerHitsEnemy, null, this);
 };
 
 level1State.prototype.render = function() {

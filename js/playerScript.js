@@ -205,3 +205,13 @@ playerScript.prototype.damagePlayer = function(){
 playerScript.prototype.killPlayer = function(){
     this.player.kill();
 };
+
+
+playerScript.prototype.damagePlayer = function(){
+  if (this.numBandMembers === 0){
+    this.killPlayer();
+  } else {
+    this.removeBandMember();
+  }
+
+};
