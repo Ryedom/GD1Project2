@@ -1,10 +1,13 @@
 /** @constructor */
 let playerScript = function()
 {
-    this.playerYOffset = 200;
+
+    this.playerYStart = 200;
     this.playerStrafeVelocity = 200;
     this.playerForwardVelocity = 100;
     this.playerIdleFrame = 4;
+
+    this.cameraYOffset = 200;
 
     this.maxBulletsOnScreen = 500;
     this.bulletFrames = 80;
@@ -27,7 +30,7 @@ playerScript.prototype.create = function()
 {
     //PLAYER---------------------------------------------------------------
     //add this.player
-    this.player = game.add.sprite(game.world.width/2, game.world.height - this.playerYOffset, 'dude');
+    this.player = game.add.sprite(game.world.width/2, game.world.height - this.playerYStart, 'dude');
 
     //  We need to enable physics on the this.player
     game.physics.arcade.enable(this.player);
@@ -145,6 +148,8 @@ playerScript.prototype.update = function()
         }
     }
 
+    game.camera.focusOnXY(game.world.width/2, this.player.position.y - game.camera.height/2 + this.cameraYOffset);
+
     if(this.leftKey.downDuration(1)){
         this.addBandMember();
     }
@@ -203,14 +208,4 @@ playerScript.prototype.damagePlayer = function(){
 
 playerScript.prototype.killPlayer = function(){
     this.player.kill();
-};
-
-
-playerScript.prototype.damagePlayer = function(){
-  if (this.numBandMembers === 0){
-    this.killPlayer();
-  } else {
-    this.removeBandMember();
-  }
-
 };
