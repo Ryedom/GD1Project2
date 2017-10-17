@@ -1,5 +1,5 @@
 //constructor. A function constructor, no less!
-let level1State = function()
+let level2State = function()
 {
   this.playerScript = new playerScript();
   this.enemyGroupScript = new enemyGroupScript();
@@ -10,13 +10,13 @@ let level1State = function()
 };
 
 //when Phaser creates an instance of this state, we want it to
-level1State.prototype.preload = function()
+level2State.prototype.preload = function()
 {
   this.playerScript.preload();
   this.bandMemberPowerupScript.preload();
 };
 
-level1State.prototype.create = function()
+level2State.prototype.create = function()
 {
     //enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -55,17 +55,17 @@ level1State.prototype.create = function()
 
 };
 
-level1State.prototype.update = function(){
+level2State.prototype.update = function(){
     //update the player
     this.playerScript.update();
     this.bandMemberPowerupScript.update();
     this.enemyGroupScript.update();
     if (this.playerSprite.y === 0){
-      game.state.start("cutscene_two", FadeOut, FadeIn);
+      game.state.start("cutscene_three", FadeOut, FadeIn);
     }
 };
 
-level1State.prototype.render = function() {
+level2State.prototype.render = function() {
     // this.render();
     this.playerScript.render();
 };

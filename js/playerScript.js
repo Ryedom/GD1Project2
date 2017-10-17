@@ -48,7 +48,7 @@ playerScript.prototype.create = function()
     this.playerWeapon.setBulletFrames(0, this.bulletFrames, true);
 
     //bullets disappear when they exit frame
-    this.playerWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    this.playerWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
 
     //  The speed at which the bullet is fired
     this.playerWeapon.bulletSpeed = this.bulletSpeed;
@@ -77,6 +77,7 @@ playerScript.prototype.create = function()
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
     this.player.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
+    this.player.x -= 105;
     this.player.animations.play("run");
 
     return this.player;

@@ -14,6 +14,7 @@ enemy = function(x, y, type, playerRef){
     this.bulletSpeed = 500; //500
     this.fireRate = 1000; // 1000
     this.throwing = false;
+    this.checkCollision = true;
     game.add.existing(this);
 
     //  We need to enable physics on the this.enemy
@@ -36,7 +37,7 @@ enemy = function(x, y, type, playerRef){
       this.enemyWeapon.setBulletFrames(0, 80, true);
 
       //bullets disappear when they exit frame
-      this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+      this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
 
       //  The speed at which the bullet is fired
       this.enemyWeapon.bulletSpeed = this.bulletSpeed;

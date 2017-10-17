@@ -27,6 +27,9 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript){
 
   this.footballPlayers = game.add.group();
   this.footballPlayers.enableBody = true;
+
+  this.bullets = game.add.group();
+  this.bullets.enableBody = true;
 };
 
 enemyGroupScript.prototype.update = function(){
@@ -42,10 +45,11 @@ enemyGroupScript.prototype.update = function(){
   game.physics.arcade.overlap(this.player, this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-
+  game.physics.arcade.overlap(this.player, this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  //
   // player bullets hit enemy
   let enemWeap = this.playerScript.returnPlayerWeapon();
-  game.physics.arcade.overlap(this.enemies, enemWeap.bullets, enemyGroupScript.prototype.playerHitsEnemy, null, this);
+  game.physics.arcade.overlap(this.enemies, enemWeap.bullets, this.playerHitsEnemy, null, this);
 };
 
 enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
@@ -74,6 +78,14 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
 
 
 enemyGroupScript.prototype.playerHitsEnemy = function(enem, bull) {
+  // copy the bullets from the enemy object - otherwise bullets pass through player when enemy dies!
+  let enemWeap = enem.getEnemyWeapon();
+  if (enemWeap !== null){
+    this.bullets.addMultiple(enemWeap.bullets);
+  }
+
+
+  // kill the enemy
   enem.die();
 }
 
@@ -86,6 +98,7 @@ enemyGroupScript.prototype.enemyHitsPlayerCheck = function(enem, plyr){
 }
 
 enemyGroupScript.prototype.enemyHitsPlayer = function(plyr, bull){
+  console.log("hey");
   this.playerScript.damagePlayer();
   bull.kill(); // kill the bullet too, or else it will keep damaging you each frame
 }
