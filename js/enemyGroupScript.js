@@ -6,7 +6,6 @@ let enemyGroupScript = function(){
   this.bulletSpeed = 500; //500
   this.fireRate = 1000; // 1000
   this.throwing = false;
-  this.enemyScript = new enemyScript();
   this.testSkater = null;
 
 };
@@ -16,99 +15,93 @@ enemyGroupScript.prototype.preload = function(){
   game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
 };
 
-enemyGroupScript.prototype.create = function(x, y, type, playerRef){
+enemyGroupScript.prototype.create = function(playerRef, playerScript){
+  this.player = playerRef;
+  this.playerScript = playerScript;
+
   this.skaters = game.add.group();
   this.skaters.enableBody = true;
+
+  this.bullies = game.add.group();
+  this.bullies.enableBody = true;
+
+  this.footballPlayers = game.add.group();
+  this.footballPlayers.enableBody = true;
 };
 
 enemyGroupScript.prototype.update = function(){
-    // this.skaters.update();
-    // if (this.testSkater !== null){
-    //   this.testSkater.update();
-    //   // this.skaters.forEach(function(skater){
-    //   //   skater.update();
-    //   // }, this, true);
-    //   // console.log("update function in enemyGroupScript called");
-    // }
-    // else {
-    // }
+  // COLLISION LOGIC
+  // enemy bullets hit player - due to the way Phaser works, easier to just check each group, not group of groups
+  this.bullies.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
+  this.footballPlayers.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
+
+  // football player passing logic
+  this.footballPlayers.forEach(enemyGroupScript.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
+
+  // enemies collide with player
+  game.physics.arcade.overlap(this.player, this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.player, this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.player, this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+
+  // player bullets hit enemy
+  let enemWeap = this.playerScript.returnPlayerWeapon();
+  game.physics.arcade.overlap(this.enemies, enemWeap.bullets, enemyGroupScript.prototype.playerHitsEnemy, null, this);
 };
 
 enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
+  var new_enemy = null;
   if (type === "skater"){
-    this.testSkater = new enemyScript();
-    this.testSkater.create(x, y, "skater", playerRef);
-    this.skaters.add(this.testSkater);
+    new_enemy = new enemy(x, y, "skater", playerRef);
+    this.skaters.add(new_enemy);
+  } else if (type === "bully"){
+    new_enemy = new enemy(x, y, "bully", playerRef);
+    this.bullies.add(new_enemy);
+  } else if (type === "football_player_left"){
+    new_enemy = new enemy(x, y, "football_player_left", playerRef);
+    this.footballPlayers.add(new_enemy);
+  } else if (type === "football_player_right"){
+    new_enemy = new enemy(x, y, "football_player_right", playerRef);
+    this.footballPlayers.add(new_enemy);
+
+    // create a master enemy group
+    this.enemies = game.add.group();
+    this.enemies.enableBody = true;
+    this.enemies.add(this.skaters);
+    this.enemies.add(this.bullies);
+    this.enemies.add(this.footballPlayers);
   }
 }
 
-//killEnemy - kills the enemy - does not destroy the object!
-enemyGroupScript.prototype.killEnemy = function(enem){
-    enem.kill();
+
+enemyGroupScript.prototype.playerHitsEnemy = function(enem, bull) {
+  enem.die();
 }
 
-//killEnemy - kills the enemy - does not destroy the object!
-enemyGroupScript.prototype.die = function(){
-    this.kill();
+enemyGroupScript.prototype.enemyInGroupHitsPlayerCheck = function(enem_group, plyr){
+  enem_group.forEachAlive(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player); // this function receives a GROUP as a parameter, we need to get the individual to get their bullets
 }
 
-enemyGroupScript.prototype.getEnemyWeapon = function(){
-  return this.enemyWeapon;
+enemyGroupScript.prototype.enemyHitsPlayerCheck = function(enem, plyr){
+  game.physics.arcade.overlap(this.player, enem.getEnemyWeapon().bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
 }
 
-// getAngleToPlayer - returns the angle to the player
-enemyGroupScript.prototype.getAngleToPlayer = function(enem, pl_x, pl_y) {
-  return Math.atan2(pl_y - enem.y, pl_x - enem.x);
-
+enemyGroupScript.prototype.enemyHitsPlayer = function(plyr, bull){
+  this.playerScript.damagePlayer();
+  bull.kill(); // kill the bullet too, or else it will keep damaging you each frame
 }
 
-// getDistanceFromPlayer - returns a distance (non-negative) from an enemy to a player
-enemyGroupScript.prototype.getDistanceFromPlayer = function(pl_x, pl_y) {
-  return Math.sqrt(Math.pow((this.enemy.x - pl_x), 2) + Math.pow((this.enemy.y - pl_y), 2));
-};
+enemyGroupScript.prototype.checkReceptionOfFootballPlayer = function(foot_plyr, foot_plyrs){
+  foot_plyrs.forEach(enemyGroupScript.prototype.throwerHitsCatcherCheck, this, true, foot_plyr);
+}
 
-// moveEnemyTowardPlayer - moves the enemy sprite towards the player
-enemyGroupScript.prototype.moveEnemyTowardPlayer = function(pl_x, pl_y){
-  if (this.tooClose === false){ // the enemy hasn't gotten too close
-    if (this.getDistanceFromPlayer(pl_x, pl_y) > 20) { // within a certain distance, skater starts skating in a straight line
-      // // find vector to player
-      let angleToPlayer = this.getAngleToPlayer(pl_x, pl_y);
-      // // set velocity to travel to her
-      game.physics.arcade.velocityFromRotation(angleToPlayer, 200, this.enemy.body.velocity);
-    }
-    else { // set tooClose to true so enemy doesn't hug player
-       this.tooClose = true;
-    }
+enemyGroupScript.prototype.throwerHitsCatcherCheck = function(foot_plyr1, foot_plyr2){
+  if (foot_plyr1 != foot_plyr2){
+    game.physics.arcade.overlap(foot_plyr1, foot_plyr2.getEnemyWeapon().bullets, enemyGroupScript.prototype.catchBall, null, this);
   }
-};
 
-// shootAtPlayer - gets the X, Y position of player and fires a bullet at it
-enemyGroupScript.prototype.shootAtPlayer = function(enem, plyr_x, plyr_y){
-    enem.enemyWeapon.fireAtXY(plyr_x, plyr_y);
 }
 
-enemyGroupScript.prototype.throwBalltoEachOther = function(enem){
-  if (enem.throwing === true) { // player is supposed to immediately throw
-    if (enem.enemyType === "football_player_left") { // should throw right
-      enem.enemyWeapon.fireAtXY(750, enem.y);
-    } else { // should throw left
-      enem.enemyWeapon.fireAtXY(0, enem.y);
-    }
-    enem.throwing = false; // while ball is in the air, don't throw anything else!
-  }
-}
-
-// killIfOffscreen - kills offscreen enemies
-enemyGroupScript.prototype.killIfOffscreen = function(obj){
-   if (!(obj.visible)){
-      obj.die();
-  }
-};
-
-enemyGroupScript.prototype.getType = function(){
-  return this.enemyType;
-}
-
-enemyGroupScript.prototype.getEnemyWeapon = function(){
-  return this.enemyWeapon;
+enemyGroupScript.prototype.catchBall = function(ft_ply, bull){
+  bull.kill();
+  ft_ply.throwing = true;
 }

@@ -30,109 +30,30 @@ level1State.prototype.create = function()
     this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height/2);
 
     // ENEMY CREATION LOGIC
-    //
+    // instantiate an enemy group script (handles enemy group logic)
     this.enemyGroupScript.create(this.player, this.playerScript);
-    this.enemyGroupScript.addEnemy(100, 100, "skater", this.player);
-    // create the groups of enemies
-    // skaters
-
-    //
-    // bullies
-    // this.bullies = game.add.group();
-    // this.bullies.enableBody = true;
-
     // create 3 skaters
-    // for (let i = 0; i < 3; i++){
-    //   let temp_skater = this.enemyGroupScript.create(i * 70 + 10, 10, "skater", this.player);
-    //   this.skaters.add(temp_skater);
-    // }
+    for (let i = 0; i < 3; i++){
+      this.enemyGroupScript.addEnemy(i * 70 + 10, 10, "skater", this.player);
+    }
 
-    // create a bully
-    //for (let i = 0; i < 1; i++){
-    //let bully = new enemy(i * 70 + 400, 100, game, "bully", this.player);
-    //  this.bullies.add(bully);
-    //}
-    //
-    // this.footballPlayers = game.add.group();
-    // this.footballPlayers.enableBody = true;
+    // create one bully
+    this.enemyGroupScript.addEnemy(470, 100, "bully", this.player);
 
-    // for (let i = 0; i < 1; i++){
-    //   let temp_football_player_left = new enemy(100, 500, game, "football_player_left", this.player);
-    //   let temp_football_player_right = new enemy(600, 500, game, "football_player_right", this.player);
-    //   this.footballPlayers.add(temp_football_player_left);
-    //   this.footballPlayers.add(temp_football_player_right);
-    // }
-
-    // // create a master enemy group
-    // this.enemies = game.add.group();
-    // this.enemies.enableBody = true;
-    // this.enemies.add(this.skaters);
-    // this.enemies.add(this.bullies);
-    // this.enemies.add(this.footballPlayers);
+    // create a pair of football players
+    this.enemyGroupScript.addEnemy(100, 300, "football_player_left", this.player);
+    this.enemyGroupScript.addEnemy(600, 300, "football_player_right", this.player);
 
 };
-
-level1State.prototype.addBulletsToGroup = function(enem, bullet_group){
-  bullet_group.add(enem.enemyWeapon.bullets);
-}
 
 level1State.prototype.update = function(){
     //update the player
     this.playerScript.update();
     this.bandMemberPowerupScript.update();
     this.enemyGroupScript.update();
-    // COLLISION LOGIC
-    // enemy bullets hit player - due to the way Phaser works, easier to just check each group, not group of groups
-    // this.bullies.forEach(level1State.prototype.enemyHitsPlayerCheck, this, true, this.player);
-    // this.footballPlayers.forEach(level1State.prototype.enemyHitsPlayerCheck, this, true, this.player);
-    //
-    // // football player passing logic
-    // this.footballPlayers.forEach(level1State.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
-    //
-    // enemies collide with player
-    // game.physics.arcade.overlap(this.player, this.skaters, level1State.prototype.enemyHitsPlayer, null, this);
-    //
-    // // player bullets hit enemy
-    // let enemWeap = this.playerScript.returnPlayerWeapon();
-    // game.physics.arcade.overlap(this.enemies, enemWeap.bullets, level1State.prototype.playerHitsEnemy, null, this);
 };
 
 level1State.prototype.render = function() {
     // this.render();
     this.playerScript.render();
 };
-
-level1State.prototype.playerHitsEnemy = function(enem, bull) {
-  enem.die();
-}
-
-level1State.prototype.enemyInGroupHitsPlayerCheck = function(enem_group, plyr){
-  enem_group.forEachAlive(level1State.prototype.enemyHitsPlayerCheck, this, true, this.player); // this function receives a GROUP as a parameter, we need to get the individual to get their bullets
-}
-
-level1State.prototype.enemyHitsPlayerCheck = function(enem, plyr){
-  //console.log(enem.getType());
-  //console.log(enem.getEnemyWeapon().bullets.length);
-  game.physics.arcade.overlap(this.player, enem.getEnemyWeapon().bullets, level1State.prototype.enemyHitsPlayer, null, this);
-}
-
-level1State.prototype.enemyHitsPlayer = function(plyr, bull){
-  this.playerScript.damagePlayer();
-  bull.kill(); // kill the bullet too, or else it will keep damaging you each frame
-}
-
-level1State.prototype.checkReceptionOfFootballPlayer = function(foot_plyr, foot_plyrs){
-  foot_plyrs.forEach(level1State.prototype.throwerHitsCatcherCheck, this, true, foot_plyr);
-}
-
-level1State.prototype.throwerHitsCatcherCheck = function(foot_plyr1, foot_plyr2){
-  if (foot_plyr1 != foot_plyr2){
-    game.physics.arcade.overlap(foot_plyr1, foot_plyr2.getEnemyWeapon().bullets, level1State.prototype.catchBall, null, this);
-  }
-
-}
-
-level1State.prototype.catchBall = function(ft_ply, bull){
-  bull.kill();
-  ft_ply.throwing = true;
-}
