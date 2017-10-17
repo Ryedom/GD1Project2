@@ -2,7 +2,7 @@
 let playerScript = function()
 {
     this.playerYStart = 200;
-    this.playerStrafeVelocity = 200;
+    this.playerStrafeVelocity = 400;
     this.playerForwardVelocity = 100;
     this.playerIdleFrame = 4;
 
@@ -21,24 +21,20 @@ let playerScript = function()
 
 playerScript.prototype.preload = function()
 {
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
 };
 
 playerScript.prototype.create = function()
 {
     //PLAYER---------------------------------------------------------------
     //add this.player
-    this.player = game.add.sprite(game.world.width/2, game.world.height - this.playerYStart, 'dude');
+    this.player = game.add.sprite(game.world.width/2, game.world.height - this.playerYStart, 'carole');
 
     //  We need to enable physics on the this.player
     game.physics.arcade.enable(this.player);
 
     this.player.body.collideWorldBounds = true;
 
-    //  Our two animations, walking left and right.
-    this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-    this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+    this.player.animations.add('run', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 25, true);
     //END PLAYER----------------------------------------------------------
 
     //WEAPON--------------------------------------------------------------
@@ -80,6 +76,8 @@ playerScript.prototype.create = function()
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
+    this.player.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
+    this.player.animations.play("run");
 
     return this.player;
 };
@@ -94,14 +92,10 @@ playerScript.prototype.update = function()
         if(game.input.activePointer.x < this.player.centerX)
         {
             this.player.body.velocity.x = -1 * this.playerStrafeVelocity;
-
-            this.player.animations.play('left');
         }
         if(game.input.activePointer.x > this.player.centerX)
         {
             this.player.body.velocity.x = this.playerStrafeVelocity;
-
-            this.player.animations.play('right');
         }
 
     }
@@ -109,10 +103,6 @@ playerScript.prototype.update = function()
     {
         //  Reset the this.players velocity (movement)
         this.player.body.velocity.x = 0;
-
-        //  Stand still
-        this.player.animations.stop();
-        this.player.frame = this.playerIdleFrame;
     }
     if (this.player.alive){
       this.playerWeapon.fire();
@@ -164,8 +154,9 @@ playerScript.prototype.update = function()
 
 //debug text
 playerScript.prototype.render = function() {
-    game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
-    game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
+    // game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
+    // game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
+    // game.debug.body(this.player);
 };
 
 

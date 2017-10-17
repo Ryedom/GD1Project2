@@ -7,7 +7,6 @@ let bandMemberPowerupScript = function()
 //when Phaser creates an instance of this state, we want it to
 bandMemberPowerupScript.prototype.preload = function()
 {
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 };
 
 //arg1: the player's sprite
@@ -30,7 +29,10 @@ bandMemberPowerupScript.prototype.update = function()
 
 bandMemberPowerupScript.prototype.addPowerup = function(x, y)
 {
-    this.bandMembersPowerups.create(x, y, 'dude');
+    let bandMember = game.add.sprite(x, y, 'ally_powerup');
+    bandMember.animations.add('stand', [0, 1], 5, true);
+    bandMember.animations.play("stand");
+    this.bandMembersPowerups.add(bandMember);
 };
 
 bandMemberPowerupScript.prototype.pickup = function(playerSprite, powerup)

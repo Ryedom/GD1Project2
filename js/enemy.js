@@ -122,7 +122,7 @@ enemy.prototype.moveEnemyTowardPlayer = function(enem, pl_x, pl_y){
 
 // shootAtPlayer - gets the X, Y position of player and fires a bullet at it
 enemy.prototype.shootAtPlayer = function(enem, plyr_x, plyr_y){
-    enem.enemyWeapon.fireAtXY(plyr_x, plyr_y);
+    enem.enemyWeapon.fireAtXY(plyr_x + 105, plyr_y);
 }
 
 enemy.prototype.throwBalltoEachOther = function(enem){
