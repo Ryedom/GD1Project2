@@ -1,5 +1,5 @@
 /** @constructor */
-// enemy types - skater, bully, football_player_left, football_player_right
+// enemy types - skater, bully, football_player_left, football_player_right, musician
 enemy = function(x, y, type, playerRef){
 
     // call super constructor on sprite
@@ -22,6 +22,14 @@ enemy = function(x, y, type, playerRef){
 
     if (this.enemyType === "football_player_left"){ // left football player always starts throwing, right doesn't
       this.throwing = true;
+    }
+
+    if (this.enemyType === "musician"){
+      this.musicianAreaOfEffect = game.add.graphics(0, 0);
+      // graphics.lineStyle(2, 0xffd900, 1);
+      this.musicianAreaOfEffect.beginFill(0xFF0000, 1);
+      this.musicianAreaOfEffect.drawCircle(x + 10, y + 10, 300);
+      this.musicianAreaOfEffect.alpha = 0.1;
     }
 
     // Weapon - Optional for shooting enemies
@@ -82,12 +90,19 @@ enemy.prototype.update = function(){
         }
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
         enemy.prototype.throwBalltoEachOther(this);
+      } else if (this.enemyType === "musician") {
+
       }
+
       // destroy offscreen enemies to speed things up
       enemy.prototype.killIfOffscreen(this);
     }
 
 };
+
+enemy.prototype.render = function(){
+  // game.debug.body(this);
+}
 
 //killEnemy - kills the enemy - does not destroy the object!
 enemy.prototype.killEnemy = function(enem){

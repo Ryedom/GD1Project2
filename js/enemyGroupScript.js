@@ -25,6 +25,9 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript){
   this.bullies = game.add.group();
   this.bullies.enableBody = true;
 
+  this.musicians = game.add.group();
+  this.musicians.enableBody = true;
+
   this.footballPlayers = game.add.group();
   this.footballPlayers.enableBody = true;
 
@@ -33,6 +36,7 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript){
   this.enemies.add(this.skaters);
   this.enemies.add(this.bullies);
   this.enemies.add(this.footballPlayers);
+  this.enemies.add(this.musicians);
 
   this.bullets = game.add.group();
   this.bullets.enableBody = true;
@@ -48,10 +52,13 @@ enemyGroupScript.prototype.update = function(){
     this.bullies.remove(enem);
   }, this, true);
   this.skaters.forEachDead(function(enem){
-    this.bullies.remove(enem);
+    this.skaters.remove(enem);
   }, this, true);
   this.footballPlayers.forEachDead(function(enem){
-    this.bullies.remove(enem);
+    this.footballPlayers.remove(enem);
+  }, this, true);
+  this.musicians.forEachDead(function(enem){
+    this.musicians.remove(enem);
   }, this, true);
 
   // Update the camera
@@ -69,6 +76,7 @@ enemyGroupScript.prototype.update = function(){
   game.physics.arcade.overlap(this.player, this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.player, this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   //
   // player bullets hit enemy
@@ -79,12 +87,15 @@ enemyGroupScript.prototype.update = function(){
   this.bullies.forEach(this.killEnemyIfBehindPlayer, this, true);
   this.footballPlayers.forEach(this.killEnemyIfBehindPlayer, this, true);
   this.skaters.forEach(this.killEnemyIfBehindPlayer, this, true);
+  this.musicians.forEach(this.killEnemyIfBehindPlayer, this, true);
 };
+
+enemyGroupScript.prototype.render = function(){
+}
 
 enemyGroupScript.prototype.killEnemyIfBehindPlayer = function(enem){
   if (enem.y > game.camera.y + game.camera.height){
     enem.die();
-    console.log("being called");
   }
 }
 
@@ -103,20 +114,30 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
   } else if (type === "football_player_right"){
     new_enemy = new enemy(x, y, "football_player_right", playerRef);
     this.footballPlayers.add(new_enemy);
+  } else if (type === "musician") {
+    new_enemy = new enemy(x, y, "musician", playerRef);
+    this.musicians.add(new_enemy);
   }
 }
 
 // generates enemies at the top of the screen
 enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite){
   let y_value = this.cameraY;
-  let enemIndex = Math.ceil(Math.random() * 3); // three different enemy types
+  let enemIndex = 4;// Math.ceil(Math.random() * 4); // four different enemy types
   if (enemIndex === 1){ // skater
     this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
   } else if (enemIndex === 2){
     this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
-  } else { // 3
+  } else if (enemIndex === 3){ // 3
     this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
     this.addEnemy(700, y_value - 40, "football_player_right", playerSprite);
+  } else { // 4
+    let musicianIndex = Math.ceil(Math.random() * 2);
+    if (musicianIndex === 1){ // left side
+      this.addEnemy(100, y_value - 40, "musician", playerSprite);
+    } else {
+      this.addEnemy(650, y_value - 40, "musician", playerSprite);  // right
+    }
   }
 }
 

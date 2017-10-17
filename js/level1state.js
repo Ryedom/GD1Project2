@@ -60,4 +60,5 @@ level1State.prototype.update = function(){
 level1State.prototype.render = function() {
     // this.render();
     this.playerScript.render();
+    this.enemyGroupScript.render();
 };
