@@ -20,11 +20,13 @@ level1State.prototype.create = function()
 {
     //enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
-    // background
-    game.add.sprite(0, 0, "parking_lot");
-    game.add.sprite(0, 1300, "parking_lot");
 
-    game.world.setBounds(0, 0, 750, 2000);
+    game.world.setBounds(0, 0, 750, 180000);
+
+    // background
+    for (let i = 0; (i * 1300) < 180000; i++){
+      game.add.sprite(0, i * 1300, "parking_lot");
+    }
 
     //add the player
     this.playerSprite = this.playerScript.create();
@@ -40,19 +42,8 @@ level1State.prototype.create = function()
 
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
+    // enemies are generated based on a timer
     this.enemyGroupScript.create(this.playerSprite, this.playerScript);
-    // create 3 skaters
-    for (let i = 0; i < 3; i++){
-      this.enemyGroupScript.addEnemy(i * 70 + 10, 10, "skater", this.playerSprite);
-    }
-
-    // create one bully
-    this.enemyGroupScript.addEnemy(325, 1000, "bully", this.playerSprite);
-
-    // create a pair of football players
-    this.enemyGroupScript.addEnemy(100, 300, "football_player_left", this.playerSprite);
-    this.enemyGroupScript.addEnemy(600, 300, "football_player_right", this.playerSprite);
-
 };
 
 level1State.prototype.update = function(){
@@ -63,6 +54,7 @@ level1State.prototype.update = function(){
     if (this.playerSprite.y === 0){
       game.state.start("cutscene_two", FadeOut, FadeIn);
     }
+
 };
 
 level1State.prototype.render = function() {

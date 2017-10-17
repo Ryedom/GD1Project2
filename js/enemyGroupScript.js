@@ -7,7 +7,7 @@ let enemyGroupScript = function(){
   this.fireRate = 1000; // 1000
   this.throwing = false;
   this.testSkater = null;
-
+  this.cameraY = 0;
 };
 
 enemyGroupScript.prototype.preload = function(){
@@ -28,11 +28,35 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript){
   this.footballPlayers = game.add.group();
   this.footballPlayers.enableBody = true;
 
+  this.enemies = game.add.group();
+  this.enemies.enableBody = true;
+  this.enemies.add(this.skaters);
+  this.enemies.add(this.bullies);
+  this.enemies.add(this.footballPlayers);
+
   this.bullets = game.add.group();
   this.bullets.enableBody = true;
+
+  this.enemyTimer = game.time.create(false);
+  this.enemyTimer.loop(1000, this.generateRandomEnemies, this, this.player);
+  this.enemyTimer.start();
 };
 
 enemyGroupScript.prototype.update = function(){
+  // Clear out enemies from groups
+  this.bullies.forEachDead(function(enem){
+    this.bullies.remove(enem);
+  }, this, true);
+  this.skaters.forEachDead(function(enem){
+    this.bullies.remove(enem);
+  }, this, true);
+  this.footballPlayers.forEachDead(function(enem){
+    this.bullies.remove(enem);
+  }, this, true);
+
+  // Update the camera
+  this.cameraY = game.camera.y;
+
   // COLLISION LOGIC
   // enemy bullets hit player - due to the way Phaser works, easier to just check each group, not group of groups
   this.bullies.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
@@ -50,7 +74,20 @@ enemyGroupScript.prototype.update = function(){
   // player bullets hit enemy
   let enemWeap = this.playerScript.returnPlayerWeapon();
   game.physics.arcade.overlap(this.enemies, enemWeap.bullets, this.playerHitsEnemy, null, this);
+
+  // kill enemies behind player
+  this.bullies.forEach(this.killEnemyIfBehindPlayer, this, true);
+  this.footballPlayers.forEach(this.killEnemyIfBehindPlayer, this, true);
+  this.skaters.forEach(this.killEnemyIfBehindPlayer, this, true);
 };
+
+enemyGroupScript.prototype.killEnemyIfBehindPlayer = function(enem){
+  if (enem.y > game.camera.y + game.camera.height){
+    enem.die();
+    console.log("being called");
+  }
+}
+
 
 enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
   var new_enemy = null;
@@ -66,16 +103,22 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
   } else if (type === "football_player_right"){
     new_enemy = new enemy(x, y, "football_player_right", playerRef);
     this.footballPlayers.add(new_enemy);
-
-    // create a master enemy group
-    this.enemies = game.add.group();
-    this.enemies.enableBody = true;
-    this.enemies.add(this.skaters);
-    this.enemies.add(this.bullies);
-    this.enemies.add(this.footballPlayers);
   }
 }
 
+// generates enemies at the top of the screen
+enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite){
+  let y_value = this.cameraY;
+  let enemIndex = Math.ceil(Math.random() * 3); // three different enemy types
+  if (enemIndex === 1){ // skater
+    this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
+  } else if (enemIndex === 2){
+    this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
+  } else { // 3
+    this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
+    this.addEnemy(700, y_value - 40, "football_player_right", playerSprite);
+  }
+}
 
 enemyGroupScript.prototype.playerHitsEnemy = function(enem, bull) {
   // copy the bullets from the enemy object - otherwise bullets pass through player when enemy dies!
@@ -83,8 +126,6 @@ enemyGroupScript.prototype.playerHitsEnemy = function(enem, bull) {
   if (enemWeap !== null){
     this.bullets.addMultiple(enemWeap.bullets);
   }
-
-
   // kill the enemy
   enem.die();
 }
@@ -98,7 +139,6 @@ enemyGroupScript.prototype.enemyHitsPlayerCheck = function(enem, plyr){
 }
 
 enemyGroupScript.prototype.enemyHitsPlayer = function(plyr, bull){
-  console.log("hey");
   this.playerScript.damagePlayer();
   bull.kill(); // kill the bullet too, or else it will keep damaging you each frame
 }

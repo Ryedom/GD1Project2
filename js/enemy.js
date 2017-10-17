@@ -36,8 +36,12 @@ enemy = function(x, y, type, playerRef){
       //  You can also set this via this.weapon.bulletFrameCycle = true
       this.enemyWeapon.setBulletFrames(0, 80, true);
 
-      //bullets disappear when they exit frame
-      this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+      //if bully, bullets disappear when they exit frame, bullies when they hit the world, since they spawn offscreen
+      if (this.enemyType === "bully"){
+        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+      } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
+        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+      }
 
       //  The speed at which the bullet is fired
       this.enemyWeapon.bulletSpeed = this.bulletSpeed;
@@ -68,10 +72,14 @@ enemy.prototype.update = function(){
     if (this.alive){
       if (this.enemyType === "skater"){
         // skaters move towards player
-        enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.x, this.playerRef.y);
+        if (this.visible){
+          enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.x, this.playerRef.y);
+        }
       } else if (this.enemyType === "bully"){
       //   // bullies remain stationary but shoot towards player
-        enemy.prototype.shootAtPlayer(this, this.playerRef.x, this.playerRef.y);
+        if (this.visible){
+            enemy.prototype.shootAtPlayer(this, this.playerRef.x, this.playerRef.y);
+        }
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
         enemy.prototype.throwBalltoEachOther(this);
       }

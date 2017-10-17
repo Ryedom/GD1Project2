@@ -3,7 +3,7 @@ let playerScript = function()
 {
     this.playerYStart = 200;
     this.playerStrafeVelocity = 400;
-    this.playerForwardVelocity = 100;
+    this.playerForwardVelocity = 500;
     this.playerIdleFrame = 4;
 
     this.cameraYOffset = 200;
