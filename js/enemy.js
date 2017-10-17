@@ -3,7 +3,14 @@
 enemy = function(x, y, type, playerRef){
 
     // call super constructor on sprite
-    Phaser.Sprite.call(this, game, x, y, 'dude');
+    if (type === "skater"){
+      Phaser.Sprite.call(this, game, x, y, 'skater_ss');
+      this.animations.add('skate', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 25, true);
+      this.animations.play("skate");
+    } else {
+      Phaser.Sprite.call(this, game, x, y, 'dude');
+    }
+
 
     // additional data
     this.playerRef = playerRef; // reference to player object
@@ -19,6 +26,11 @@ enemy = function(x, y, type, playerRef){
 
     //  We need to enable physics on the this.enemy
     game.physics.arcade.enable(this);
+
+    if (this.enemyType === "skater"){
+      this.anchor.setTo(0.5, 0.5);
+      this.oldX = x;
+    }
 
     if (this.enemyType === "football_player_left"){ // left football player always starts throwing, right doesn't
       this.throwing = true;
@@ -82,6 +94,8 @@ enemy.prototype.update = function(){
         // skaters move towards player
         if (this.visible){
           enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.x, this.playerRef.y);
+          this.flipSkater(this.oldX, this.x);
+          this.oldX = this.x;
         }
       } else if (this.enemyType === "bully"){
       //   // bullies remain stationary but shoot towards player
@@ -173,4 +187,12 @@ enemy.prototype.getType = function(){
 
 enemy.prototype.getEnemyWeapon = function(){
   return this.enemyWeapon;
+}
+
+enemy.prototype.flipSkater = function(oldX, newX){
+  if ((newX - oldX) > 0){ // moving right
+      this.scale.x = -1 * (Math.abs(this.scale.x));
+  } else { // moving right
+      this.scale.x = Math.abs(this.scale.x);
+  }
 }

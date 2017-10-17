@@ -18,6 +18,11 @@ preloadState.prototype.preload = function() {
     game.load.spritesheet('ally1', 'assets/PlayerAndAllyAnimations/allyrun2.png', 210, 230);
     game.load.spritesheet('ally2', 'assets/PlayerAndAllyAnimations/allyrun3.png', 210, 230);
     game.load.spritesheet('ally3', 'assets/PlayerAndAllyAnimations/allyrun1.png', 230, 220);
+
+    // enemies
+    game.load.spritesheet('skater_ss', 'assets/enemies/skater_spritesheet.png', 231, 300);
+
+
     game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
 }
 
