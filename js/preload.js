@@ -14,6 +14,10 @@ preloadState.prototype.preload = function() {
     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.spritesheet('carole', 'assets/PlayerAndAllyAnimations/Carole_run.png', 210, 210);
     game.load.spritesheet('ally_powerup', 'assets/PlayerAndAllyAnimations/ally_powerupsheet.png', 210, 210);
+    game.load.spritesheet('ally0', 'assets/PlayerAndAllyAnimations/allyrun1.png', 230, 220);
+    game.load.spritesheet('ally1', 'assets/PlayerAndAllyAnimations/allyrun2.png', 210, 230);
+    game.load.spritesheet('ally2', 'assets/PlayerAndAllyAnimations/allyrun3.png', 210, 230);
+    game.load.spritesheet('ally3', 'assets/PlayerAndAllyAnimations/allyrun1.png', 230, 220);
     game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
 }
 

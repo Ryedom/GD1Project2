@@ -33,7 +33,10 @@ level1State.prototype.create = function()
     //game.camera.follow(this.player);
 
     this.bandMemberPowerupScript.create(this.playerSprite, this.playerScript);
-    this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height/2);
+    this.bandMemberPowerupScript.addPowerup(300, 1500);
+    this.bandMemberPowerupScript.addPowerup(300, 1500);
+    this.bandMemberPowerupScript.addPowerup(300, 1500);
+    this.bandMemberPowerupScript.addPowerup(300, 1500);
 
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)

@@ -15,7 +15,7 @@ let playerScript = function()
 
     this.numBandMembers = 0;
     this.maxBandMembers = 4;
-    this.bandMemberOffsetX = [-40, 40, -80, 80];
+    this.bandMemberOffsetX = [-140, 110, -280, 220];
     this.bandMemberOffsetY = [40, 40, 80, 80];
 };
 
@@ -117,25 +117,6 @@ playerScript.prototype.update = function()
         this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
         this.playerWeapon.fireRate = this.fireRate;
 
-        //play animations of band members
-        if(game.input.activePointer.isDown)
-        {
-            if(game.input.activePointer.x < this.player.centerX)
-            {
-                this.bandMembers.children[i].animations.play('left');
-            }
-            if(game.input.activePointer.x > this.player.centerX)
-            {
-                this.bandMembers.children[i].animations.play('right');
-            }
-
-        }
-        else
-        {
-            //  Stand still
-            this.bandMembers.children[i].animations.stop();
-            this.bandMembers.children[i].frame = this.playerIdleFrame;
-        }
     }
 
     //set camera to focus on a point in front of player such that player is 'cameraYOffset' distance from bottom of screen
@@ -166,13 +147,19 @@ playerScript.prototype.addBandMember = function(){
         this.numBandMembers = this.numBandMembers + 1;
 
         //CREATE NEW BAND MEMBER------------------------------
-        let member = this.bandMembers.create(0, 0, 'dude');
+        let member = this.bandMembers.create(0, 0, 'ally' + (this.numBandMembers - 1));
 
         //  Our two animations, walking left and right.
-        member.animations.add('left', [0, 1, 2, 3], 10, true);
-        member.animations.add('right', [5, 6, 7, 8], 10, true);
+        member.animations.add('run', [0, 1, 2, 3, 4], 10, true);
+        member.animations.play('run');
         //END CREATE NEW BAND MEMBER---------------------------
-
+        // let member = game.add.sprite(0, 0, 'ally0');
+        //
+        // //  Our two animations, walking left and right.
+        // member.animations.add('run', [0, 1, 2, 3, 4], 12, true);
+        // member.animations.play('run');
+        //
+        // this.bandMembers.add(member);
     }
 };
 
