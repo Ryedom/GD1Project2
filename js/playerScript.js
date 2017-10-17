@@ -15,8 +15,10 @@ let playerScript = function()
 
     this.numBandMembers = 0;
     this.maxBandMembers = 4;
-    this.bandMemberOffsetX = [-140, 110, -280, 220];
-    this.bandMemberOffsetY = [40, 40, 80, 80];
+    this.bandMemberOffsetX = [-70, 55, -140, 110];
+    this.bandMemberOffsetY = [20, 20, 40, 40];
+
+    this.spriteScaleFraction = .5;
 };
 
 playerScript.prototype.preload = function()
@@ -28,9 +30,13 @@ playerScript.prototype.create = function()
     //PLAYER---------------------------------------------------------------
     //add this.player
     this.player = game.add.sprite(game.world.width/2, game.world.height - this.playerYStart, 'carole');
+    this.player.scale.x = this.player.scale.x * this.spriteScaleFraction;
+    this.player.scale.y = this.player.scale.y * this.spriteScaleFraction;
+    //original width:
 
     //  We need to enable physics on the this.player
     game.physics.arcade.enable(this.player);
+    this.player.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
 
     this.player.body.collideWorldBounds = true;
 
@@ -76,8 +82,7 @@ playerScript.prototype.create = function()
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
-    this.player.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
-    this.player.x -= 105;
+    //this.player.x -= 105;
     this.player.animations.play("run");
 
     return this.player;
@@ -138,7 +143,10 @@ playerScript.prototype.update = function()
 playerScript.prototype.render = function() {
     // game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
     // game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
-    // game.debug.body(this.player);
+     game.debug.body(this.player);
+    for(i=0; i<this.bandMembers.children.length; i++){
+        game.debug.body(this.bandMembers.children[i]);
+    }
 };
 
 
@@ -149,6 +157,10 @@ playerScript.prototype.addBandMember = function(){
 
         //CREATE NEW BAND MEMBER------------------------------
         let member = this.bandMembers.create(0, 0, 'ally' + (this.numBandMembers - 1));
+
+        member.scale.x = member.scale.x * this.spriteScaleFraction;
+        member.scale.y = member.scale.y * this.spriteScaleFraction;
+        member.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
 
         //  Our two animations, walking left and right.
         member.animations.add('run', [0, 1, 2, 3, 4], 10, true);
