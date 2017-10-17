@@ -71,6 +71,7 @@ playerScript.prototype.create = function()
     //BAND MEMBERS------------------------------------------------------------------------
 
     this.bandMembers = game.add.group();
+    this.bandMembers.enableBody = true;
 
     //END BAND MEMBERS--------------------------------------------------------------------
 
@@ -147,6 +148,7 @@ playerScript.prototype.update = function()
         }
     }
 
+    //set camera to focus on a point in front of player such that player is 'cameraYOffset' distance from bottom of screen
     game.camera.focusOnXY(game.world.width/2, this.player.position.y - game.camera.height/2 + this.cameraYOffset);
 
     if(this.leftKey.downDuration(1)){
@@ -197,6 +199,10 @@ playerScript.prototype.returnPlayerWeapon = function(){
   return this.playerWeapon;
 };
 
+playerScript.prototype.returnBandMemberGroup = function(){
+    return this.bandMembers;
+}
+
 playerScript.prototype.damagePlayer = function(){
     if (this.numBandMembers === 0){
       this.killPlayer();
@@ -207,4 +213,6 @@ playerScript.prototype.damagePlayer = function(){
 
 playerScript.prototype.killPlayer = function(){
     this.player.kill();
+
+    game.state.start(game.state.current);
 };
