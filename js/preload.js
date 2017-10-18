@@ -45,7 +45,7 @@ preloadState.prototype.create = function() {
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.scale.refresh();
-    game.state.start("level1State");
+    game.state.start("titlemenu");
 }
 
 preloadState.prototype.update = function() {

@@ -249,7 +249,7 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
     new_enemy = new enemy(x, y, "skater", playerRef);
     this.skaters.add(new_enemy);
   } else if (type === "bully"){
-    new_enemy = new enemy(x, y, "bully", playerRef);
+    new_enemy = new enemy(x, y - 100, "bully", playerRef);
     this.bullies.add(new_enemy);
   } else if (type === "football_player_left"){
     new_enemy = new enemy(x, y, "football_player_left", playerRef);
@@ -288,12 +288,15 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
 
   //get x value such that enemies do not spawn near path of player bullets
   let x_value = Math.random() * game.world.width/2;
-  if(playerSprite.x < game.world.width/2){
+  if(playerSprite.x < game.world.width/2){ // player is on
       x_value = x_value + game.world.width/2;
+  }
+  if (x_value > (game.world.width - 100)){ // we don't want offscreen enemies
+      x_value = game.world.width - 100;
   }
 
   if (level === 1){
-    let enemIndex = 3;//Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
+    let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
     if (enemIndex === 1){ // skater
       this.addEnemy(x_value, y_value, "skater", playerSprite);
     } else if (enemIndex === 2){
