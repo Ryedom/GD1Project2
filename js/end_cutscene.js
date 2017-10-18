@@ -51,6 +51,6 @@ endCutState.prototype.onTap = function(eventPointer,isDoubleTap) {
         this.currentFrame++;
     }
     else if (this.currentFrame == this.frames.length - 1) {
-        game.state.start("titleState", Phaser.Plugin.StateTransition.Out.SlideLeft, Phaser.Plugin.StateTransition.In.SlideLeft);
+        game.state.start("titlemenu", Phaser.Plugin.StateTransition.Out.SlideLeft, Phaser.Plugin.StateTransition.In.SlideLeft);
     }
 }

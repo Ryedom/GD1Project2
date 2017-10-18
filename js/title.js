@@ -3,7 +3,7 @@ let titleState = function() {
 }
 
 titleState.prototype.preload = function() {
-    
+
 }
 
 titleState.prototype.create = function() {

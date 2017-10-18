@@ -13,6 +13,7 @@ level2State.prototype.preload = function()
 {
   this.playerScript.preload();
   this.bandMemberPowerupScript.preload();
+  game.load.audio('musicLevel2', 'assets/Audio/Level2.ogg');
 };
 
 level2State.prototype.create = function()
@@ -33,7 +34,11 @@ level2State.prototype.create = function()
     //game.camera.follow(this.player);
 
     this.bandMemberPowerupScript.create(this.playerSprite, this.playerScript);
-    this.bandMemberPowerupScript.randomLocations(12, game.world.width, game.world.height);
+    this.bandMemberPowerupScript.randomLocations(8, game.world.width, game.world.height);
+
+    // Music
+    this.music = game.add.audio('musicLevel2');
+    this.music.loopFull();
 
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
@@ -55,3 +60,7 @@ level2State.prototype.render = function() {
     // this.render();
     this.playerScript.render();
 };
+
+level2State.prototype.shutdown = function() {
+  this.music.stop();
+}
