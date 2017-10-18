@@ -149,7 +149,7 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
 // generates enemies at the top of the screen
 enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite){
   let y_value = this.cameraY;
-  let enemIndex = 4;//Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
+  let enemIndex = Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
   if (enemIndex === 1){ // skater
     this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
   } else if (enemIndex === 2){
