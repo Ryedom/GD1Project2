@@ -264,13 +264,13 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
       this.addEnemy(650, y_value - 40, "football_player_right", playerSprite);
     }
   } else if (level === 2){
-    let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
+    let enemIndex = Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
     if (enemIndex === 1){ // skater
       this.addEnemy(x_value, y_value, "bully", playerSprite);
     } else if (enemIndex === 2){ // 3
       this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
       this.addEnemy(650, y_value - 40, "football_player_right", playerSprite);
-    } else { // 3
+    } else if (enemIndex === 3) { // 3
       let musicianIndex = Math.ceil(Math.random() * 2);
       if (musicianIndex === 1){ // left side
         this.addEnemy(x_value, y_value - 40, "musician", playerSprite);
@@ -278,8 +278,11 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
         this.addEnemy(x_value, y_value - 40, "musician", playerSprite);  // right
       }
     }
+    else{//4
+        this.addEnemy(x_value, y_value, "skater", playerSprite);
+    }
   } else { // level 3
-    let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
+    let enemIndex = Math.ceil(Math.random() * 5); // four different enemy types, musician not currently used!
     if (enemIndex === 1){ // skater
       this.addEnemy(x_value, y_value, "bully", playerSprite);
     } else if (enemIndex === 2){ // 2
@@ -289,8 +292,13 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
       } else {
         this.addEnemy(x_value, y_value - 40, "musician", playerSprite);  // right
       }
-    } else {
+    } else if (enemIndex === 3)  {
       this.addEnemy(x_value, y_value, "teacher", playerSprite);
+    } else if (enemIndex === 4){
+        this.addEnemy(x_value, y_value, "skater", playerSprite);
+    } else{
+        this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
+        this.addEnemy(650, y_value - 40, "football_player_right", playerSprite);
     }
   }
 }

@@ -3,12 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="060797a6-0d55-4c4e-bdfa-613c9bcd5d6f" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/bandMemberPowerupScript.js" afterPath="$PROJECT_DIR$/js/bandMemberPowerupScript.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/enemy.js" afterPath="$PROJECT_DIR$/js/enemy.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/enemyGroupScript.js" afterPath="$PROJECT_DIR$/js/enemyGroupScript.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/level1state.js" afterPath="$PROJECT_DIR$/js/level1state.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/level2state.js" afterPath="$PROJECT_DIR$/js/level2state.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/level3state.js" afterPath="$PROJECT_DIR$/js/level3state.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/playerScript.js" afterPath="$PROJECT_DIR$/js/playerScript.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -27,7 +24,11 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="724">
               <caret line="46" column="31" lean-forward="false" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
-              <folding />
+              <folding>
+                <marker date="1508315838552" expanded="true" signature="80:2268" ph="{...}" />
+                <marker date="1508315838552" expanded="true" signature="2313:2589" ph="{...}" />
+                <marker date="1508315838552" expanded="true" signature="2634:2638" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -35,9 +36,12 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
-              <caret line="39" column="29" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="29" />
-              <folding />
+            <state relative-caret-position="619">
+              <caret line="40" column="29" lean-forward="false" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
+              <folding>
+                <marker date="1508315838561" expanded="true" signature="2073:2464" ph="..." />
+                <marker date="1508315838561" expanded="true" signature="2073:2473" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -85,8 +89,18 @@
       <file leaf-file-name="enemy.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/enemy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="273">
-              <caret line="97" column="10" lean-forward="false" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
+            <state relative-caret-position="420">
+              <caret line="134" column="58" lean-forward="false" selection-start-line="134" selection-start-column="58" selection-end-line="134" selection-end-column="58" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="playerScript.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/playerScript.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="388">
+              <caret line="153" column="6" lean-forward="false" selection-start-line="153" selection-start-column="6" selection-end-line="153" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -95,8 +109,8 @@
       <file leaf-file-name="enemyGroupScript.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/enemyGroupScript.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-336">
-              <caret line="233" column="3" lean-forward="true" selection-start-line="233" selection-start-column="3" selection-end-line="233" selection-end-column="3" />
+            <state relative-caret-position="6615">
+              <caret line="315" column="69" lean-forward="true" selection-start-line="315" selection-start-column="69" selection-end-line="315" selection-end-column="69" />
               <folding />
             </state>
           </provider>
@@ -107,16 +121,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="661">
               <caret line="48" column="32" lean-forward="false" selection-start-line="48" selection-start-column="32" selection-end-line="48" selection-end-column="32" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="end_cutscene.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/end_cutscene.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="682">
-              <caret line="53" column="35" lean-forward="false" selection-start-line="53" selection-start-column="35" selection-end-line="53" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -146,7 +150,6 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/js/cutscene-one.js" />
-        <option value="$PROJECT_DIR$/js/playerScript.js" />
         <option value="$PROJECT_DIR$/js/cutscene-two.js" />
         <option value="$PROJECT_DIR$/js/cutscene-three.js" />
         <option value="$PROJECT_DIR$/index.html" />
@@ -156,6 +159,7 @@
         <option value="$PROJECT_DIR$/js/bandMemberPowerupScript.js" />
         <option value="$PROJECT_DIR$/js/level1state.js" />
         <option value="$PROJECT_DIR$/js/level2state.js" />
+        <option value="$PROJECT_DIR$/js/playerScript.js" />
         <option value="$PROJECT_DIR$/js/enemyGroupScript.js" />
         <option value="$PROJECT_DIR$/js/enemy.js" />
       </list>
@@ -245,7 +249,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26285000" />
+    <option name="totallyTimeSpent" value="28061000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -351,7 +355,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="567">
           <caret line="27" column="90" lean-forward="false" selection-start-line="27" selection-start-column="90" selection-end-line="27" selection-end-column="90" />
-          <folding />
+          <folding>
+            <marker date="1508315838552" expanded="true" signature="80:2268" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2313:2589" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2634:2638" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -431,7 +439,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1508315838552" expanded="true" signature="80:2268" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2313:2589" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2634:2638" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -559,7 +571,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1508315838552" expanded="true" signature="80:2268" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2313:2589" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2634:2638" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -591,14 +607,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="546">
           <caret line="32" column="36" lean-forward="false" selection-start-line="32" selection-start-column="34" selection-end-line="32" selection-end-column="36" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/playerScript.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="231">
-          <caret line="11" column="25" lean-forward="false" selection-start-line="11" selection-start-column="25" selection-end-line="11" selection-end-column="25" />
           <folding />
         </state>
       </provider>
@@ -677,9 +685,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="39" column="29" lean-forward="false" selection-start-line="39" selection-start-column="20" selection-end-line="39" selection-end-column="29" />
-          <folding />
+        <state relative-caret-position="619">
+          <caret line="40" column="29" lean-forward="false" selection-start-line="40" selection-start-column="29" selection-end-line="40" selection-end-column="29" />
+          <folding>
+            <marker date="1508315838561" expanded="true" signature="2073:2464" ph="..." />
+            <marker date="1508315838561" expanded="true" signature="2073:2473" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -687,7 +698,11 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="724">
           <caret line="46" column="31" lean-forward="false" selection-start-line="46" selection-start-column="31" selection-end-line="46" selection-end-column="31" />
-          <folding />
+          <folding>
+            <marker date="1508315838552" expanded="true" signature="80:2268" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2313:2589" ph="{...}" />
+            <marker date="1508315838552" expanded="true" signature="2634:2638" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -699,18 +714,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/playerScript.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="388">
+          <caret line="153" column="6" lean-forward="false" selection-start-line="153" selection-start-column="6" selection-end-line="153" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/enemyGroupScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-336">
-          <caret line="233" column="3" lean-forward="true" selection-start-line="233" selection-start-column="3" selection-end-line="233" selection-end-column="3" />
+        <state relative-caret-position="6615">
+          <caret line="315" column="69" lean-forward="true" selection-start-line="315" selection-start-column="69" selection-end-line="315" selection-end-column="69" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/enemy.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="97" column="10" lean-forward="false" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
+        <state relative-caret-position="420">
+          <caret line="134" column="58" lean-forward="false" selection-start-line="134" selection-start-column="58" selection-end-line="134" selection-end-column="58" />
           <folding />
         </state>
       </provider>

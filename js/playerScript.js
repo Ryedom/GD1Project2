@@ -146,10 +146,12 @@ playerScript.prototype.update = function(){
 playerScript.prototype.render = function() {
     // game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
     // game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
+    /*
      game.debug.body(this.player);
     for(i=0; i<this.bandMembers.children.length; i++){
         game.debug.body(this.bandMembers.children[i]);
     }
+    */
 };
 
 
