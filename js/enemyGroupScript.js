@@ -296,10 +296,15 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
   let y_value = this.cameraY;
 
   //get x value such that enemies do not spawn near path of player bullets
-  let x_value = Math.random() * game.world.width/2;
-  if(playerSprite.x < game.world.width/2){ // player is on
-      x_value = x_value + game.world.width/2;
+  // this code works best on level 1 - with levels 2/3, hugging the left side of the screen will cause
+  // all teachers and musicians to spawn on the right side, making it too easy
+  if (this.level === 1) {
+    let x_value = Math.random() * game.world.width/2;
+    if(playerSprite.x < game.world.width/2){ // player is on
+        x_value = x_value + game.world.width/2;
+    }
   }
+
   if (x_value > (game.world.width - 100)){ // we don't want offscreen enemies
       x_value = game.world.width - 100;
   }
