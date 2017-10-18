@@ -6,6 +6,7 @@ preloadState.prototype.preload = function() {
     // Menu stuff
     game.load.image("title_background","assets/Title/TitleScreen.png");
     game.load.spritesheet("button","assets/Title/ButtonSheet.png",449,184);
+    game.load.image('carrow', 'assets/CutsceneArrow.png');
     // Game stuff
     game.load.image('parking_lot', 'assets/background/parkinglot.png');
     game.load.image('hallway', 'assets/background/hallway.png');

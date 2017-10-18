@@ -8,15 +8,17 @@ let playerScript = function()
 
     this.cameraYOffset = 200;
 
-    this.maxBulletsOnScreen = 500;
+    this.maxBulletsOnScreen = 300;
     this.bulletFrames = 4;
     this.bulletSpeed = 1500;
-    this.fireRate = 0;
+    this.fireRate = 150;
 
     this.numBandMembers = 0;
     this.maxBandMembers = 4;
     this.bandMemberOffsetX = [-70, 55, -140, 110];
     this.bandMemberOffsetY = [20, 20, 40, 40];
+    this.noteColor = [0xFF0000, 0xFFAA00, 0xFFFF00, 0x00FF00, 0x00FFFF, 0x0000FF];
+    this.currentNoteColor = 0;
 
     this.spriteScaleFraction = .5;
     this.shootEnabled = true;
@@ -47,6 +49,7 @@ playerScript.prototype.create = function()
     //WEAPON--------------------------------------------------------------
     //add weapon
     this.playerWeapon = game.add.weapon(this.maxBulletsOnScreen, 'music_notes');
+    this.playerWeapon.multiFire = true;
 
     //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
     //  The 3rd argument tells the Weapon Plugin to advance to the next frame each time
@@ -77,13 +80,6 @@ playerScript.prototype.create = function()
     this.bandMembers.enableBody = true;
 
     //END BAND MEMBERS--------------------------------------------------------------------
-
-    //  Our controls. (delete later)
-    this.leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-    this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-    this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
-    //this.player.x -= 105;
     this.player.animations.play("run");
 
     return this.player;
@@ -111,47 +107,31 @@ playerScript.prototype.update = function(){
         this.player.body.velocity.x = 0;
     }
     if (this.player.alive && this.shootEnabled === true){
-      this.playerWeapon.fire();
+        var lastBullet = this.playerWeapon.fire();
+        if (lastBullet !== null) {
+            this.currentNoteColor = (this.currentNoteColor + 1) % this.noteColor.length;
+            lastBullet.tint = this.noteColor[this.currentNoteColor];
+        }
     }
 
     //update allies' positions and make them fire
     for(i=0; i<this.bandMembers.children.length; i++){
-        //this.playerWeapon.fireRate = 0;
-
         this.bandMembers.children[i].x = this.player.x + this.bandMemberOffsetX[i];
         this.bandMembers.children[i].y = this.player.y + this.bandMemberOffsetY[i];
 
         if (this.bandMembers.children[i].shootEnabled === true){
-          this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+            var lastBullet = this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+            if (lastBullet !== null)
+                lastBullet.tint = this.noteColor[this.currentNoteColor];
         }
-
-        //this.playerWeapon.fireRate = 100;
     }
 
     //set camera to focus on a point in front of player such that player is 'cameraYOffset' distance from bottom of screen
     game.camera.focusOnXY(game.world.width/2, this.player.position.y - game.camera.height/2 + this.cameraYOffset);
-
-    if(this.leftKey.downDuration(1)){
-        this.addBandMember();
-    }
-    if(this.rightKey.downDuration(1)){
-        this.removeBandMember();
-    }
-    if(this.spaceKey.downDuration(1)){
-        this.killPlayer();
-    }
 };
 
-//debug text
 playerScript.prototype.render = function() {
-    // game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
-    // game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
-    /*
-     game.debug.body(this.player);
-    for(i=0; i<this.bandMembers.children.length; i++){
-        game.debug.body(this.bandMembers.children[i]);
-    }
-    */
+    
 };
 
 
@@ -187,7 +167,7 @@ playerScript.prototype.removeBandMember = function(){
 
     if(this.numBandMembers > 0){
 
-        this.numBandMembers = this.numBandMembers - 1;
+        this.numBandMembers -= 1;
 
         this.bandMembers.children.pop().kill();
     }

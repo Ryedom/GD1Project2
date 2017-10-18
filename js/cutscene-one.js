@@ -18,7 +18,6 @@ cutOneState.prototype.preload = function() {
         game.load.image(frameName,this.framePaths[i]);
         this.frameSprites.push(frameName);
     }
-    game.load.image('carrow', 'assets/CutsceneArrow.png');
 }
 
 cutOneState.prototype.create = function() {
