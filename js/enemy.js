@@ -46,7 +46,7 @@ enemy = function(x, y, type, playerRef, aoe){
 
     this.enemyWeapon = null; // null unless created for that enemy type in create
     this.bulletSpeed = 200;
-    this.fireRate = 3000;
+    this.fireRate = 2000;
     this.throwing = false;
     this.checkCollision = true;
     game.add.existing(this);

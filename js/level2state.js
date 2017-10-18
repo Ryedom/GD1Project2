@@ -34,7 +34,7 @@ level2State.prototype.create = function()
     //game.camera.follow(this.player);
 
     this.bandMemberPowerupScript.create(this.playerSprite, this.playerScript);
-    this.bandMemberPowerupScript.randomLocations(8, game.world.width, game.world.height);
+    this.bandMemberPowerupScript.spreadOut(7, game.world.width, game.world.height/14);
 
     // Music
     this.music = game.add.audio('musicLevel2');

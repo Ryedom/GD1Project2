@@ -239,13 +239,26 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
 
 // generates enemies at the top of the screen
 enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level){
+
+  //don't spawn enemies while the player is in a place where screen can no longer scroll (end of level)
+  if(playerSprite.y <= game.camera.height){
+    return;
+  }
+
   let y_value = this.cameraY;
+
+  //get x value such that enemies do not spawn near path of player bullets
+  let x_value = Math.random() * game.world.width/2;
+  if(playerSprite.x < game.world.width/2){
+      x_value = x_value + game.world.width/2;
+  }
+
   if (level === 1){
     let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
     if (enemIndex === 1){ // skater
-      this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
+      this.addEnemy(x_value, y_value, "skater", playerSprite);
     } else if (enemIndex === 2){
-      this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
+      this.addEnemy(x_value, y_value, "bully", playerSprite);
     } else {// 3
       this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
       this.addEnemy(650, y_value - 40, "football_player_right", playerSprite);
@@ -253,31 +266,31 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
   } else if (level === 2){
     let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
     if (enemIndex === 1){ // skater
-      this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
+      this.addEnemy(x_value, y_value, "bully", playerSprite);
     } else if (enemIndex === 2){ // 3
       this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
       this.addEnemy(650, y_value - 40, "football_player_right", playerSprite);
     } else { // 3
       let musicianIndex = Math.ceil(Math.random() * 2);
       if (musicianIndex === 1){ // left side
-        this.addEnemy(Math.random() * 750, y_value - 40, "musician", playerSprite);
+        this.addEnemy(x_value, y_value - 40, "musician", playerSprite);
       } else {
-        this.addEnemy(Math.random() * 750, y_value - 40, "musician", playerSprite);  // right
+        this.addEnemy(x_value, y_value - 40, "musician", playerSprite);  // right
       }
     }
   } else { // level 3
     let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
     if (enemIndex === 1){ // skater
-      this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
+      this.addEnemy(x_value, y_value, "bully", playerSprite);
     } else if (enemIndex === 2){ // 2
       let musicianIndex = Math.ceil(Math.random() * 2);
       if (musicianIndex === 1){ // left side
-        this.addEnemy(Math.random() * 750, y_value - 40, "musician", playerSprite);
+        this.addEnemy(x_value, y_value - 40, "musician", playerSprite);
       } else {
-        this.addEnemy(Math.random() * 750, y_value - 40, "musician", playerSprite);  // right
+        this.addEnemy(x_value, y_value - 40, "musician", playerSprite);  // right
       }
     } else {
-      this.addEnemy(Math.random() * 750, y_value, "teacher", playerSprite);
+      this.addEnemy(x_value, y_value, "teacher", playerSprite);
     }
   }
 }
