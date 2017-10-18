@@ -9,13 +9,18 @@
     <script type="text/javascript" src="js/preload.js"></script>
     <script type="text/javascript" src="js/title.js"></script>
     <script type="text/javascript" src="js/cutscene-one.js"></script>
+		<script type="text/javascript" src="js/cutscene-two.js"></script>
+		<script type="text/javascript" src="js/cutscene-three.js"></script>
+		<script type="text/javascript" src="js/end_cutscene.js"></script>
     <script type="text/javascript" src="js/help.js"></script>
     <script type="text/javascript" src="js/playerScript.js"></script>
-    <script type="text/javascript" src="js/enemy.js"></script>
+		<script type="text/javascript" src="js/aoe.js"></script>
+		<script type="text/javascript" src="js/enemy.js"></script>
+    <script type="text/javascript" src="js/enemyGroupScript.js"></script>
     <script type="text/javascript" src="js/playerObjectTestState.js"></script>
     <script type="text/javascript" src="js/level1state.js"></script>
     <script type="text/javascript" src="js/bandMemberPowerupScript.js"></script>
-    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />    
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
     <style type="text/css">
         body {
             margin: auto;
@@ -28,14 +33,17 @@
 <script type="text/javascript">
 
     let game = new Phaser.Game(750, 1334, Phaser.AUTO);
-    
+
     game.state.add("preload",preloadState);
     game.state.add("titlemenu",titleState);
     game.state.add("help",helpState);
     game.state.add("cutscene_one",cutOneState);
+		game.state.add("cutscene_two",cutTwoState);
+		game.state.add("cutscene_three",cutThreeState);
+		game.state.add("end_cutscene", endCutState);
     game.state.add("level1State", level1State);
-	game.state.start("preload");
-	
+		game.state.start("preload");
+
 </script>
 
 </body>

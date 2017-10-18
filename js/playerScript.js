@@ -1,10 +1,12 @@
 /** @constructor */
 let playerScript = function()
 {
-    this.playerYOffset = 200;
-    this.playerStrafeVelocity = 200;
-    this.playerForwardVelocity = 100;
+    this.playerYStart = 200;
+    this.playerStrafeVelocity = 400;
+    this.playerForwardVelocity = 500;
     this.playerIdleFrame = 4;
+
+    this.cameraYOffset = 200;
 
     this.maxBulletsOnScreen = 500;
     this.bulletFrames = 80;
@@ -13,30 +15,33 @@ let playerScript = function()
 
     this.numBandMembers = 0;
     this.maxBandMembers = 4;
-    this.bandMemberOffsetX = [-40, 40, -80, 80];
-    this.bandMemberOffsetY = [40, 40, 80, 80];
+    this.bandMemberOffsetX = [-70, 55, -140, 110];
+    this.bandMemberOffsetY = [20, 20, 40, 40];
+
+    this.spriteScaleFraction = .5;
+    this.shootEnabled = true;
 };
 
 playerScript.prototype.preload = function()
 {
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
-    game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
 };
 
 playerScript.prototype.create = function()
 {
     //PLAYER---------------------------------------------------------------
     //add this.player
-    this.player = game.add.sprite(game.world.width/2, game.world.height - this.playerYOffset, 'dude');
+    this.player = game.add.sprite(game.world.width/2, game.world.height - this.playerYStart, 'carole');
+    this.player.scale.x = this.player.scale.x * this.spriteScaleFraction;
+    this.player.scale.y = this.player.scale.y * this.spriteScaleFraction;
+    //original width:
 
     //  We need to enable physics on the this.player
     game.physics.arcade.enable(this.player);
+    this.player.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
 
     this.player.body.collideWorldBounds = true;
 
-    //  Our two animations, walking left and right.
-    this.player.animations.add('left', [0, 1, 2, 3], 10, true);
-    this.player.animations.add('right', [5, 6, 7, 8], 10, true);
+    this.player.animations.add('run', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 25, true);
     //END PLAYER----------------------------------------------------------
 
     //WEAPON--------------------------------------------------------------
@@ -50,7 +55,7 @@ playerScript.prototype.create = function()
     this.playerWeapon.setBulletFrames(0, this.bulletFrames, true);
 
     //bullets disappear when they exit frame
-    this.playerWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    this.playerWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
 
     //  The speed at which the bullet is fired
     this.playerWeapon.bulletSpeed = this.bulletSpeed;
@@ -69,6 +74,7 @@ playerScript.prototype.create = function()
     //BAND MEMBERS------------------------------------------------------------------------
 
     this.bandMembers = game.add.group();
+    this.bandMembers.enableBody = true;
 
     //END BAND MEMBERS--------------------------------------------------------------------
 
@@ -77,12 +83,13 @@ playerScript.prototype.create = function()
     this.rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
     this.spaceKey = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     game.input.keyboard.addKeyCapture([ Phaser.Keyboard.LEFT, Phaser.Keyboard.RIGHT, Phaser.Keyboard.SPACEBAR ]);
+    //this.player.x -= 105;
+    this.player.animations.play("run");
 
     return this.player;
 };
 
-playerScript.prototype.update = function()
-{
+playerScript.prototype.update = function(){
     this.player.body.velocity.y = -1 * this.playerForwardVelocity;
 
     //then set the velocity depending on where the mouse is while button is down
@@ -91,14 +98,10 @@ playerScript.prototype.update = function()
         if(game.input.activePointer.x < this.player.centerX)
         {
             this.player.body.velocity.x = -1 * this.playerStrafeVelocity;
-
-            this.player.animations.play('left');
         }
         if(game.input.activePointer.x > this.player.centerX)
         {
             this.player.body.velocity.x = this.playerStrafeVelocity;
-
-            this.player.animations.play('right');
         }
 
     }
@@ -106,12 +109,8 @@ playerScript.prototype.update = function()
     {
         //  Reset the this.players velocity (movement)
         this.player.body.velocity.x = 0;
-
-        //  Stand still
-        this.player.animations.stop();
-        this.player.frame = this.playerIdleFrame;
     }
-    if (this.player.alive){
+    if (this.player.alive && this.shootEnabled === true){
       this.playerWeapon.fire();
     }
 
@@ -121,29 +120,15 @@ playerScript.prototype.update = function()
         this.bandMembers.children[i].y = this.player.y + this.bandMemberOffsetY[i];
 
         this.playerWeapon.fireRate = 0;
-        this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+        if (this.bandMembers.children[i].shootEnabled === true){
+          this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+        }
         this.playerWeapon.fireRate = this.fireRate;
 
-        //play animations of band members
-        if(game.input.activePointer.isDown)
-        {
-            if(game.input.activePointer.x < this.player.centerX)
-            {
-                this.bandMembers.children[i].animations.play('left');
-            }
-            if(game.input.activePointer.x > this.player.centerX)
-            {
-                this.bandMembers.children[i].animations.play('right');
-            }
-
-        }
-        else
-        {
-            //  Stand still
-            this.bandMembers.children[i].animations.stop();
-            this.bandMembers.children[i].frame = this.playerIdleFrame;
-        }
     }
+
+    //set camera to focus on a point in front of player such that player is 'cameraYOffset' distance from bottom of screen
+    game.camera.focusOnXY(game.world.width/2, this.player.position.y - game.camera.height/2 + this.cameraYOffset);
 
     if(this.leftKey.downDuration(1)){
         this.addBandMember();
@@ -158,8 +143,12 @@ playerScript.prototype.update = function()
 
 //debug text
 playerScript.prototype.render = function() {
-    game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
-    game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
+    // game.debug.text("Mouse Button: " + game.input.activePointer.isDown, 300, 130);
+    // game.debug.text("Num Band Members: " + this.numBandMembers, 300, 150);
+     game.debug.body(this.player);
+    for(i=0; i<this.bandMembers.children.length; i++){
+        game.debug.body(this.bandMembers.children[i]);
+    }
 };
 
 
@@ -169,13 +158,25 @@ playerScript.prototype.addBandMember = function(){
         this.numBandMembers = this.numBandMembers + 1;
 
         //CREATE NEW BAND MEMBER------------------------------
-        let member = this.bandMembers.create(0, 0, 'dude');
+        let member = this.bandMembers.create(0, 0, 'ally' + (this.numBandMembers - 1));
+
+        member.scale.x = member.scale.x * this.spriteScaleFraction;
+        member.scale.y = member.scale.y * this.spriteScaleFraction;
+        member.shootEnabled = true;
+        member.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
+        game.physics.arcade.enable(member);
 
         //  Our two animations, walking left and right.
-        member.animations.add('left', [0, 1, 2, 3], 10, true);
-        member.animations.add('right', [5, 6, 7, 8], 10, true);
+        member.animations.add('run', [0, 1, 2, 3, 4], 10, true);
+        member.animations.play('run');
         //END CREATE NEW BAND MEMBER---------------------------
-
+        // let member = game.add.sprite(0, 0, 'ally0');
+        //
+        // //  Our two animations, walking left and right.
+        // member.animations.add('run', [0, 1, 2, 3, 4], 12, true);
+        // member.animations.play('run');
+        //
+        // this.bandMembers.add(member);
     }
 };
 
@@ -193,6 +194,10 @@ playerScript.prototype.returnPlayerWeapon = function(){
   return this.playerWeapon;
 };
 
+playerScript.prototype.returnBandMemberGroup = function(){
+    return this.bandMembers;
+}
+
 playerScript.prototype.damagePlayer = function(){
     if (this.numBandMembers === 0){
       this.killPlayer();
@@ -203,14 +208,6 @@ playerScript.prototype.damagePlayer = function(){
 
 playerScript.prototype.killPlayer = function(){
     this.player.kill();
-};
 
-
-playerScript.prototype.damagePlayer = function(){
-  if (this.numBandMembers === 0){
-    this.killPlayer();
-  } else {
-    this.removeBandMember();
-  }
-
+    game.state.start(game.state.current);
 };
