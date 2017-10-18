@@ -19,8 +19,8 @@ enemy = function(x, y, type, playerRef, aoe){
     }
     else if (type === "teacher"){
         Phaser.Sprite.call(this, game, x, y, 'teacher_ss');
-        this.animations.add('explode', [0, 1, 2, 3, 4], 5, true);
-        this.animations.play("explode");
+        this.animations.add('explode', [0, 1, 2, 3, 4, 5], 5, false);
+        this.animations.add('burn', [3, 4], 5, true);
     }
     else if (type === "football_player_left"){
         Phaser.Sprite.call(this, game, x, y, 'footballLeft_ss');
@@ -63,8 +63,12 @@ enemy = function(x, y, type, playerRef, aoe){
       this.throwing = true;
     }
 
-    if (this.enemyType === "musician"){
+    if ((this.enemyType === "musician") || (this.enemyType === "teacher")){
       this.aoe = aoe;
+    }
+
+    if (this.enemyType === "teacher"){
+      this.firstActivated = false; // so bullets don't reactivate teacher twice
     }
 
     // Weapon - Optional for shooting enemies
@@ -132,7 +136,7 @@ enemy.prototype.update = function(){
         }
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
         enemy.prototype.throwBalltoEachOther(this);
-      } else if (this.enemyType === "musician") {
+      } else if (this.enemyType === "teacher") {
 
       }
 
@@ -153,7 +157,7 @@ enemy.prototype.killEnemy = function(enem){
 
 //killEnemy - kills the enemy - does not destroy the object!
 enemy.prototype.die = function(){
-    if (this.enemyType === "musician"){
+    if ((this.enemyType === "musician") || (this.enemyType === "teacher")){
       this.aoe.kill();
     }
     this.kill();
@@ -225,5 +229,20 @@ enemy.prototype.flipSkater = function(oldX, newX){
       this.scale.x = -1 * (Math.abs(this.scale.x));
   } else { // moving right
       this.scale.x = Math.abs(this.scale.x);
+  }
+}
+
+// reference - http://www.html5gamedevs.com/topic/4384-callback-when-animation-complete/
+enemy.prototype.activate = function(){
+  if ((this.enemyType === "teacher") && (this.firstActivated === false)){ // this should be only be called on teacher!!
+    this.animations.play("explode");
+    this.animations.currentAnim.onComplete.add(function () {
+      this.animations.play("burn");
+    }, this);
+    console.log("just about to activate");
+    if (this.aoe !== null){
+          aoe.prototype.activate(this.aoe);
+    }
+    this.firstActivated = true;
   }
 }

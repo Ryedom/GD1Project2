@@ -7,7 +7,7 @@ aoe.prototype.create = function(x, y, playerRef){
   this.aoe = game.add.sprite(x, y, 'aoe');
   game.physics.arcade.enable(this.aoe);
   this.playerRef = playerRef; // reference to player object
-
+  this.harmful = false; // if aoe should damage player
   //  We need to enable physics on the this
   game.physics.arcade.enable(this.aoe);
   this.aoe.anchor.setTo(0.5, 0.5);
@@ -28,4 +28,14 @@ aoe.prototype.die = function(){
 
 aoe.prototype.render = function(){
     // game.debug.body(this.aoe);
+}
+
+aoe.prototype.activate = function(ae){
+  ae.harmful = true;
+  //TOD0: add flashing code
+}
+
+aoe.prototype.deactivate = function(ae){
+  ae.harmful = false;
+  //TOD0: add flashing code
 }
