@@ -74,10 +74,15 @@ enemyGroupScript.prototype.update = function(){
 
   // enemies collide with player
   game.physics.arcade.overlap(this.player, this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   //
   // player bullets hit enemy
   let enemWeap = this.playerScript.returnPlayerWeapon();
@@ -105,6 +110,8 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
   if (type === "skater"){
     new_enemy = new enemy(x, y, "skater", playerRef);
     this.skaters.add(new_enemy);
+      //new_enemy.scale.x = new_enemy.scale.x * .5;
+      //new_enemy.scale.y = new_enemy.scale.y * .5;
   } else if (type === "bully"){
     new_enemy = new enemy(x, y, "bully", playerRef);
     this.bullies.add(new_enemy);
@@ -157,6 +164,7 @@ enemyGroupScript.prototype.enemyInGroupHitsPlayerCheck = function(enem_group, pl
 
 enemyGroupScript.prototype.enemyHitsPlayerCheck = function(enem, plyr){
   game.physics.arcade.overlap(this.player, enem.getEnemyWeapon().bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), enem.getEnemyWeapon().bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
 }
 
 enemyGroupScript.prototype.enemyHitsPlayer = function(plyr, bull){
