@@ -4,17 +4,12 @@ let cutThreeState = function() {
 
 cutThreeState.prototype.preload = function() {
     this.framePaths = [
-        "assets/Cutscene1/cutscene1_1.png",
-        "assets/Cutscene1/cutscene1_2.png",
-        "assets/Cutscene1/cutscene1_3.png",
-        "assets/Cutscene1/cutscene1_4.png",
-        "assets/Cutscene1/cutscene1_5.png",
-        "assets/Cutscene1/cutscene1_6.png"
+        "assets/Cutscenes/Cutscene3/cutscene3_1.png",
     ]
 
     this.frameSprites = [];
     for (var i = 0; i < this.framePaths.length; i++) {
-        var frameName = "cutscene_1_" + (i+1);
+        var frameName = "cutscene_3_" + (i+1);
         game.load.image(frameName,this.framePaths[i]);
         this.frameSprites.push(frameName);
     }

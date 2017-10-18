@@ -11,7 +11,7 @@ cutTwoState.prototype.preload = function() {
 
     this.frameSprites = [];
     for (var i = 0; i < this.framePaths.length; i++) {
-        var frameName = "cutscene_1_" + (i+1);
+        var frameName = "cutscene_2_" + (i+1);
         game.load.image(frameName,this.framePaths[i]);
         this.frameSprites.push(frameName);
     }

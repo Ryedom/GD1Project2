@@ -2,13 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="060797a6-0d55-4c4e-bdfa-613c9bcd5d6f" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/cutscene-three.js" afterPath="$PROJECT_DIR$/js/cutscene-three.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/cutscene-two.js" afterPath="$PROJECT_DIR$/js/cutscene-two.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/end_cutscene.js" afterPath="$PROJECT_DIR$/js/end_cutscene.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/enemyGroupScript.js" afterPath="$PROJECT_DIR$/js/enemyGroupScript.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/level1state.js" afterPath="$PROJECT_DIR$/js/level1state.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/level2state.js" afterPath="$PROJECT_DIR$/js/level2state.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/level3state.js" afterPath="$PROJECT_DIR$/js/level3state.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -22,21 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="preload.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="preload.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/preload.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="598">
+            <state relative-caret-position="966">
               <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="33" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/index.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-158">
-              <caret line="12" column="57" lean-forward="false" selection-start-line="12" selection-start-column="57" selection-end-line="12" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -45,7 +31,7 @@
       <file leaf-file-name="cutscene-one.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/cutscene-one.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-305">
+            <state relative-caret-position="126">
               <caret line="6" column="53" lean-forward="true" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
               <folding />
             </state>
@@ -62,7 +48,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="level3state.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="level3state.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/level3state.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="556">
@@ -75,7 +61,7 @@
       <file leaf-file-name="level2state.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/level2state.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
+            <state relative-caret-position="1050">
               <caret line="50" column="30" lean-forward="false" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
               <folding />
             </state>
@@ -85,8 +71,8 @@
       <file leaf-file-name="cutscene-two.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/cutscene-two.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+            <state relative-caret-position="126">
+              <caret line="6" column="25" lean-forward="true" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -95,8 +81,8 @@
       <file leaf-file-name="cutscene-three.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/cutscene-three.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="126">
+              <caret line="6" column="25" lean-forward="false" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
               <folding />
             </state>
           </provider>
@@ -105,8 +91,8 @@
       <file leaf-file-name="enemy.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/enemy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="399">
-              <caret line="19" column="33" lean-forward="true" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
+            <state relative-caret-position="1974">
+              <caret line="94" column="73" lean-forward="false" selection-start-line="94" selection-start-column="56" selection-end-line="94" selection-end-column="73" />
               <folding />
             </state>
           </provider>
@@ -115,8 +101,18 @@
       <file leaf-file-name="enemyGroupScript.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/enemyGroupScript.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="921">
+            <state relative-caret-position="-588">
               <caret line="209" column="41" lean-forward="false" selection-start-line="209" selection-start-column="41" selection-end-line="209" selection-end-column="41" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="end_cutscene.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/end_cutscene.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="336">
+              <caret line="16" column="35" lean-forward="false" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
               <folding />
             </state>
           </provider>
@@ -149,13 +145,14 @@
         <option value="$PROJECT_DIR$/js/bandMemberPowerupScript.js" />
         <option value="$PROJECT_DIR$/js/playerScript.js" />
         <option value="$PROJECT_DIR$/index.html" />
-        <option value="$PROJECT_DIR$/js/end_cutscene.js" />
-        <option value="$PROJECT_DIR$/js/cutscene-two.js" />
         <option value="$PROJECT_DIR$/js/enemyGroupScript.js" />
         <option value="$PROJECT_DIR$/js/level1state.js" />
         <option value="$PROJECT_DIR$/js/preload.js" />
         <option value="$PROJECT_DIR$/js/level2state.js" />
         <option value="$PROJECT_DIR$/js/level3state.js" />
+        <option value="$PROJECT_DIR$/js/cutscene-two.js" />
+        <option value="$PROJECT_DIR$/js/cutscene-three.js" />
+        <option value="$PROJECT_DIR$/js/end_cutscene.js" />
       </list>
     </option>
   </component>
@@ -237,12 +234,12 @@
       <workItem from="1508284139223" duration="4994000" />
       <workItem from="1508289158484" duration="2627000" />
       <workItem from="1508292565637" duration="2340000" />
-      <workItem from="1508298029114" duration="7179000" />
+      <workItem from="1508298029114" duration="8244000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19962000" />
+    <option name="totallyTimeSpent" value="21027000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -615,46 +612,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/end_cutscene.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="8" column="53" lean-forward="true" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/cutscene-three.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/cutscene-two.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/cutscene-one.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-305">
-          <caret line="6" column="53" lean-forward="true" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/enemy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="399">
-          <caret line="19" column="33" lean-forward="true" selection-start-line="19" selection-start-column="33" selection-end-line="19" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-158">
@@ -665,16 +622,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/enemyGroupScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="921">
+        <state relative-caret-position="-588">
           <caret line="209" column="41" lean-forward="false" selection-start-line="209" selection-start-column="41" selection-end-line="209" selection-end-column="41" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/preload.js">
+    <entry file="file://$PROJECT_DIR$/js/end_cutscene.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="598">
-          <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="33" />
+        <state relative-caret-position="336">
+          <caret line="16" column="35" lean-forward="false" selection-start-line="16" selection-start-column="35" selection-end-line="16" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/enemy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1974">
+          <caret line="94" column="73" lean-forward="false" selection-start-line="94" selection-start-column="56" selection-end-line="94" selection-end-column="73" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/cutscene-three.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="25" lean-forward="false" selection-start-line="6" selection-start-column="25" selection-end-line="6" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/cutscene-two.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="6" column="25" lean-forward="true" selection-start-line="6" selection-start-column="15" selection-end-line="6" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/level2state.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1050">
+          <caret line="50" column="30" lean-forward="false" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/level3state.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="556">
+          <caret line="50" column="35" lean-forward="false" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
           <folding />
         </state>
       </provider>
@@ -687,18 +684,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/level2state.js">
+    <entry file="file://$PROJECT_DIR$/js/cutscene-one.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="584">
-          <caret line="50" column="30" lean-forward="false" selection-start-line="50" selection-start-column="30" selection-end-line="50" selection-end-column="30" />
+        <state relative-caret-position="126">
+          <caret line="6" column="53" lean-forward="true" selection-start-line="6" selection-start-column="53" selection-end-line="6" selection-end-column="53" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/level3state.js">
+    <entry file="file://$PROJECT_DIR$/js/preload.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="556">
-          <caret line="50" column="35" lean-forward="false" selection-start-line="50" selection-start-column="35" selection-end-line="50" selection-end-column="35" />
+        <state relative-caret-position="966">
+          <caret line="46" column="33" lean-forward="false" selection-start-line="46" selection-start-column="22" selection-end-line="46" selection-end-column="33" />
           <folding />
         </state>
       </provider>
