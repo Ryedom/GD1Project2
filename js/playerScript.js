@@ -120,7 +120,9 @@ playerScript.prototype.update = function(){
         this.bandMembers.children[i].y = this.player.y + this.bandMemberOffsetY[i];
 
         this.playerWeapon.fireRate = 0;
-        this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+        if (this.bandMembers.children[i].shootEnabled === true){
+          this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
+        }
         this.playerWeapon.fireRate = this.fireRate;
 
     }
@@ -160,7 +162,9 @@ playerScript.prototype.addBandMember = function(){
 
         member.scale.x = member.scale.x * this.spriteScaleFraction;
         member.scale.y = member.scale.y * this.spriteScaleFraction;
+        member.shootEnabled = true;
         member.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
+        game.physics.arcade.enable(member);
 
         //  Our two animations, walking left and right.
         member.animations.add('run', [0, 1, 2, 3, 4], 10, true);

@@ -16,7 +16,7 @@ enemyGroupScript.prototype.preload = function(){
   game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
 };
 
-enemyGroupScript.prototype.create = function(playerRef, playerScript){
+enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
   this.player = playerRef;
   this.playerScript = playerScript;
 
@@ -45,7 +45,7 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript){
   this.bullets.enableBody = true;
 
   this.enemyTimer = game.time.create(false);
-  this.enemyTimer.loop(1000, this.generateRandomEnemies, this, this.player);
+  this.enemyTimer.loop(1000, this.generateRandomEnemies, this, this.player, level);
   this.enemyTimer.start();
 };
 
@@ -93,6 +93,11 @@ enemyGroupScript.prototype.update = function(){
   if (!(game.physics.arcade.overlap(this.player, this.aoes, this.playerEntersAOE, null, this))){
     this.playerScript.shootEnabled = true;
   }
+  let bandmems = this.playerScript.returnBandMemberGroup();
+  bandmems.forEach(this.checkBandMemAOE, this, true, this.aoes);
+  // game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.aoes, this.BandMemberEntersAOE, null, this);
+
+    //this.playerScript.bandMembers.children[i].shootEnabled = true;
 
   // player bullets hit enemy
   let enemWeap = this.playerScript.returnPlayerWeapon();
@@ -142,24 +147,49 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
 }
 
 // generates enemies at the top of the screen
-enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite){
+enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level){
   let y_value = this.cameraY;
-  let enemIndex = 4;//Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
-  if (enemIndex === 1){ // skater
-    this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
-  } else if (enemIndex === 2){
-    this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
-  } else if (enemIndex === 3){ // 3
-    this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
-    this.addEnemy(700, y_value - 40, "football_player_right", playerSprite);
-  } else { // 4
-    let musicianIndex = Math.ceil(Math.random() * 2);
-    if (musicianIndex === 1){ // left side
-      this.addEnemy(100, y_value - 40, "musician", playerSprite);
+  if (level === 1){
+    let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
+    if (enemIndex === 1){ // skater
+      this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
+    } else if (enemIndex === 2){
+      this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
+    } else {// 3
+      this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
+      this.addEnemy(700, y_value - 40, "football_player_right", playerSprite);
+    }
+  } else if (level === 2){
+    let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
+    if (enemIndex === 1){ // skater
+      this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
+    } else if (enemIndex === 2){ // 3
+      this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
+      this.addEnemy(700, y_value - 40, "football_player_right", playerSprite);
+    } else { // 3
+      let musicianIndex = Math.ceil(Math.random() * 2);
+      if (musicianIndex === 1){ // left side
+        this.addEnemy(100, y_value - 40, "musician", playerSprite);
+      } else {
+        this.addEnemy(650, y_value - 40, "musician", playerSprite);  // right
+      }
+    }
+  } else { // level 3
+    let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
+    if (enemIndex === 1){ // skater
+      this.addEnemy(Math.random() * 750, y_value, "bully", playerSprite);
+    } else if (enemIndex === 2){ // 2
+      let musicianIndex = Math.ceil(Math.random() * 2);
+      if (musicianIndex === 1){ // left side
+        this.addEnemy(100, y_value - 40, "musician", playerSprite);
+      } else {
+        this.addEnemy(650, y_value - 40, "musician", playerSprite);  // right
+      }
     } else {
-      this.addEnemy(650, y_value - 40, "musician", playerSprite);  // right
+      // teacher goes here!!
     }
   }
+
 }
 
 enemyGroupScript.prototype.playerHitsEnemy = function(enem, bull) {
@@ -209,4 +239,14 @@ enemyGroupScript.prototype.checkAOEcollision = function(musc, plyr){
 
 enemyGroupScript.prototype.playerEntersAOE = function(plyr, circle){
     this.playerScript.shootEnabled = false;
+}
+
+enemyGroupScript.prototype.checkBandMemAOE = function(mem, aoes){
+  if (!(game.physics.arcade.overlap(mem, aoes, this.BandMemberEntersAOE, null, this))){
+    mem.shootEnabled = true;
+  }
+}
+
+enemyGroupScript.prototype.BandMemberEntersAOE = function(member, circle){
+    member.shootEnabled = false;
 }
