@@ -26,6 +26,8 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
 
   this.bullies = game.add.group();
   this.bullies.enableBody = true;
+  this.spitballs = game.add.group();
+  this.spitballs.enableBody = true;
 
   this.musicians = game.add.group();
   this.musicians.enableBody = true;
@@ -54,6 +56,9 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
   this.enemyTimer = game.time.create(false);
   this.enemyTimer.loop(1000, this.generateRandomEnemies, this, this.player, level);
   this.enemyTimer.start();
+
+  this.footballPlayers.add(new enemy(100, 179000, "football_player_left", playerRef));
+  this.footballPlayers.add(new enemy(650, 179000, "football_player_right", playerRef));
 };
 
 enemyGroupScript.prototype.update = function(){
@@ -72,8 +77,18 @@ enemyGroupScript.prototype.update = function(){
       enem.destroy();
     }, this, true);
 
-    // Enemy shoots player
-    this.bullies.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
+    this.spitballs.forEachDead(function(enem){
+      this.spitballs.remove(enem);
+      enem.destroy();
+    }, this, true);
+
+    // Enemy shoots at player
+    this.bullies.forEach(this.shootSpitballAtPlayer, this, true, this.player);
+
+    // Spitballs hit player
+    game.physics.arcade.overlap(this.player, this.spitballs, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+    game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.spitballs, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+
 
     // Collision
     game.physics.arcade.overlap(this.player, this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
@@ -112,8 +127,8 @@ enemyGroupScript.prototype.update = function(){
         this.footballPlayers.remove(enem);
       }, this, true);
 
-      // Enemy shoots player
-      this.footballPlayers.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
+      // Enemy hits player with football
+      this.footballPlayers.forEach(enemyGroupScript.prototype.enemyHitsPlayerWithFootballCheck, this, true, this.player);
 
       // Enemy passes football logic
       this.footballPlayers.forEach(enemyGroupScript.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
@@ -199,6 +214,17 @@ enemyGroupScript.prototype.update = function(){
 enemyGroupScript.prototype.render = function(){
 }
 
+enemyGroupScript.prototype.shootSpitballAtPlayer = function(bull, ply){
+  // console.log(bull.x + ", " + bull.y);
+  if (bull.shouldShoot){
+    let temp_spitball = new enemyProjectile(bull);
+    game.physics.arcade.enable(temp_spitball);
+    temp_spitball.enableBody = true;
+    this.spitballs.add(temp_spitball);
+    this.setVelocityTowardsPlayer(temp_spitball, ply.x, ply.y);
+  }
+}
+
 enemyGroupScript.prototype.killEnemyIfBehindPlayer = function(enem){
   if (enem.y > game.camera.y + game.camera.height){
     enem.die();
@@ -208,6 +234,7 @@ enemyGroupScript.prototype.killEnemyIfBehindPlayer = function(enem){
 
 enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
   let new_enemy = null;
+  let new_weapon = null;
   if (type === "skater"){
     new_enemy = new enemy(x, y, "skater", playerRef);
     this.skaters.add(new_enemy);
@@ -305,10 +332,21 @@ enemyGroupScript.prototype.enemyHitsPlayerCheck = function(enem, plyr){
   game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), enem.getEnemyWeapon().bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
 }
 
+enemyGroupScript.prototype.enemyHitsPlayerWithFootballCheck = function(enem, plyr){
+  game.physics.arcade.overlap(this.player, enem.football, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(enem.football, this.playerScript.returnBandMemberGroup(), enemyGroupScript.prototype.enemyHitsPlayerFootball, null, this);
+}
+
 enemyGroupScript.prototype.enemyHitsPlayer = function(plyr, bull){
   this.playerScript.damagePlayer();
-  bull.kill(); // kill the bullet too, or else it will keep damaging you each frame
+  bull.destroy(); // kill the bullet too, or else it will keep damaging you each frame
 }
+
+enemyGroupScript.prototype.enemyHitsPlayerFootball = function(bull, plyr){
+  this.playerScript.damagePlayer();
+  bull.destroy(); // kill the bullet too, or else it will keep damaging you each frame
+}
+
 
 enemyGroupScript.prototype.checkReceptionOfFootballPlayer = function(foot_plyr, foot_plyrs){
   foot_plyrs.forEach(enemyGroupScript.prototype.throwerHitsCatcherCheck, this, true, foot_plyr);
@@ -316,13 +354,13 @@ enemyGroupScript.prototype.checkReceptionOfFootballPlayer = function(foot_plyr, 
 
 enemyGroupScript.prototype.throwerHitsCatcherCheck = function(foot_plyr1, foot_plyr2){
   if (foot_plyr1 != foot_plyr2){
-    game.physics.arcade.overlap(foot_plyr1, foot_plyr2.getEnemyWeapon().bullets, enemyGroupScript.prototype.catchBall, null, this);
+    game.physics.arcade.overlap(foot_plyr1, foot_plyr2.football, enemyGroupScript.prototype.catchBall, null, this);
   }
 
 }
 
 enemyGroupScript.prototype.catchBall = function(ft_ply, bull){
-  bull.kill();
+  bull.destroy();
   ft_ply.throwing = true;
 }
 
@@ -351,3 +389,23 @@ enemyGroupScript.prototype.playerEntersTeacherAOE = function(plyr, tch_aoe){
     this.playerScript.damagePlayer();
   }
 }
+
+// getAngleToPlayer - returns the angle to the player
+enemyGroupScript.prototype.getAngleToPlayer = function(enem, pl_x, pl_y) {
+  return Math.atan2(pl_y - enem.y, pl_x - enem.x);
+
+}
+
+// getDistanceFromPlayer - returns a distance (non-negative) from an enemy to a player
+enemyGroupScript.prototype.getDistanceFromPlayer = function(enem, pl_x, pl_y) {
+  return Math.sqrt(Math.pow((enem.x - pl_x), 2) + Math.pow((enem.y - pl_y), 2));
+};
+
+// moveEnemyTowardPlayer - moves the enemy sprite towards the player
+enemyGroupScript.prototype.setVelocityTowardsPlayer = function(enem, pl_x, pl_y){
+      // // find vector to player
+      let angleToPlayer = enemy.prototype.getAngleToPlayer(enem, pl_x, pl_y);
+      // // set velocity to travel to her
+      console.log(angleToPlayer);
+      game.physics.arcade.velocityFromRotation(angleToPlayer, 200, enem.body.velocity);
+};
