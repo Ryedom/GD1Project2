@@ -21,10 +21,11 @@ level2State.prototype.create = function()
     //enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     // background
-    game.add.sprite(0, 0, "parking_lot");
-    game.add.sprite(0, 1300, "parking_lot");
+    game.world.setBounds(0, 0, 750, 180000);
 
-    game.world.setBounds(0, 0, 750, 2000);
+    for (let i = 0; (i * 1300) < 180000; i++){
+        game.add.sprite(0, i * 1300, "hallway");
+    }
 
     //add the player
     this.playerSprite = this.playerScript.create();
