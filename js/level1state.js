@@ -1,6 +1,5 @@
 //constructor. A function constructor, no less!
-let level1State = function()
-{
+let level1State = function() {
   this.playerScript = new playerScript();
   this.enemyGroupScript = new enemyGroupScript();
   this.bandMemberPowerupScript = new bandMemberPowerupScript();
@@ -22,9 +21,9 @@ level1State.prototype.create = function()
     //enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     //background
-    game.world.setBounds(0, 0, 750, 180000);
+    game.world.setBounds(0, 0, 750, 12000);
 
-    for (let i = 0; (i * 1300) < 180000; i++){
+    for (let i = 0; (i * 1300) < 12000; i++) {
         game.add.sprite(0, i * 1300, "parking_lot");
     }
 
@@ -32,8 +31,7 @@ level1State.prototype.create = function()
     this.playerSprite = this.playerScript.create();
 
     this.bandMemberPowerupScript.create(this.playerSprite, this.playerScript);
-    this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height - 1000);
-    this.bandMemberPowerupScript.addPowerup(game.world.width/2, game.world.height - 2000);
+    this.bandMemberPowerupScript.spreadOut(10, game.world.width, game.world.height/20);
 
     // Music
     this.music = game.add.audio('musicLevel1');
@@ -45,7 +43,7 @@ level1State.prototype.create = function()
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
     // enemies are generated based on a timer
-    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 3);
+    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 1);
 };
 
 level1State.prototype.update = function() {

@@ -15,6 +15,7 @@ preloadState.prototype.preload = function() {
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
     game.load.spritesheet('carole', 'assets/PlayerAndAllyAnimations/Carole_run.png', 210, 210);
+    game.load.spritesheet('music_notes', 'assets/MusicNotes.png', 50, 50);
     game.load.spritesheet('ally_powerup', 'assets/PlayerAndAllyAnimations/ally_powerupsheet.png', 210, 210);
     game.load.spritesheet('ally0', 'assets/PlayerAndAllyAnimations/allyrun1.png', 230, 220);
     game.load.spritesheet('ally1', 'assets/PlayerAndAllyAnimations/allyrun2.png', 210, 230);

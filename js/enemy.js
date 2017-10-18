@@ -45,11 +45,15 @@ enemy = function(x, y, type, playerRef, aoe){
     this.tooClose = false;  // for enemies tracking player, whether they are "too close" and should continue on a straight path
 
     this.enemyWeapon = null; // null unless created for that enemy type in create
-    this.bulletSpeed = 500; //500
-    this.fireRate = 1000; // 1000
+    this.bulletSpeed = 300;
+    this.fireRate = 2000;
     this.throwing = false;
     this.checkCollision = true;
     game.add.existing(this);
+
+    this.bulletTimer = game.time.create(false);
+    this.bulletTimer.loop(1000, this.setShootToTrue, this);
+    this.bulletTimer.start();
 
     //  We need to enable physics on the this.enemy
     game.physics.arcade.enable(this);
@@ -76,36 +80,37 @@ enemy = function(x, y, type, playerRef, aoe){
 
       // //add weapon if a shooting character
         if(this.enemyType === "bully"){
-            this.enemyWeapon = game.add.weapon(500, 'spitball');
+            // this.enemyWeapon = game.add.weapon(500, 'spitball');
         }
         else{
-            this.enemyWeapon = game.add.weapon(500, 'football');
+            // this.enemyWeapon = game.add.weapon(500, 'football');
         }
 
       //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
       //  The 3rd argument tells the Weapon Plugin to advance to the next frame each time
       //  a bullet is fired, when it hits 80 it'll wrap to zero again.
       //  You can also set this via this.weapon.bulletFrameCycle = true
-      this.enemyWeapon.setBulletFrames(0, 1, true);
+      // this.enemyWeapon.setBulletFrames(0, 1, true);
 
       //if bully, bullets disappear when they exit frame, bullies when they hit the world, since they spawn offscreen
       if (this.enemyType === "bully"){
-        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+        // this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;//KILL_CAMERA_BOUNDS;
+        // this.enemyWeapon.bulletLifespan = 1500;
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
-        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        // this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
       }
 
       //  The speed at which the bullet is fired
-      this.enemyWeapon.bulletSpeed = this.bulletSpeed;
+      // this.enemyWeapon.bulletSpeed = this.bulletSpeed;
 
       //  Speed-up the rate of fire, allowing them to shoot 1 bullet every 50ms
-      this.enemyWeapon.fireRate = this.fireRate;
+      // this.enemyWeapon.fireRate = this.fireRate;
 
       //  Weapon tracks player
       //  X offset equal to half the player's width (so it fires from the center)
       //  no Y offset
       //  'false' argument tells the weapon not to track player rotation (will always shoot up)
-      this.enemyWeapon.trackSprite(this, this.width/2, 0, false);
+      // this.enemyWeapon.trackSprite(this, this.width/2, 0, false);
       //END WEAPON----------------------------------------------------------------------
     }
 };
@@ -113,6 +118,9 @@ enemy = function(x, y, type, playerRef, aoe){
 enemy.prototype = Object.create(Phaser.Sprite.prototype);
 enemy.prototype.constructor = enemy;
 
+enemy.prototype.setShootToTrue = function(){
+  this.shouldShoot = true;
+}
 
 enemy.prototype.preload = function(){
 };
@@ -124,18 +132,19 @@ enemy.prototype.update = function(){
     if (this.alive){
       if (this.enemyType === "skater"){
         // skaters move towards player
-        if (this.visible){
+        if (this.visible && this.y < this.playerRef.y + 20){
           enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.x, this.playerRef.y);
           this.flipSkater(this.oldX, this.x);
           this.oldX = this.x;
         }
       } else if (this.enemyType === "bully"){
       //   // bullies remain stationary but shoot towards player
-        if (this.visible){
-            enemy.prototype.shootAtPlayer(this, this.playerRef.x, this.playerRef.y);
+        if (this.visible && this.shouldShoot === true){
+            // enemy.prototype.shootAtPlayer(this, this.playerRef.x, this.playerRef.y);
+            this.shouldShoot = false;
         }
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
-        enemy.prototype.throwBalltoEachOther(this);
+        this.throwBalltoEachOther();
       } else if (this.enemyType === "teacher") {
 
       }
@@ -198,14 +207,22 @@ enemy.prototype.shootAtPlayer = function(enem, plyr_x, plyr_y){
     enem.enemyWeapon.fireAtXY(plyr_x + 105, plyr_y);
 }
 
-enemy.prototype.throwBalltoEachOther = function(enem){
-  if (enem.throwing === true) { // player is supposed to immediately throw
-    if (enem.enemyType === "football_player_left") { // should throw right
-      enem.enemyWeapon.fireAtXY(750, enem.y);
+enemy.prototype.throwBalltoEachOther = function(){
+  if (this.throwing === true) { // player is supposed to immediately throw
+    if (this.enemyType === "football_player_left") { // should throw right
+      let temp_football = new enemyProjectile(this);
+      game.physics.arcade.enable(temp_football);
+      temp_football.enableBody = true;
+      temp_football.body.velocity.x = 200;
+      this.football = temp_football;
     } else { // should throw left
-      enem.enemyWeapon.fireAtXY(0, enem.y);
+      let temp_football = new enemyProjectile(this);
+      game.physics.arcade.enable(temp_football);
+      temp_football.enableBody = true;
+      temp_football.body.velocity.x = -200;
+      this.football = temp_football;
     }
-    enem.throwing = false; // while ball is in the air, don't throw anything else!
+    this.throwing = false; // while ball is in the air, don't throw anything else!
   }
 }
 
