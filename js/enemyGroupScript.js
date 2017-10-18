@@ -34,6 +34,12 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
   this.footballPlayers = game.add.group();
   this.footballPlayers.enableBody = true;
 
+  this.teachers = game.add.group();
+  this.teachers.enableBody = true;
+
+  this.teacherAOEs = game.add.group();
+  this.teacherAOEs.enableBody = true;
+
   this.enemies = game.add.group();
   this.enemies.enableBody = true;
   this.enemies.add(this.skaters);
@@ -66,6 +72,12 @@ enemyGroupScript.prototype.update = function(){
   this.aoes.forEachDead(function(enem){
     this.aoes.remove(enem);
   }, this, true);
+  this.teachers.forEachDead(function(enem){
+    this.teachers.remove(enem);
+  }, this, true);
+  this.teacherAOEs.forEachDead(function(enem){
+    this.teacherAOEs.remove(enem);
+  }, this, true);
 
   // Update the camera
   this.cameraY = game.camera.y;
@@ -87,7 +99,12 @@ enemyGroupScript.prototype.update = function(){
   game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.player, this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
   game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.player, this.teachers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.teachers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.player, this.teacherAOEs, this.playerEntersTeacherAOE, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.teacherAOEs, this.playerEntersTeacherAOE, null, this);
   game.physics.arcade.overlap(this.player, this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
 
   // musician AOE collision logic
   if (!(game.physics.arcade.overlap(this.player, this.aoes, this.playerEntersAOE, null, this))){
@@ -95,20 +112,20 @@ enemyGroupScript.prototype.update = function(){
   }
   let bandmems = this.playerScript.returnBandMemberGroup();
   bandmems.forEach(this.checkBandMemAOE, this, true, this.aoes);
-  // game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.aoes, this.BandMemberEntersAOE, null, this);
-
-    //this.playerScript.bandMembers.children[i].shootEnabled = true;
 
   // player bullets hit enemy
-  let enemWeap = this.playerScript.returnPlayerWeapon();
-  game.physics.arcade.overlap(this.enemies, enemWeap.bullets, this.playerHitsEnemy, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  let playWeap = this.playerScript.returnPlayerWeapon();
+  game.physics.arcade.overlap(this.enemies, playWeap.bullets, this.playerHitsEnemy, null, this);
+
+  // player bullets hit teacher
+  game.physics.arcade.overlap(this.teachers, playWeap.bullets, this.playerHitsTeacher, null, this);
 
   // kill enemies behind player
   this.bullies.forEach(this.killEnemyIfBehindPlayer, this, true);
   this.footballPlayers.forEach(this.killEnemyIfBehindPlayer, this, true);
   this.skaters.forEach(this.killEnemyIfBehindPlayer, this, true);
   this.musicians.forEach(this.killEnemyIfBehindPlayer, this, true);
+  this.teachers.forEach(this.killEnemyIfBehindPlayer, this, true);
 };
 
 enemyGroupScript.prototype.render = function(){
@@ -140,6 +157,11 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
     this.aoes.add(new_aoe);
     new_enemy = new enemy(x, y, "musician", playerRef, new_aoe);
     this.musicians.add(new_enemy);
+  } else if (type === "teacher") {
+      let new_aoe = this.aoeScript.create(x, y, playerRef);
+      this.teacherAOEs.add(new_aoe);
+      new_enemy = new enemy(x, y, "teacher", playerRef, new_aoe);
+      this.teachers.add(new_enemy);
   }
 
   new_enemy.body.setSize(105, 210, 45, 0);
@@ -186,10 +208,9 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
         this.addEnemy(650, y_value - 40, "musician", playerSprite);  // right
       }
     } else {
-      // teacher goes here!!
+      this.addEnemy(Math.random() * 750, y_value, "teacher", playerSprite);
     }
   }
-
 }
 
 enemyGroupScript.prototype.playerHitsEnemy = function(enem, bull) {
@@ -201,6 +222,11 @@ enemyGroupScript.prototype.playerHitsEnemy = function(enem, bull) {
   // kill the enemy
   enem.die();
 }
+
+enemyGroupScript.prototype.playerHitsTeacher = function(tchr, bull) {
+  tchr.activate();
+}
+
 
 enemyGroupScript.prototype.enemyInGroupHitsPlayerCheck = function(enem_group, plyr){
   enem_group.forEachAlive(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player); // this function receives a GROUP as a parameter, we need to get the individual to get their bullets
@@ -249,4 +275,11 @@ enemyGroupScript.prototype.checkBandMemAOE = function(mem, aoes){
 
 enemyGroupScript.prototype.BandMemberEntersAOE = function(member, circle){
     member.shootEnabled = false;
+}
+
+enemyGroupScript.prototype.playerEntersTeacherAOE = function(plyr, tch_aoe){
+  if (tch_aoe.harmful === true){
+    aoe.prototype.deactivate(tch_aoe);
+    this.playerScript.damagePlayer();
+  }
 }

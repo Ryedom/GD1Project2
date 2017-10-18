@@ -37,7 +37,7 @@ level1State.prototype.create = function()
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
     // enemies are generated based on a timer
-    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 1);
+    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 3);
 };
 
 level1State.prototype.update = function(){
