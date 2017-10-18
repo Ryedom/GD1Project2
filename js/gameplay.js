@@ -1,3 +1,5 @@
+// References used: https://phaser.io/docs/2.6.2/index
+//                  https://phaser.io/examples
 let gameplayState = function() {
 
 }
@@ -18,5 +20,5 @@ gameplayState.prototype.create = function() {
 }
 
 gameplayState.prototype.update = function() {
-    
+
 }

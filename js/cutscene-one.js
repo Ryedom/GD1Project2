@@ -1,3 +1,5 @@
+// References used: https://phaser.io/docs/2.6.2/index
+//                  https://phaser.io/examples
 let cutOneState = function() {
 
 }
@@ -11,7 +13,7 @@ cutOneState.prototype.preload = function() {
         "assets/Cutscenes/Cutscene1/cutscene1_5.png",
         "assets/Cutscenes/Cutscene1/cutscene1_6.png"
     ]
-    
+
     this.frameSprites = [];
     for (var i = 0; i < this.framePaths.length; i++) {
         var frameName = "cutscene_1_" + (i+1);

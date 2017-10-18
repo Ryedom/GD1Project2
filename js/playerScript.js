@@ -1,3 +1,5 @@
+// References used: https://phaser.io/docs/2.6.2/index
+//                  https://phaser.io/examples
 /** @constructor */
 let playerScript = function()
 {
@@ -131,7 +133,7 @@ playerScript.prototype.update = function(){
 };
 
 playerScript.prototype.render = function() {
-    
+
 };
 
 

@@ -1,9 +1,10 @@
+// References used: https://phaser.io/docs/2.6.2/index
+//                  https://phaser.io/examples
 let titleState = function() {
 
 }
 
 titleState.prototype.preload = function() {
-
 }
 
 titleState.prototype.create = function() {
@@ -35,7 +36,7 @@ titleState.prototype.create = function() {
 }
 
 titleState.prototype.update = function() {
-    
+
 }
 
 titleState.prototype.pressPlay = function() {

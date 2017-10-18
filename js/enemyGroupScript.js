@@ -1,3 +1,5 @@
+// References used: https://phaser.io/docs/2.6.2/index
+//                  https://phaser.io/examples
 /** @constructor */
 // enemy types - skater, bully, football_player_left, football_player_right
 let enemyGroupScript = function(){
