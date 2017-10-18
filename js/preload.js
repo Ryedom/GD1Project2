@@ -28,6 +28,8 @@ preloadState.prototype.preload = function() {
     game.load.spritesheet('musician_ss', 'assets/enemies/musician_spritesheet.png', 231, 210);
     game.load.spritesheet('bully_ss', 'assets/enemies/bully_spritesheet.png', 231, 250);
     game.load.spritesheet('teacher_ss', 'assets/enemies/teacher_spritesheet.png', 231, 250);
+    game.load.spritesheet('footballRight_ss', 'assets/enemies/twoftbplayers1_sheet.png', 200, 200);
+    game.load.spritesheet('footballLeft_ss', 'assets/enemies/twoftbplayers2_sheet.png', 200, 200);
 
     //bullets
     game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);
