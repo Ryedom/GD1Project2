@@ -8,6 +8,7 @@ let enemyGroupScript = function(){
   this.testSkater = null;
   this.cameraY = 0;
   this.aoeScript = new aoe();
+  this.spawnRightFootballPlayer = 0;
 
   this.enemySpawnDelay = 1500;
 };
@@ -219,6 +220,14 @@ enemyGroupScript.prototype.update = function(){
   if (this.enemies.length > 0){
     game.physics.arcade.overlap(this.enemies, playWeap.bullets, this.playerHitsEnemy, null, this);
   }
+
+  if (this.spawnRightFootballPlayer === 2){
+    this.spawnRightFootballPlayer = 1;
+  } else if (this.spawnRightFootballPlayer === 1){
+    this.addEnemy(650, this.cameraY - 40, "football_player_right", this.playerRef);
+    this.spawnRightFootballPlayer = 0;
+  }
+
 };
 
 enemyGroupScript.prototype.render = function(){
@@ -303,7 +312,7 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
       this.addEnemy(x_value, y_value, "bully", playerSprite);
     } else {// 3
       this.addEnemy(50, y_value - 40, "football_player_left", playerSprite);
-      this.addEnemy(650, y_value - 40, "football_player_right", playerSprite);
+      this.spawnRightFootballPlayer = 2;
     }
   } else if (level === 2){
     let enemIndex = Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
