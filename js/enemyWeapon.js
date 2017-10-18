@@ -5,7 +5,7 @@ enemyProjectile = function(enemyRef){ //x, y, type, playerRef, enemyRef
     if (enemyRef.enemyType === "bully"){
       Phaser.Sprite.call(this, game, enemyRef.x, enemyRef.y, 'spitball');
     } else if ((enemyRef.enemyType === "football_player_left") || (enemyRef.enemyType === "football_player_right")){
-      Phaser.Sprite.call(this, game, enemyRef.x, enemyRef.y, 'football');
+      Phaser.Sprite.call(this, game, enemyRef.x + 100, enemyRef.y, 'football');
     }
 
     game.add.existing(this);

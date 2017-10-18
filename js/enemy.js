@@ -208,22 +208,22 @@ enemy.prototype.shootAtPlayer = function(enem, plyr_x, plyr_y){
 }
 
 enemy.prototype.throwBalltoEachOther = function(){
-  if (this.throwing === true) { // player is supposed to immediately throw
-    if (this.enemyType === "football_player_left") { // should throw right
-      let temp_football = new enemyProjectile(this);
-      game.physics.arcade.enable(temp_football);
-      temp_football.enableBody = true;
-      temp_football.body.velocity.x = 200;
-      this.football = temp_football;
-    } else { // should throw left
-      let temp_football = new enemyProjectile(this);
-      game.physics.arcade.enable(temp_football);
-      temp_football.enableBody = true;
-      temp_football.body.velocity.x = -200;
-      this.football = temp_football;
-    }
-    this.throwing = false; // while ball is in the air, don't throw anything else!
-  }
+  // if (this.throwing === true) { // player is supposed to immediately throw
+  //   if (this.enemyType === "football_player_left") { // should throw right
+  //     let temp_football = new enemyProjectile(this);
+  //     game.physics.arcade.enable(temp_football);
+  //     temp_football.enableBody = true;
+  //     temp_football.body.velocity.x = 200;
+  //     this.football = temp_football;
+  //   } else { // should throw left
+  //     let temp_football = new enemyProjectile(this);
+  //     game.physics.arcade.enable(temp_football);
+  //     temp_football.enableBody = true;
+  //     temp_football.body.velocity.x = -200;
+  //     this.football = temp_football;
+  //   }
+  //   this.throwing = false; // while ball is in the air, don't throw anything else!
+  // }
 }
 
 // killIfOffscreen - kills offscreen enemies

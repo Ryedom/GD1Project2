@@ -37,6 +37,8 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
 
   this.footballPlayers = game.add.group();
   this.footballPlayers.enableBody = true;
+  this.footballs = game.add.group();
+  this.footballs.enableBody = true;
 
   this.teachers = game.add.group();
   this.teachers.enableBody = true;
@@ -128,11 +130,17 @@ enemyGroupScript.prototype.update = function(){
         this.footballPlayers.remove(enem);
       }, this, true);
 
+      this.footballs.forEachDead(function(enem){
+        this.footballs.remove(enem);
+        enem.destroy();
+      }, this, true);
       // Enemy hits player with football
-      this.footballPlayers.forEach(enemyGroupScript.prototype.enemyHitsPlayerWithFootballCheck, this, true, this.player);
+      game.physics.arcade.overlap(this.player, this.footballs, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+      game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.footballs, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
 
       // Enemy passes football logic
-      this.footballPlayers.forEach(enemyGroupScript.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
+      game.physics.arcade.overlap(this.footballs, this.footballPlayers, this.checkReceptionOfFootballPlayer, null, this);
+      // this.footballPlayers.forEach(enemyGroupScript.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
 
       // Collision
       game.physics.arcade.overlap(this.player, this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
@@ -140,6 +148,7 @@ enemyGroupScript.prototype.update = function(){
 
       // Kill Offscreen Football Players
       this.footballPlayers.forEach(this.killEnemyIfBehindPlayer, this, true);
+      this.footballs.forEach(this.killEnemyIfBehindPlayer, this, true);
     }
   }
   // END FOOTBALL PLAYERS
@@ -245,6 +254,9 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
   } else if (type === "football_player_left"){
     new_enemy = new enemy(x, y, "football_player_left", playerRef);
     this.footballPlayers.add(new_enemy);
+    new_weapon = new enemyProjectile(new_enemy);
+    this.footballs.add(new_weapon);
+    new_weapon.body.velocity.x = 200;
   } else if (type === "football_player_right"){
     new_enemy = new enemy(x, y, "football_player_right", playerRef);
     this.footballPlayers.add(new_enemy);
@@ -281,7 +293,7 @@ enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite, level)
   }
 
   if (level === 1){
-    let enemIndex = Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
+    let enemIndex = 3;//Math.ceil(Math.random() * 3); // four different enemy types, musician not currently used!
     if (enemIndex === 1){ // skater
       this.addEnemy(x_value, y_value, "skater", playerSprite);
     } else if (enemIndex === 2){
@@ -355,8 +367,12 @@ enemyGroupScript.prototype.enemyHitsPlayerCheck = function(enem, plyr){
 }
 
 enemyGroupScript.prototype.enemyHitsPlayerWithFootballCheck = function(enem, plyr){
-  game.physics.arcade.overlap(this.player, enem.football, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(enem.football, this.playerScript.returnBandMemberGroup(), enemyGroupScript.prototype.enemyHitsPlayerFootball, null, this);
+  if (enem.football !== null){
+    game.physics.arcade.overlap(this.player, enem.football, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  }
+  if (enem.football !== null){
+    game.physics.arcade.overlap(enem.football, this.playerScript.returnBandMemberGroup(), enemyGroupScript.prototype.enemyHitsPlayerFootball, null, this);
+  }
 }
 
 enemyGroupScript.prototype.enemyHitsPlayer = function(plyr, bull){
@@ -370,8 +386,8 @@ enemyGroupScript.prototype.enemyHitsPlayerFootball = function(bull, plyr){
 }
 
 
-enemyGroupScript.prototype.checkReceptionOfFootballPlayer = function(foot_plyr, foot_plyrs){
-  foot_plyrs.forEach(enemyGroupScript.prototype.throwerHitsCatcherCheck, this, true, foot_plyr);
+enemyGroupScript.prototype.checkReceptionOfFootballPlayer = function(footbl, foot_plyr){
+  footbl.body.velocity.x *= -1;
 }
 
 enemyGroupScript.prototype.throwerHitsCatcherCheck = function(foot_plyr1, foot_plyr2){
