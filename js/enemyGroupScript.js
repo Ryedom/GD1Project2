@@ -93,6 +93,11 @@ enemyGroupScript.prototype.update = function(){
   if (!(game.physics.arcade.overlap(this.player, this.aoes, this.playerEntersAOE, null, this))){
     this.playerScript.shootEnabled = true;
   }
+  let bandmems = this.playerScript.returnBandMemberGroup();
+  bandmems.forEach(this.checkBandMemAOE, this, true, this.aoes);
+  // game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.aoes, this.BandMemberEntersAOE, null, this);
+
+    //this.playerScript.bandMembers.children[i].shootEnabled = true;
 
   // player bullets hit enemy
   let enemWeap = this.playerScript.returnPlayerWeapon();
@@ -143,7 +148,7 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
 // generates enemies at the top of the screen
 enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite){
   let y_value = this.cameraY;
-  let enemIndex = Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
+  let enemIndex = 4;//Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
   if (enemIndex === 1){ // skater
     this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
   } else if (enemIndex === 2){
@@ -208,4 +213,14 @@ enemyGroupScript.prototype.checkAOEcollision = function(musc, plyr){
 
 enemyGroupScript.prototype.playerEntersAOE = function(plyr, circle){
     this.playerScript.shootEnabled = false;
+}
+
+enemyGroupScript.prototype.checkBandMemAOE = function(mem, aoes){
+  if (!(game.physics.arcade.overlap(mem, aoes, this.BandMemberEntersAOE, null, this))){
+    mem.shootEnabled = true;
+  }
+}
+
+enemyGroupScript.prototype.BandMemberEntersAOE = function(member, circle){
+    member.shootEnabled = false;
 }
