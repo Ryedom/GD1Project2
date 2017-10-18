@@ -1,16 +1,41 @@
 /** @constructor */
 // enemy types - skater, bully, football_player_left, football_player_right, musician
-enemy = function(x, y, type, playerRef){
+enemy = function(x, y, type, playerRef, aoe){
 
     // call super constructor on sprite
     if (type === "skater"){
       Phaser.Sprite.call(this, game, x, y, 'skater_ss');
       this.animations.add('skate', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 25, true);
       this.animations.play("skate");
-    } else {
+    } else if (type === "musician") {
       Phaser.Sprite.call(this, game, x, y, 'dude');
+      this.anchor.setTo(0.5, 0.5);
+    } else if (type === "bully"){
+        Phaser.Sprite.call(this, game, x, y, 'bully_ss');
+        this.animations.add('idle', [0, 1, 2, 3], 5, true);
+        this.animations.play("idle");
     }
 
+    else if (type === "musician"){
+        Phaser.Sprite.call(this, game, x, y, 'musician_ss');
+        this.animations.add('idle', [0, 1, 2, 3, 4, 5, 6], 5, true);
+        this.animations.play("idle");
+    }
+
+    else if (type === "teacher"){
+        Phaser.Sprite.call(this, game, x, y, 'teacher_ss');
+        this.animations.add('explode', [0, 1, 2, 3, 4], 5, true);
+        this.animations.play("explode");
+    }
+
+    else {
+        Phaser.Sprite.call(this, game, x, y, 'dude');
+    }
+
+    this.scale.x = this.scale.x * .5;
+    this.scale.y = this.scale.y * .5;
+
+    //this.player.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
 
     // additional data
     this.playerRef = playerRef; // reference to player object
@@ -37,24 +62,25 @@ enemy = function(x, y, type, playerRef){
     }
 
     if (this.enemyType === "musician"){
-      this.musicianAreaOfEffect = game.add.graphics(0, 0);
-      // graphics.lineStyle(2, 0xffd900, 1);
-      this.musicianAreaOfEffect.beginFill(0xFF0000, 1);
-      this.musicianAreaOfEffect.drawCircle(x + 10, y + 10, 300);
-      this.musicianAreaOfEffect.alpha = 0.1;
+      this.aoe = aoe;
     }
 
     // Weapon - Optional for shooting enemies
     if ((this.enemyType === "bully") || (this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
 
       // //add weapon if a shooting character
-      this.enemyWeapon = game.add.weapon(500, 'bullet');
+        if(this.enemyType === "bully"){
+            this.enemyWeapon = game.add.weapon(500, 'spitball');
+        }
+        else{
+            this.enemyWeapon = game.add.weapon(500, 'football');
+        }
 
       //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
       //  The 3rd argument tells the Weapon Plugin to advance to the next frame each time
       //  a bullet is fired, when it hits 80 it'll wrap to zero again.
       //  You can also set this via this.weapon.bulletFrameCycle = true
-      this.enemyWeapon.setBulletFrames(0, 80, true);
+      this.enemyWeapon.setBulletFrames(0, 1, true);
 
       //if bully, bullets disappear when they exit frame, bullies when they hit the world, since they spawn offscreen
       if (this.enemyType === "bully"){
@@ -125,6 +151,9 @@ enemy.prototype.killEnemy = function(enem){
 
 //killEnemy - kills the enemy - does not destroy the object!
 enemy.prototype.die = function(){
+    if (this.enemyType === "musician"){
+      this.aoe.kill();
+    }
     this.kill();
 }
 

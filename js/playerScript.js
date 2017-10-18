@@ -19,6 +19,7 @@ let playerScript = function()
     this.bandMemberOffsetY = [20, 20, 40, 40];
 
     this.spriteScaleFraction = .5;
+    this.shootEnabled = true;
 };
 
 playerScript.prototype.preload = function()
@@ -88,8 +89,7 @@ playerScript.prototype.create = function()
     return this.player;
 };
 
-playerScript.prototype.update = function()
-{
+playerScript.prototype.update = function(){
     this.player.body.velocity.y = -1 * this.playerForwardVelocity;
 
     //then set the velocity depending on where the mouse is while button is down
@@ -110,7 +110,7 @@ playerScript.prototype.update = function()
         //  Reset the this.players velocity (movement)
         this.player.body.velocity.x = 0;
     }
-    if (this.player.alive){
+    if (this.player.alive && this.shootEnabled === true){
       this.playerWeapon.fire();
     }
 
