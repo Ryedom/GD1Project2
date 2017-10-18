@@ -15,7 +15,7 @@ level1State.prototype.preload = function()
 {
   this.playerScript.preload();
   this.bandMemberPowerupScript.preload();
-  game.load.audio('musicLevel1', 'assets/Audio/Level1.ogg');
+  game.load.audio('musicLevel1', ['assets/Audio/Level1.ogg','assets/Audio/Level1.mp3']);
 };
 
 level1State.prototype.create = function()
@@ -25,8 +25,12 @@ level1State.prototype.create = function()
     //background
     game.world.setBounds(0, 0, 750, 12000);
 
-    for (let i = 0; (i * 1300) < 12000; i++) {
-        game.add.sprite(0, i * 1300, "parking_lot");
+    for (let i = 0; (i * 2662) < 12000; i++) {
+        if (i % 2 == 0) {
+            game.add.sprite(0, i * 2662, "parking_lot2");
+        } else {
+            game.add.sprite(0, i * 2662, "parking_lot1");
+        }
     }
 
     //add the player

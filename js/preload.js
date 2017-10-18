@@ -10,13 +10,14 @@ preloadState.prototype.preload = function() {
     game.load.spritesheet("button","assets/Title/ButtonSheet.png",449,184);
     game.load.image('carrow', 'assets/CutsceneArrow.png');
     // Game stuff
-    game.load.image('parking_lot', 'assets/background/parkinglot.png');
-    game.load.image('hallway', 'assets/background/hallway.png');
-    game.load.image('promgymnism', 'assets/background/promgymnism.png');
+    game.load.image('parking_lot1', 'assets/background/parkinglot1.png');
+    game.load.image('parking_lot2', 'assets/background/parkinglot2.png');
+    game.load.image('hallway1', 'assets/background/hallway1.png');
+    game.load.image('hallway2', 'assets/background/hallway2.png');
+    game.load.image('promgymnism1', 'assets/background/promgymnism1.png');
+    game.load.image('promgymnism2', 'assets/background/promgymnism2.png');
     game.load.image('help_background', 'assets/background/helpscreen.png');
     game.load.image('about_background', 'assets/background/aboutscreen.png');
-    game.load.image('ground', 'assets/platform.png');
-    game.load.image('star', 'assets/star.png');
     game.load.spritesheet('carole', 'assets/PlayerAndAllyAnimations/Carole_run.png', 210, 210);
     game.load.spritesheet('music_notes', 'assets/MusicNotes.png', 50, 50);
     game.load.spritesheet('ally_powerup', 'assets/PlayerAndAllyAnimations/ally_powerupsheet.png', 210, 210);

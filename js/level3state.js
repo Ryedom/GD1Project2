@@ -15,7 +15,7 @@ level3State.prototype.preload = function()
 {
   this.playerScript.preload();
   this.bandMemberPowerupScript.preload();
-  game.load.audio('musicLevel3', 'assets/Audio/Level3.ogg');
+  game.load.audio('musicLevel3', ['assets/Audio/Level3.ogg','assets/Audio/Level3.mp3']);
 };
 
 level3State.prototype.create = function()
@@ -25,9 +25,13 @@ level3State.prototype.create = function()
     // background
     game.world.setBounds(0, 0, 750, 12000);
 
-    for (let i = 0; (i * 1300) < 12000; i++){
-        game.add.sprite(0, i * 1300, "promgymnism");
-    }
+    for (let i = 0; (i * 2662) < 12000; i++) {
+      if (i % 2 == 0) {
+          game.add.sprite(0, i * 2662, "promgymnism2");
+      } else {
+          game.add.sprite(0, i * 2662, "promgymnism1");
+      }
+  }
 
     //add the player
     this.playerSprite = this.playerScript.create();

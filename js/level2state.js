@@ -15,7 +15,7 @@ level2State.prototype.preload = function()
 {
   this.playerScript.preload();
   this.bandMemberPowerupScript.preload();
-  game.load.audio('musicLevel2', 'assets/Audio/Level2.ogg');
+  game.load.audio('musicLevel2', ['assets/Audio/Level2.ogg','assets/Audio/Level2.mp3']);
 };
 
 level2State.prototype.create = function()
@@ -25,9 +25,13 @@ level2State.prototype.create = function()
     // background
     game.world.setBounds(0, 0, 750, 12000);
 
-    for (let i = 0; (i * 1300) < 12000; i++){
-        game.add.sprite(0, i * 1300, "hallway");
-    }
+    for (let i = 0; (i * 2662) < 12000; i++) {
+      if (i % 2 == 0) {
+          game.add.sprite(0, i * 2662, "hallway2");
+      } else {
+          game.add.sprite(0, i * 2662, "hallway1");
+      }
+  }
 
     //add the player
     this.playerSprite = this.playerScript.create();
