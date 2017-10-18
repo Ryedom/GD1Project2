@@ -21,6 +21,7 @@ preloadState.prototype.preload = function() {
 
     // enemies
     game.load.spritesheet('skater_ss', 'assets/enemies/skater_spritesheet.png', 231, 300);
+    game.load.spritesheet('aoe', 'assets/aoe.png', 300, 300);
 
 
     game.load.spritesheet('bullet', 'assets/rgblaser.png', 4, 4);

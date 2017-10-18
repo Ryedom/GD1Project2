@@ -1,14 +1,18 @@
 /** @constructor */
 // enemy types - skater, bully, football_player_left, football_player_right, musician
-enemy = function(x, y, type, playerRef){
+enemy = function(x, y, type, playerRef, aoe){
 
     // call super constructor on sprite
     if (type === "skater"){
       Phaser.Sprite.call(this, game, x, y, 'skater_ss');
       this.animations.add('skate', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 25, true);
       this.animations.play("skate");
+    } else if (type === "musician") {
+      Phaser.Sprite.call(this, game, x, y, 'dude');
+      this.anchor.setTo(0.5, 0.5);
     } else {
       Phaser.Sprite.call(this, game, x, y, 'dude');
+      this.anchor.setTo(0.5, 0.5);
     }
 
 
@@ -37,11 +41,7 @@ enemy = function(x, y, type, playerRef){
     }
 
     if (this.enemyType === "musician"){
-      this.musicianAreaOfEffect = game.add.graphics(0, 0);
-      // graphics.lineStyle(2, 0xffd900, 1);
-      this.musicianAreaOfEffect.beginFill(0xFF0000, 1);
-      this.musicianAreaOfEffect.drawCircle(x + 10, y + 10, 300);
-      this.musicianAreaOfEffect.alpha = 0.1;
+      this.aoe = aoe;
     }
 
     // Weapon - Optional for shooting enemies
@@ -125,6 +125,9 @@ enemy.prototype.killEnemy = function(enem){
 
 //killEnemy - kills the enemy - does not destroy the object!
 enemy.prototype.die = function(){
+    if (this.enemyType === "musician"){
+      this.aoe.kill();
+    }
     this.kill();
 }
 
