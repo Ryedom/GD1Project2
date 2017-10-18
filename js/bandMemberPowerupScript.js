@@ -32,7 +32,12 @@ bandMemberPowerupScript.prototype.addPowerup = function(x, y)
     let bandMember = game.add.sprite(x, y, 'ally_powerup');
     bandMember.animations.add('stand', [0, 1], 5, true);
     bandMember.animations.play("stand");
+
     this.bandMembersPowerups.add(bandMember);
+
+    bandMember.scale.x = bandMember.scale.x * .5;
+    bandMember.scale.y = bandMember.scale.y * .5;
+    bandMember.body.setSize(105, 210, 45, 0);
 };
 
 bandMemberPowerupScript.prototype.pickup = function(playerSprite, powerup)

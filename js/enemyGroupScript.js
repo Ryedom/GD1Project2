@@ -121,8 +121,6 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
   if (type === "skater"){
     new_enemy = new enemy(x, y, "skater", playerRef);
     this.skaters.add(new_enemy);
-      //new_enemy.scale.x = new_enemy.scale.x * .5;
-      //new_enemy.scale.y = new_enemy.scale.y * .5;
   } else if (type === "bully"){
     new_enemy = new enemy(x, y, "bully", playerRef);
     this.bullies.add(new_enemy);
@@ -138,12 +136,15 @@ enemyGroupScript.prototype.addEnemy = function(x, y, type, playerRef){
     new_enemy = new enemy(x, y, "musician", playerRef, new_aoe);
     this.musicians.add(new_enemy);
   }
+
+  new_enemy.body.setSize(105, 210, 45, 0);
+
 }
 
 // generates enemies at the top of the screen
 enemyGroupScript.prototype.generateRandomEnemies = function(playerSprite){
   let y_value = this.cameraY;
-  let enemIndex = Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
+  let enemIndex = 4;//Math.ceil(Math.random() * 4); // four different enemy types, musician not currently used!
   if (enemIndex === 1){ // skater
     this.addEnemy(Math.random() * 750, y_value, "skater", playerSprite);
   } else if (enemIndex === 2){

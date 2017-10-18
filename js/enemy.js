@@ -1,41 +1,43 @@
 /** @constructor */
 // enemy types - skater, bully, football_player_left, football_player_right, musician
 enemy = function(x, y, type, playerRef, aoe){
-
     // call super constructor on sprite
     if (type === "skater"){
       Phaser.Sprite.call(this, game, x, y, 'skater_ss');
       this.animations.add('skate', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9], 25, true);
       this.animations.play("skate");
-    } else if (type === "musician") {
-      Phaser.Sprite.call(this, game, x, y, 'dude');
-      this.anchor.setTo(0.5, 0.5);
-    } else if (type === "bully"){
+    }
+    else if (type === "bully"){
         Phaser.Sprite.call(this, game, x, y, 'bully_ss');
         this.animations.add('idle', [0, 1, 2, 3], 5, true);
         this.animations.play("idle");
     }
-
     else if (type === "musician"){
         Phaser.Sprite.call(this, game, x, y, 'musician_ss');
         this.animations.add('idle', [0, 1, 2, 3, 4, 5, 6], 5, true);
         this.animations.play("idle");
     }
-
     else if (type === "teacher"){
         Phaser.Sprite.call(this, game, x, y, 'teacher_ss');
         this.animations.add('explode', [0, 1, 2, 3, 4], 5, true);
         this.animations.play("explode");
     }
-
+    else if (type === "football_player_left"){
+        Phaser.Sprite.call(this, game, x, y, 'footballLeft_ss');
+        this.animations.add('pass', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12], 5, true);
+        this.animations.play("pass");
+    }
+    else if (type === "football_player_right"){
+        Phaser.Sprite.call(this, game, x, y, 'footballRight_ss');
+        this.animations.add('pass', [0, 1, 2, 3, 4, 5, 6, 7], 5, true);
+        this.animations.play("pass");
+    }
     else {
         Phaser.Sprite.call(this, game, x, y, 'dude');
     }
 
     this.scale.x = this.scale.x * .5;
     this.scale.y = this.scale.y * .5;
-
-    //this.player.body.setSize(105, 210, 45, 0); // reduce hitbox to hug Carole!
 
     // additional data
     this.playerRef = playerRef; // reference to player object
