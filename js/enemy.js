@@ -94,8 +94,8 @@ enemy = function(x, y, type, playerRef, aoe){
 
       //if bully, bullets disappear when they exit frame, bullies when they hit the world, since they spawn offscreen
       if (this.enemyType === "bully"){
-        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;//KILL_CAMERA_BOUNDS;
-        this.enemyWeapon.bulletLifespan = 1500;
+        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+        //this.enemyWeapon.bulletLifespan = 1500;
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
         this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
       }

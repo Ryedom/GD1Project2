@@ -82,20 +82,20 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="enemy.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="enemy.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/enemy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="48" column="21" lean-forward="false" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
+            <state relative-caret-position="273">
+              <caret line="97" column="10" lean-forward="false" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="enemyGroupScript.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="enemyGroupScript.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/enemyGroupScript.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="168">
+            <state relative-caret-position="-336">
               <caret line="233" column="3" lean-forward="true" selection-start-line="233" selection-start-column="3" selection-end-line="233" selection-end-column="3" />
               <folding />
             </state>
@@ -152,12 +152,12 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/preload.js" />
         <option value="$PROJECT_DIR$/js/end_cutscene.js" />
-        <option value="$PROJECT_DIR$/js/enemy.js" />
         <option value="$PROJECT_DIR$/js/level3state.js" />
         <option value="$PROJECT_DIR$/js/bandMemberPowerupScript.js" />
         <option value="$PROJECT_DIR$/js/level1state.js" />
         <option value="$PROJECT_DIR$/js/level2state.js" />
         <option value="$PROJECT_DIR$/js/enemyGroupScript.js" />
+        <option value="$PROJECT_DIR$/js/enemy.js" />
       </list>
     </option>
   </component>
@@ -245,7 +245,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="25824000" />
+    <option name="totallyTimeSpent" value="26285000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1050" extended-state="6" />
@@ -627,14 +627,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/enemy.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="48" column="21" lean-forward="false" selection-start-line="48" selection-start-column="21" selection-end-line="48" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/lib/JavaScriptLanguage.jar!/com/intellij/lang/javascript/index/predefined/EcmaScript.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="292">
@@ -709,8 +701,16 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/enemyGroupScript.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
+        <state relative-caret-position="-336">
           <caret line="233" column="3" lean-forward="true" selection-start-line="233" selection-start-column="3" selection-end-line="233" selection-end-column="3" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/enemy.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="97" column="10" lean-forward="false" selection-start-line="97" selection-start-column="10" selection-end-line="97" selection-end-column="10" />
           <folding />
         </state>
       </provider>
