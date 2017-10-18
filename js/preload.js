@@ -44,7 +44,7 @@ preloadState.prototype.create = function() {
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.scale.refresh();
-    game.state.start("level1State");
+    game.state.start("cutscene_one");
 }
 
 preloadState.prototype.update = function() {

@@ -44,7 +44,7 @@ level1State.prototype.update = function(){
     this.bandMemberPowerupScript.update();
     this.enemyGroupScript.update();
     if (this.playerSprite.y === 0){
-      game.state.start("level2State", FadeOut, FadeIn);
+      game.state.start("cutscene_two", FadeOut, FadeIn);
     }
 
 };
