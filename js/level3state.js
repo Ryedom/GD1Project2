@@ -38,7 +38,7 @@ level3State.prototype.create = function()
 
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
-    this.enemyGroupScript.create(this.playerSprite, this.playerScript);
+    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 3);
 
 };
 
@@ -48,7 +48,7 @@ level3State.prototype.update = function(){
     this.bandMemberPowerupScript.update();
     this.enemyGroupScript.update();
     if (this.playerSprite.y === 0){
-      game.state.start("end_cutscene", FadeOut, FadeIn);
+      game.state.start("level1State", FadeOut, FadeIn);
     }
 };
 

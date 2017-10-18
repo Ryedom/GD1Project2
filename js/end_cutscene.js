@@ -4,12 +4,12 @@ let endCutState = function() {
 
 endCutState.prototype.preload = function() {
     this.framePaths = [
-        "assets/Cutscenes/Cutscene1/cutscene4_1.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_2.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_3.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_4.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_5.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_6.png"
+        "assets/Cutscenes/Cutscene4/cutscene4_1.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_2.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_3.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_4.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_5.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_6.png"
     ]
 
     this.frameSprites = [];

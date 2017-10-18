@@ -34,11 +34,11 @@ level2State.prototype.create = function()
     //game.camera.follow(this.player);
 
     this.bandMemberPowerupScript.create(this.playerSprite, this.playerScript);
-    this.bandMemberPowerupScript.randomLocations(15, game.world.width, game.world.height);
+    this.bandMemberPowerupScript.randomLocations(12, game.world.width, game.world.height);
 
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
-    this.enemyGroupScript.create(this.playerSprite, this.playerScript);
+    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 2);
 
 };
 
@@ -48,7 +48,7 @@ level2State.prototype.update = function(){
     this.bandMemberPowerupScript.update();
     this.enemyGroupScript.update();
     if (this.playerSprite.y === 0){
-      game.state.start("cutscene_three", FadeOut, FadeIn);
+      game.state.start("level3State", FadeOut, FadeIn);
     }
 };
 
