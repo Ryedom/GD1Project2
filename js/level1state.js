@@ -25,7 +25,6 @@ level1State.prototype.create = function()
 
     for (let i = 0; (i * 1300) < 12000; i++){
         game.add.sprite(0, i * 1300, "parking_lot");
-    }
 
     //add the player
     this.playerSprite = this.playerScript.create();

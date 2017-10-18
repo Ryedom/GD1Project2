@@ -45,11 +45,15 @@ enemy = function(x, y, type, playerRef, aoe){
     this.tooClose = false;  // for enemies tracking player, whether they are "too close" and should continue on a straight path
 
     this.enemyWeapon = null; // null unless created for that enemy type in create
-    this.bulletSpeed = 200; //500
-    this.fireRate = 3000; // 1000
+    this.bulletSpeed = 200;
+    this.fireRate = 3000;
     this.throwing = false;
     this.checkCollision = true;
     game.add.existing(this);
+
+    this.bulletTimer = game.time.create(false);
+    this.bulletTimer.loop(1000, this.setShootToTrue, this);
+    this.bulletTimer.start();
 
     //  We need to enable physics on the this.enemy
     game.physics.arcade.enable(this);
@@ -90,7 +94,8 @@ enemy = function(x, y, type, playerRef, aoe){
 
       //if bully, bullets disappear when they exit frame, bullies when they hit the world, since they spawn offscreen
       if (this.enemyType === "bully"){
-        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_CAMERA_BOUNDS;
+        this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_LIFESPAN;//KILL_CAMERA_BOUNDS;
+        this.enemyWeapon.bulletLifespan = 1500;
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
         this.enemyWeapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
       }
@@ -113,6 +118,9 @@ enemy = function(x, y, type, playerRef, aoe){
 enemy.prototype = Object.create(Phaser.Sprite.prototype);
 enemy.prototype.constructor = enemy;
 
+enemy.prototype.setShootToTrue = function(){
+  this.shouldShoot = true;
+}
 
 enemy.prototype.preload = function(){
 };
@@ -131,8 +139,9 @@ enemy.prototype.update = function(){
         }
       } else if (this.enemyType === "bully"){
       //   // bullies remain stationary but shoot towards player
-        if (this.visible){
+        if (this.visible && this.shouldShoot === true){
             enemy.prototype.shootAtPlayer(this, this.playerRef.x, this.playerRef.y);
+            this.shouldShoot = false;
         }
       } else if ((this.enemyType === "football_player_left") || (this.enemyType === "football_player_right")){
         enemy.prototype.throwBalltoEachOther(this);
