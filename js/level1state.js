@@ -1,6 +1,5 @@
 //constructor. A function constructor, no less!
-let level1State = function()
-{
+let level1State = function() {
   this.playerScript = new playerScript();
   this.enemyGroupScript = new enemyGroupScript();
   this.bandMemberPowerupScript = new bandMemberPowerupScript();
@@ -23,8 +22,9 @@ level1State.prototype.create = function()
     //background
     game.world.setBounds(0, 0, 750, 12000);
 
-    for (let i = 0; (i * 1300) < 12000; i++){
+    for (let i = 0; (i * 1300) < 12000; i++) {
         game.add.sprite(0, i * 1300, "parking_lot");
+    }
 
     //add the player
     this.playerSprite = this.playerScript.create();

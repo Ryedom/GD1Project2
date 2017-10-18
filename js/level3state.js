@@ -1,6 +1,5 @@
 //constructor. A function constructor, no less!
-let level3State = function()
-{
+let level3State = function() {
   this.playerScript = new playerScript();
   this.enemyGroupScript = new enemyGroupScript();
   this.bandMemberPowerupScript = new bandMemberPowerupScript();
