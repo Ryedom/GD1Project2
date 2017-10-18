@@ -25,6 +25,30 @@ bandMemberPowerupScript.prototype.create = function(playerSprite, playerScript) 
 bandMemberPowerupScript.prototype.update = function()
 {
     game.physics.arcade.overlap(this.playerSprite, this.bandMembersPowerups, this.pickup, null, this);
+    game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bandMembersPowerups, this.pickup, null, this);
+};
+
+bandMemberPowerupScript.prototype.randomLocations = function(number, xBounds, yBounds)
+{
+    for(i=0; i<number; i++){
+        let randomX = Math.random() * xBounds;
+        let randomY = Math.random() * yBounds;
+        this.addPowerup(randomX, randomY);
+    }
+};
+
+bandMemberPowerupScript.prototype.spreadOut = function(number, xBounds, offset)
+{
+    if(number===0){
+        return;
+    }
+
+    let yFreq = game.world.height / number;
+    for(i=0; i<number; i++){
+        let randomX = Math.random() * xBounds;
+        let locY = (yFreq * i) - offset;
+        this.addPowerup(randomX, locY);
+    }
 };
 
 bandMemberPowerupScript.prototype.addPowerup = function(x, y)

@@ -4,17 +4,17 @@ let endCutState = function() {
 
 endCutState.prototype.preload = function() {
     this.framePaths = [
-        "assets/Cutscenes/Cutscene1/cutscene4_1.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_2.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_3.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_4.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_5.png",
-        "assets/Cutscenes/Cutscene1/cutscene4_6.png"
+        "assets/Cutscenes/Cutscene4/cutscene4_1.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_2.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_3.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_4.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_5.png",
+        "assets/Cutscenes/Cutscene4/cutscene4_6.png"
     ]
 
     this.frameSprites = [];
     for (var i = 0; i < this.framePaths.length; i++) {
-        var frameName = "cutscene_1_" + (i+1);
+        var frameName = "cutscene_4_" + (i+1);
         game.load.image(frameName,this.framePaths[i]);
         this.frameSprites.push(frameName);
     }
@@ -51,6 +51,6 @@ endCutState.prototype.onTap = function(eventPointer,isDoubleTap) {
         this.currentFrame++;
     }
     else if (this.currentFrame == this.frames.length - 1) {
-        game.state.start("titleState", Phaser.Plugin.StateTransition.Out.SlideLeft, Phaser.Plugin.StateTransition.In.SlideLeft);
+        game.state.start("titlemenu", Phaser.Plugin.StateTransition.Out.SlideLeft, Phaser.Plugin.StateTransition.In.SlideLeft);
     }
 }

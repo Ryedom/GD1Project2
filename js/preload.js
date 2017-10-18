@@ -4,17 +4,18 @@ let preloadState = function() {
 
 preloadState.prototype.preload = function() {
     // Menu stuff
-    game.load.image("title_background","assets/test_title_background.png");
-    game.load.image("title_logo","assets/test_title_logo.png");
-    game.load.spritesheet("button","assets/test_button_sheet.png",512,256);
+    game.load.image("title_background","assets/Title/TitleScreen.png");
+    game.load.spritesheet("button","assets/Title/ButtonSheet.png",449,184);
     // Game stuff
     game.load.image('parking_lot', 'assets/background/parkinglot.png');
     game.load.image('hallway', 'assets/background/hallway.png');
     game.load.image('promgymnism', 'assets/background/promgymnism.png');
+    game.load.image('help_background', 'assets/background/helpscreen.png');
+    game.load.image('about_background', 'assets/background/aboutscreen.png');
     game.load.image('ground', 'assets/platform.png');
     game.load.image('star', 'assets/star.png');
-    game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
     game.load.spritesheet('carole', 'assets/PlayerAndAllyAnimations/Carole_run.png', 210, 210);
+    game.load.spritesheet('music_notes', 'assets/MusicNotes.png', 50, 50);
     game.load.spritesheet('ally_powerup', 'assets/PlayerAndAllyAnimations/ally_powerupsheet.png', 210, 210);
     game.load.spritesheet('ally0', 'assets/PlayerAndAllyAnimations/allyrun1.png', 230, 220);
     game.load.spritesheet('ally1', 'assets/PlayerAndAllyAnimations/allyrun2.png', 210, 230);
@@ -43,7 +44,7 @@ preloadState.prototype.create = function() {
     game.scale.pageAlignHorizontally = true;
     game.scale.pageAlignVertically = true;
     game.scale.refresh();
-    game.state.start("level1State");
+    game.state.start("titlemenu");
 }
 
 preloadState.prototype.update = function() {

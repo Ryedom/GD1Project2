@@ -45,8 +45,8 @@ enemy = function(x, y, type, playerRef, aoe){
     this.tooClose = false;  // for enemies tracking player, whether they are "too close" and should continue on a straight path
 
     this.enemyWeapon = null; // null unless created for that enemy type in create
-    this.bulletSpeed = 500; //500
-    this.fireRate = 2000; // 1000
+    this.bulletSpeed = 300;
+    this.fireRate = 2000;
     this.throwing = false;
     this.checkCollision = true;
     game.add.existing(this);
@@ -132,7 +132,7 @@ enemy.prototype.update = function(){
     if (this.alive){
       if (this.enemyType === "skater"){
         // skaters move towards player
-        if (this.visible){
+        if (this.visible && this.y < this.playerRef.y + 20){
           enemy.prototype.moveEnemyTowardPlayer(this, this.playerRef.x, this.playerRef.y);
           this.flipSkater(this.oldX, this.x);
           this.oldX = this.x;
