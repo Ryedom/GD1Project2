@@ -4,7 +4,7 @@ let enemyGroupScript = function(){
   this.tooClose = false;  // for enemies tracking player, whether they are "too close" and should continue on a straight path
   this.enemyWeapon = null; // null unless created for that enemy type in create
   this.bulletSpeed = 500; //500
-  this.fireRate = 1000; // 1000
+  this.fireRate = 2000; // 1000
   this.throwing = false;
   this.testSkater = null;
   this.cameraY = 0;
@@ -19,6 +19,7 @@ enemyGroupScript.prototype.preload = function(){
 enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
   this.player = playerRef;
   this.playerScript = playerScript;
+  this.level = level;
 
   this.skaters = game.add.group();
   this.skaters.enableBody = true;
@@ -56,76 +57,143 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
 };
 
 enemyGroupScript.prototype.update = function(){
-  // Clear out enemies from groups
-  this.bullies.forEachDead(function(enem){
-    this.bullies.remove(enem);
-  }, this, true);
-  this.skaters.forEachDead(function(enem){
-    this.skaters.remove(enem);
-  }, this, true);
-  this.footballPlayers.forEachDead(function(enem){
-    this.footballPlayers.remove(enem);
-  }, this, true);
-  this.musicians.forEachDead(function(enem){
-    this.musicians.remove(enem);
-  }, this, true);
-  this.aoes.forEachDead(function(enem){
-    this.aoes.remove(enem);
-  }, this, true);
-  this.teachers.forEachDead(function(enem){
-    this.teachers.remove(enem);
-  }, this, true);
-  this.teacherAOEs.forEachDead(function(enem){
-    this.teacherAOEs.remove(enem);
-  }, this, true);
-
+  let playWeap = this.playerScript.returnPlayerWeapon();
   // Update the camera
   this.cameraY = game.camera.y;
 
-  // COLLISION LOGIC
-  // enemy bullets hit player - due to the way Phaser works, easier to just check each group, not group of groups
-  this.bullies.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
-  this.footballPlayers.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
+  // we can optimize based on level!
 
-  // football player passing logic
-  this.footballPlayers.forEach(enemyGroupScript.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
+  // BULLIES
+  // bullies are in every level
+  if (this.bullies.length > 0) {
+    // Remove dead enemies
+    this.bullies.forEachDead(function(enem){
+      this.bullies.remove(enem);
+      enem.destroy();
+    }, this, true);
 
-  // enemies collide with player
-  game.physics.arcade.overlap(this.player, this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.player, this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.player, this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.player, this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.player, this.teachers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.teachers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.player, this.teacherAOEs, this.playerEntersTeacherAOE, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.teacherAOEs, this.playerEntersTeacherAOE, null, this);
-  game.physics.arcade.overlap(this.player, this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
-  game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+    // Enemy shoots player
+    this.bullies.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
 
-  // musician AOE collision logic
-  if (!(game.physics.arcade.overlap(this.player, this.aoes, this.playerEntersAOE, null, this))){
-    this.playerScript.shootEnabled = true;
+    // Collision
+    game.physics.arcade.overlap(this.player, this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+    game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullies, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+
+    // Kill Offscreen Bullies
+    this.bullies.forEach(this.killEnemyIfBehindPlayer, this, true);
   }
-  let bandmems = this.playerScript.returnBandMemberGroup();
-  bandmems.forEach(this.checkBandMemAOE, this, true, this.aoes);
+
+  // END BULLIES
+
+
+  if (this.level === 1){
+    // SKATERS
+    if (this.skaters.length > 0){
+      // Remove dead enemies
+      this.skaters.forEachDead(function(enem){
+        this.skaters.remove(enem);
+      }, this, true);
+
+      // Collision
+      game.physics.arcade.overlap(this.player, this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+      game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.skaters, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+
+      // Kill Offscreen Skaters
+      this.skaters.forEach(this.killEnemyIfBehindPlayer, this, true);
+    }
+    // END SKATERS
+  }
+
+  // FOOTBALL PLAYERS
+  if ((this.level === 1) || (this.level === 2)) {
+    if (this.footballPlayers.length > 0){
+      // Remove dead enemies
+      this.footballPlayers.forEachDead(function(enem){
+        this.footballPlayers.remove(enem);
+      }, this, true);
+
+      // Enemy shoots player
+      this.footballPlayers.forEach(enemyGroupScript.prototype.enemyHitsPlayerCheck, this, true, this.player);
+
+      // Enemy passes football logic
+      this.footballPlayers.forEach(enemyGroupScript.prototype.checkReceptionOfFootballPlayer, this, true, this.footballPlayers);
+
+      // Collision
+      game.physics.arcade.overlap(this.player, this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+      game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.footballPlayers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+
+      // Kill Offscreen Football Players
+      this.footballPlayers.forEach(this.killEnemyIfBehindPlayer, this, true);
+    }
+  }
+  // END FOOTBALL PLAYERS
+
+  if ((this.level === 2) || (this.level === 3)){
+    // MUSICIANS
+    if (this.musicians.length > 0){
+
+      // Remove dead enemies
+      this.musicians.forEachDead(function(enem){
+        this.musicians.remove(enem);
+      }, this, true);
+
+      this.aoes.forEachDead(function(enem){
+        this.aoes.remove(enem);
+      }, this, true);
+
+      // Collision
+      game.physics.arcade.overlap(this.player, this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+      game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.musicians, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+
+      // musician AOE collision logic
+      if (!(game.physics.arcade.overlap(this.player, this.aoes, this.playerEntersAOE, null, this))){
+        this.playerScript.shootEnabled = true;
+      }
+      let bandmems = this.playerScript.returnBandMemberGroup();
+      bandmems.forEach(this.checkBandMemAOE, this, true, this.aoes);
+
+      // Kill offscreen musicians
+      this.musicians.forEach(this.killEnemyIfBehindPlayer, this, true);
+    }
+
+  }
+
+  if (this.level === 3) {
+    if (this.teachers.length > 0) {
+
+      // Remove dead enemies
+      this.teachers.forEachDead(function(enem){
+        this.teachers.remove(enem);
+      }, this, true);
+
+      this.teacherAOEs.forEachDead(function(enem){
+        this.teacherAOEs.remove(enem);
+      }, this, true);
+
+      // Collision logic
+      game.physics.arcade.overlap(this.player, this.teachers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+      game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.teachers, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+      game.physics.arcade.overlap(this.player, this.teacherAOEs, this.playerEntersTeacherAOE, null, this);
+      game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.teacherAOEs, this.playerEntersTeacherAOE, null, this);
+
+      // player bullets hit teacher
+      game.physics.arcade.overlap(this.teachers, playWeap.bullets, this.playerHitsTeacher, null, this);
+
+      // Kill offscreen teachers
+      this.teachers.forEach(this.killEnemyIfBehindPlayer, this, true);
+    }
+  }
+
+  // Bullets unattached to an enemy (an enemy dies, his bullets are stored in this.bullets)
+  if (this.bullets.length > 0){
+    game.physics.arcade.overlap(this.player, this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+    game.physics.arcade.overlap(this.playerScript.returnBandMemberGroup(), this.bullets, enemyGroupScript.prototype.enemyHitsPlayer, null, this);
+  }
 
   // player bullets hit enemy
-  let playWeap = this.playerScript.returnPlayerWeapon();
-  game.physics.arcade.overlap(this.enemies, playWeap.bullets, this.playerHitsEnemy, null, this);
-
-  // player bullets hit teacher
-  game.physics.arcade.overlap(this.teachers, playWeap.bullets, this.playerHitsTeacher, null, this);
-
-  // kill enemies behind player
-  this.bullies.forEach(this.killEnemyIfBehindPlayer, this, true);
-  this.footballPlayers.forEach(this.killEnemyIfBehindPlayer, this, true);
-  this.skaters.forEach(this.killEnemyIfBehindPlayer, this, true);
-  this.musicians.forEach(this.killEnemyIfBehindPlayer, this, true);
-  this.teachers.forEach(this.killEnemyIfBehindPlayer, this, true);
+  if (this.enemies.length > 0){
+    game.physics.arcade.overlap(this.enemies, playWeap.bullets, this.playerHitsEnemy, null, this);
+  }
 };
 
 enemyGroupScript.prototype.render = function(){

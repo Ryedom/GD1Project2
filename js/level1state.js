@@ -24,7 +24,7 @@ level1State.prototype.create = function()
     game.world.setBounds(0, 0, 750, 180000);
 
     for (let i = 0; (i * 1300) < 180000; i++){
-        game.add.sprite(0, i * 1300, "parking_lot");
+       game.add.sprite(0, i * 1300, "parking_lot");
     }
 
     //add the player
@@ -37,7 +37,7 @@ level1State.prototype.create = function()
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
     // enemies are generated based on a timer
-    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 3);
+    this.enemyGroupScript.create(this.playerSprite, this.playerScript, 1);
 };
 
 level1State.prototype.update = function(){
