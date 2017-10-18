@@ -3,16 +3,11 @@ let titleState = function() {
 }
 
 titleState.prototype.preload = function() {
-    game.load.audio('musicLevel1', 'assets/Audio/Level1.ogg');
+
 }
 
 titleState.prototype.create = function() {
     game.world.setBounds(0,0,750,1334);
-    this.music = game.add.audio('musicLevel1');
-    this.music.play();
-    this.music.onStop.add(function() {
-        this.music.play("",1.8);
-    },this);
     this.titleBackground = game.add.sprite(0,0,"title_background");
     this.titleLogo = game.add.sprite(game.world.centerX - 256,128,"title_logo");
     this.buttons = game.add.group();
@@ -45,8 +40,4 @@ titleState.prototype.pressPlay = function() {
 
 titleState.prototype.pressHelp = function() {
     game.state.start("help", FadeOut, FadeIn);
-}
-
-titleState.prototype.musicEnded = function() {
-    this.music.play("",1.8);
 }

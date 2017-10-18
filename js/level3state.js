@@ -14,6 +14,7 @@ level3State.prototype.preload = function()
 {
   this.playerScript.preload();
   this.bandMemberPowerupScript.preload();
+  game.load.audio('musicLevel3', 'assets/Audio/Level3.ogg');
 };
 
 level3State.prototype.create = function()
@@ -38,6 +39,10 @@ level3State.prototype.create = function()
     this.bandMemberPowerupScript.addPowerup(300, 1500);
     this.bandMemberPowerupScript.addPowerup(300, 1500);
     this.bandMemberPowerupScript.addPowerup(300, 1500);
+
+    // Music
+    this.music = game.add.audio('musicLevel3');
+    this.music.loop();
 
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
@@ -70,3 +75,7 @@ level3State.prototype.render = function() {
     // this.render();
     this.playerScript.render();
 };
+
+level3State.prototype.shutdown = function() {
+  this.music.stop();
+}
