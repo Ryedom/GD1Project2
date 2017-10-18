@@ -9,7 +9,7 @@ let playerScript = function()
     this.cameraYOffset = 200;
 
     this.maxBulletsOnScreen = 500;
-    this.bulletFrames = 80;
+    this.bulletFrames = 4;
     this.bulletSpeed = 1500;
     this.fireRate = 0;
 
@@ -46,7 +46,7 @@ playerScript.prototype.create = function()
 
     //WEAPON--------------------------------------------------------------
     //add weapon
-    this.playerWeapon = game.add.weapon(this.maxBulletsOnScreen, 'bullet');
+    this.playerWeapon = game.add.weapon(this.maxBulletsOnScreen, 'music_notes');
 
     //The 'rgblaser.png' is a Sprite Sheet with 80 frames in it (each 4x4 px in size)
     //  The 3rd argument tells the Weapon Plugin to advance to the next frame each time
@@ -116,15 +116,16 @@ playerScript.prototype.update = function(){
 
     //update allies' positions and make them fire
     for(i=0; i<this.bandMembers.children.length; i++){
+        //this.playerWeapon.fireRate = 0;
+
         this.bandMembers.children[i].x = this.player.x + this.bandMemberOffsetX[i];
         this.bandMembers.children[i].y = this.player.y + this.bandMemberOffsetY[i];
 
-        this.playerWeapon.fireRate = 0;
         if (this.bandMembers.children[i].shootEnabled === true){
           this.playerWeapon.fire( {x: this.bandMembers.children[i].x + this.bandMembers.children[i].width/2, y: this.bandMembers.children[i].y} );
         }
-        this.playerWeapon.fireRate = this.fireRate;
 
+        //this.playerWeapon.fireRate = 100;
     }
 
     //set camera to focus on a point in front of player such that player is 'cameraYOffset' distance from bottom of screen

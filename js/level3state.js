@@ -21,9 +21,9 @@ level3State.prototype.create = function()
     //enable the Arcade Physics system
     game.physics.startSystem(Phaser.Physics.ARCADE);
     // background
-    game.world.setBounds(0, 0, 750, 180000);
+    game.world.setBounds(0, 0, 750, 12000);
 
-    for (let i = 0; (i * 1300) < 180000; i++){
+    for (let i = 0; (i * 1300) < 12000; i++){
         game.add.sprite(0, i * 1300, "promgymnism");
     }
 
@@ -34,25 +34,11 @@ level3State.prototype.create = function()
     //game.camera.follow(this.player);
 
     this.bandMemberPowerupScript.create(this.playerSprite, this.playerScript);
-    this.bandMemberPowerupScript.addPowerup(300, 1500);
-    this.bandMemberPowerupScript.addPowerup(300, 1500);
-    this.bandMemberPowerupScript.addPowerup(300, 1500);
-    this.bandMemberPowerupScript.addPowerup(300, 1500);
+    this.bandMemberPowerupScript.randomLocations(10, game.world.width, game.world.height);
 
     // ENEMY CREATION LOGIC
     // instantiate an enemy group script (handles enemy group logic)
     this.enemyGroupScript.create(this.playerSprite, this.playerScript);
-    // create 3 skaters
-    for (let i = 0; i < 3; i++){
-      this.enemyGroupScript.addEnemy(i * 70 + 10, 10, "skater", this.playerSprite);
-    }
-
-    // create one bully
-    this.enemyGroupScript.addEnemy(325, 1000, "bully", this.playerSprite);
-
-    // create a pair of football players
-    this.enemyGroupScript.addEnemy(100, 300, "football_player_left", this.playerSprite);
-    this.enemyGroupScript.addEnemy(600, 300, "football_player_right", this.playerSprite);
 
 };
 

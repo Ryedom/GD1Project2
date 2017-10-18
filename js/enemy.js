@@ -45,8 +45,8 @@ enemy = function(x, y, type, playerRef, aoe){
     this.tooClose = false;  // for enemies tracking player, whether they are "too close" and should continue on a straight path
 
     this.enemyWeapon = null; // null unless created for that enemy type in create
-    this.bulletSpeed = 500; //500
-    this.fireRate = 1000; // 1000
+    this.bulletSpeed = 200; //500
+    this.fireRate = 3000; // 1000
     this.throwing = false;
     this.checkCollision = true;
     game.add.existing(this);

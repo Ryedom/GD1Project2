@@ -3,12 +3,14 @@
 let enemyGroupScript = function(){
   this.tooClose = false;  // for enemies tracking player, whether they are "too close" and should continue on a straight path
   this.enemyWeapon = null; // null unless created for that enemy type in create
-  this.bulletSpeed = 500; //500
-  this.fireRate = 1000; // 1000
+  //this.bulletSpeed = 200; //500
+  //this.fireRate = 3000; // 1000
   this.throwing = false;
   this.testSkater = null;
   this.cameraY = 0;
   this.aoeScript = new aoe();
+
+  this.enemySpawnRate = 2000;
 };
 
 enemyGroupScript.prototype.preload = function(){
@@ -45,7 +47,7 @@ enemyGroupScript.prototype.create = function(playerRef, playerScript, level){
   this.bullets.enableBody = true;
 
   this.enemyTimer = game.time.create(false);
-  this.enemyTimer.loop(1000, this.generateRandomEnemies, this, this.player, level);
+  this.enemyTimer.loop(this.enemySpawnRate, this.generateRandomEnemies, this, this.player, level);
   this.enemyTimer.start();
 };
 
