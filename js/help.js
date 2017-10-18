@@ -10,7 +10,7 @@ helpState.prototype.create = function() {
     this.texts = game.add.group();
 
     var style = { font: "128px Arial", fill: "#ffffff", wordWrap: false, align: "center" };
-    var playText = game.add.text(game.world.centerX, game.world.centerY, "" + window.innerWidth * devicePixelRatio, style);
+    var playText = game.add.text(game.world.centerX, game.world.centerY, "You pressed Help.", style);
 
     playText.anchor.set(0.5);
 
